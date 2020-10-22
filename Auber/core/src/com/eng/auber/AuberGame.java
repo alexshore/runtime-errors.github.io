@@ -11,8 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class AuberGame extends ApplicationAdapter {
 	SpriteBatch batch, textBatch;
 	Texture img;
-	CharSequence str = "Runtime Errors' Production";
-	BitmapFont font;
 	
 	@Override
 	public void create () {
