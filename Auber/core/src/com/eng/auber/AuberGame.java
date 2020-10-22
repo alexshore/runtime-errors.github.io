@@ -13,15 +13,15 @@ public class AuberGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		//img = new Texture("runtime_errors.png");
+		img = new Texture("runtime_errors.png");
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		//batch.draw(img, 0, 0);
+		batch.draw(img, 2 * Gdx.graphics.getWidth()/6, 2 * Gdx.graphics.getHeight()/7);
 		batch.end();
 	}
 	
