@@ -13,6 +13,7 @@ public class DesktopLauncher {
 		new LwjglApplication(new AuberGame(), config);
 		config.width = Gdx.graphics.getWidth();
 		config.height = Gdx.graphics.getHeight();
-		config.fullscreen = false; //Do we want the game to start full screen?
+		config.resizable= false;
+		config.fullscreen = true;
 	}
 }
