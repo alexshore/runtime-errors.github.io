@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        img = new Texture("runtime_errors.png");
+        img = new Texture("game_assets/runtime_errors.png");
         img.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         game.batch.begin();
         game.batch.draw(img, Gdx.graphics.getWidth()/2 - img.getWidth()/2, Gdx.graphics.getHeight()/2 - img.getHeight()/2);
