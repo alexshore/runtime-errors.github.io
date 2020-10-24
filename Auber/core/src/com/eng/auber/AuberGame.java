@@ -3,6 +3,7 @@ package com.eng.auber;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import screens.GameScreen;
+import screens.MainMenu;
 
 public class AuberGame extends Game {
 	public SpriteBatch batch;
@@ -11,7 +12,7 @@ public class AuberGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		this.setScreen(new GameScreen(this));//displays game screen
+		this.setScreen(new MainMenu(this));//displays game screen
 	}
 
 	@Override
