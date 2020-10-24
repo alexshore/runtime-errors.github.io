@@ -1,5 +1,6 @@
 package screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -53,6 +54,9 @@ public class MainMenu implements Screen {
         //Action for when player hovers over play
         if(Gdx.input.getX() < play_x + button_width && Gdx.input.getX() > play_x && screenHeight - Gdx.input.getY() < play_y + button_height && screenHeight -  Gdx.input.getY() > play_y){
             game.batch.draw(play_start, play_x, play_y, button_width,button_height);
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                game.setScreen(new GameScreen(game));
+            }
         }
         else{
             game.batch.draw(play_end, play_x, play_y, button_width,button_height);
@@ -67,6 +71,9 @@ public class MainMenu implements Screen {
         //Action for when player hovers over control
         if(Gdx.input.getX() < control_x + button_width && Gdx.input.getX() > control_x && screenHeight - Gdx.input.getY() < control_y + button_height && screenHeight -  Gdx.input.getY() > control_y){
             game.batch.draw(control_start, control_x, control_y, button_width,button_height);
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                this.hide();
+            }
         }
         else{
             game.batch.draw(control_end, control_x, control_y, button_width,button_height);
@@ -101,7 +108,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
