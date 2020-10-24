@@ -1,6 +1,7 @@
 package screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.eng.auber.AuberGame;
 
 public class MainMenu implements Screen {
@@ -17,7 +18,6 @@ public class MainMenu implements Screen {
 
     @Override
     public void render(float delta) {
-
     }
 
     @Override
