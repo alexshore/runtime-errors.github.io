@@ -14,7 +14,8 @@ public class GameScreen implements Screen {
     AuberGame game;
 
     public GameScreen(AuberGame game){
-        this.game = game;//allows us to access variables in AuberGame
+
+        this.game = game;
     }
     @Override
     public void show() {

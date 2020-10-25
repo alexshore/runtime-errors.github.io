@@ -51,6 +51,8 @@ public class MainMenu implements Screen {
         int demo_y = Gdx.graphics.getHeight()/2 - button_width/2;
         int exit_x = Gdx.graphics.getWidth()/2 - button_width/2;
         int exit_y = Gdx.graphics.getHeight()/2 - button_width;
+
+
         //Action for when player hovers over play
         if(Gdx.input.getX() < play_x + button_width && Gdx.input.getX() > play_x && screenHeight - Gdx.input.getY() < play_y + button_height && screenHeight -  Gdx.input.getY() > play_y){
             game.batch.draw(play_start, play_x, play_y, button_width,button_height);
@@ -61,6 +63,8 @@ public class MainMenu implements Screen {
         else{
             game.batch.draw(play_end, play_x, play_y, button_width,button_height);
         }
+
+
         //Action for when player hovers over demo
         if(Gdx.input.getX() < demo_x + button_width && Gdx.input.getX() > demo_x && screenHeight - Gdx.input.getY() < demo_y + button_height && screenHeight -  Gdx.input.getY() > demo_y){
             game.batch.draw(demo_start, demo_x, demo_y, button_width,button_height);
@@ -68,16 +72,20 @@ public class MainMenu implements Screen {
         else{
             game.batch.draw(demo_end, demo_x, demo_y, button_width,button_height);
         }
+
+
         //Action for when player hovers over control
         if(Gdx.input.getX() < control_x + button_width && Gdx.input.getX() > control_x && screenHeight - Gdx.input.getY() < control_y + button_height && screenHeight -  Gdx.input.getY() > control_y){
             game.batch.draw(control_start, control_x, control_y, button_width,button_height);
             if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                this.hide();
+                game.setScreen(new ControlScreen(game));
             }
         }
         else{
             game.batch.draw(control_end, control_x, control_y, button_width,button_height);
         }
+
+
         //Actions for hover over exit
         if(Gdx.input.getX() < exit_x + button_width && Gdx.input.getX() > exit_x && screenHeight - Gdx.input.getY() < exit_y + button_height && screenHeight -  Gdx.input.getY() > exit_y){
             game.batch.draw(exit_start, exit_x, exit_y, button_width,button_height);
