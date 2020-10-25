@@ -38,11 +38,6 @@ public class MainMenu implements Screen {
     public void render(float delta) {
         int screenHeight = Gdx.graphics.getHeight();;
         int screenWidth = Gdx.graphics.getWidth();
-        Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.begin();
-        // Below draws title and buttons as window opens
-        game.batch.draw(title, Gdx.graphics.getWidth()/2 - title.getWidth()/2, Gdx.graphics.getHeight() - title.getHeight());
         int play_x =(screenWidth/2 - button_width/2);
         int play_y = screenHeight/2 - button_width/4;
         int control_x = Gdx.graphics.getWidth()/2 - button_width/2;
@@ -51,13 +46,17 @@ public class MainMenu implements Screen {
         int demo_y = Gdx.graphics.getHeight()/2 - button_width/2;
         int exit_x = Gdx.graphics.getWidth()/2 - button_width/2;
         int exit_y = Gdx.graphics.getHeight()/2 - button_width;
-
+        Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.batch.begin();
+        // Below draws title and buttons as window opens
+        game.batch.draw(title, Gdx.graphics.getWidth()/2 - title.getWidth()/2, Gdx.graphics.getHeight() - title.getHeight());
 
         //Action for when player hovers over play
         if(Gdx.input.getX() < play_x + button_width && Gdx.input.getX() > play_x && screenHeight - Gdx.input.getY() < play_y + button_height && screenHeight -  Gdx.input.getY() > play_y){
             game.batch.draw(play_start, play_x, play_y, button_width,button_height);
-            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                game.setScreen(new GameScreen(game));
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){ //detects click
+                game.setScreen(new GameScreen(game, false));
             }
         }
         else{
@@ -68,6 +67,10 @@ public class MainMenu implements Screen {
         //Action for when player hovers over demo
         if(Gdx.input.getX() < demo_x + button_width && Gdx.input.getX() > demo_x && screenHeight - Gdx.input.getY() < demo_y + button_height && screenHeight -  Gdx.input.getY() > demo_y){
             game.batch.draw(demo_start, demo_x, demo_y, button_width,button_height);
+            if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
+                game.setScreen(new GameScreen(game, true));
+                //passes in game and that demo mode is on
+            }
         }
         else{
             game.batch.draw(demo_end, demo_x, demo_y, button_width,button_height);
@@ -90,7 +93,7 @@ public class MainMenu implements Screen {
         if(Gdx.input.getX() < exit_x + button_width && Gdx.input.getX() > exit_x && screenHeight - Gdx.input.getY() < exit_y + button_height && screenHeight -  Gdx.input.getY() > exit_y){
             game.batch.draw(exit_start, exit_x, exit_y, button_width,button_height);
             if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-                Gdx.app.exit();
+                Gdx.app.exit(); //exit program
             }
         }
         else{

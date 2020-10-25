@@ -12,9 +12,10 @@ public class GameScreen implements Screen {
     Texture img;
     public static final float player_speed = 120;
     AuberGame game;
+    boolean demoMode;
 
-    public GameScreen(AuberGame game){
-
+    public GameScreen(AuberGame game, boolean demoMode){
+        this.demoMode  = demoMode;
         this.game = game;
     }
     @Override
