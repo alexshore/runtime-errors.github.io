@@ -17,11 +17,13 @@ public class AuberGame extends Game {
 
 	@Override
 	public void render () {
+
 		super.render();
 	}
 	
 	@Override
 	public void dispose () {
+
 		batch.dispose();
 	}
 }
