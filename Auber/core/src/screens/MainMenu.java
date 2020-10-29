@@ -1,6 +1,5 @@
 package screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -9,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.eng.auber.AuberGame;
 
 public class MainMenu implements Screen {
-    private static final int button_width = 500, button_height = 100;
+    private static final int button_width = Math.round(Gdx.graphics.getWidth()/6), button_height = Math.round(Gdx.graphics.getHeight()/15);
     AuberGame game;
 
     Texture exit_start, exit_end, play_start, play_end,demo_start,demo_end, control_start, control_end,title;
