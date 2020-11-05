@@ -3,16 +3,17 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.eng.auber.AuberGame;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import input.processors.*;
 
-public class GameScreen implements Screen {
-    Texture img;
-    public static final float player_speed = 120;
+public class GameScreen extends ScreenAdapter {
     AuberGame game;
     boolean demoMode;
+    TextureAtlas textureAtlas;
+
 
     public GameScreen(AuberGame game, boolean demoMode){
         this.demoMode  = demoMode;
@@ -20,21 +21,20 @@ public class GameScreen implements Screen {
     }
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(
+                new GameInputProcessor()
+        );
     }
-
     @Override
     public void render(float delta) {
+//        textureAtlas  = new TextureAtlas("game_assets/P_temp.png");
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        img = new Texture("game_assets/runtime_errors.png");
-        img.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         game.batch.begin();
-        game.batch.draw(img, Gdx.graphics.getWidth()/2 - img.getWidth()/2, Gdx.graphics.getHeight()/2 - img.getHeight()/2);
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new MainMenu(game));
         }
-        //Centres the image
+        GameKeys.update();
         game.batch.end();
 
     }
@@ -62,6 +62,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
 
-        img.dispose();
+        textureAtlas.dispose();
     }
 }

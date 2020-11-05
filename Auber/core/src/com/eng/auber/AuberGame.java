@@ -2,7 +2,6 @@ package com.eng.auber;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import screens.GameScreen;
 import screens.MainMenu;
 
 public class AuberGame extends Game {
@@ -17,7 +16,6 @@ public class AuberGame extends Game {
 
 	@Override
 	public void render () {
-
 		super.render();
 	}
 	
