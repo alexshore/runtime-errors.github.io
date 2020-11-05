@@ -28,8 +28,7 @@ public class ControlScreen implements Screen {
         instructions = new Texture("menu_assets/Control_Screen.png" );
         instructions.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         game.batch.begin();
-        game.batch.draw(instructions, Gdx.graphics.getWidth()/2 - instructions.getWidth()/2, Gdx.graphics.getHeight()/2 - instructions.getHeight()/2);
-        game.batch.begin();
+        game.batch.draw(instructions, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new MainMenu(game));
         }
