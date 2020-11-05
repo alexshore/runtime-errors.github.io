@@ -13,6 +13,7 @@ public class ControlScreen implements Screen {
     AuberGame game;
 
     public ControlScreen (AuberGame game){
+        //loads textures
         instructions = new Texture("menu_assets/Control_Screen.png" );
         back_to_menu = new Texture("menu_assets/exit_button.png");
         back_to_menu_highlight = new Texture("menu_assets/exit_button_highlight.png");
@@ -31,12 +32,13 @@ public class ControlScreen implements Screen {
         int screenWidth = Gdx.graphics.getWidth();
         instructions.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         game.batch.begin();
+        //draws background and buttons
         game.batch.draw(instructions, 0, 0, screenWidth, screenHeight);
-
+        //goes back to main menu if escape pressed
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new MainMenu(game));
         }
-
+        //draws exit button, highlights it, and directs back to main menu
         if(Gdx.input.getX() < 5 + button_width && Gdx.input.getX() > 5 && screenHeight - Gdx.input.getY() < 5 + button_height && screenHeight -  Gdx.input.getY() > 5){
             game.batch.draw(back_to_menu_highlight, 5, 5, button_width,button_height);
             if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){ //detects click
