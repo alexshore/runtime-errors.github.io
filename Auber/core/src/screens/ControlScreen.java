@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.eng.auber.AuberGame;
 
 public class ControlScreen implements Screen {
+    Texture instructions;
     AuberGame game;
 
     public ControlScreen (AuberGame game){
@@ -21,6 +23,12 @@ public class ControlScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        int screenHeight = Gdx.graphics.getHeight();;
+        int screenWidth = Gdx.graphics.getWidth();
+        instructions = new Texture("menu_assets/Control_Screen.png" );
+        instructions.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        game.batch.begin();
+        game.batch.draw(instructions, Gdx.graphics.getWidth()/2 - instructions.getWidth()/2, Gdx.graphics.getHeight()/2 - instructions.getHeight()/2);
         game.batch.begin();
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new MainMenu(game));
