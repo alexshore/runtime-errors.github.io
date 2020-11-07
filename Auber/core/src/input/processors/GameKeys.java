@@ -21,14 +21,12 @@ public class GameKeys {
     }
 
     public static void update(){
-        for( int i  = 0; i <NUM_KEYS; i++){
+        for(int i  = 0; i < NUM_KEYS; i++){
             pkeys[i] = keys[i];
         }
     }
 
-    public static void setKey(int k, boolean b){
-        keys[k] = b;
-    }
+    public static void setKey(int k, boolean b) {keys[k] = b;}
 
     public static boolean isDown(int k){
         //checks if key is pressed
