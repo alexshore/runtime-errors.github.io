@@ -1,7 +1,12 @@
 package com.eng.auber;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+<<<<<<< Updated upstream
+import com.badlogic.gdx.Input.Keys;
+=======
+>>>>>>> Stashed changes
 import screens.MainMenu;
 
 public class AuberGame extends Game {
