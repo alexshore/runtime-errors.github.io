@@ -71,8 +71,8 @@ public class GameScreen extends ScreenAdapter {
 
 
         batch.begin();
-        batch.draw(player, x, y);
         batch.draw(backgroundTexture,0,0,1000,1000);
+        batch.draw(player, x, y);
         batch.end();
 
         batch.begin();
