@@ -40,10 +40,6 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
