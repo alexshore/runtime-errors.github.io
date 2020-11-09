@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eng.auber.AuberGame;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.sun.java.accessibility.util.internal.TextComponentTranslator;
 import input.processors.*;
 
 public class GameScreen extends ScreenAdapter {
@@ -18,8 +17,8 @@ public class GameScreen extends ScreenAdapter {
     private int playerSpeed = 3;
     AuberGame game;
     boolean demoMode;
-    Texture player;
     Texture backgroundTexture;
+    Texture player;
     float x, y;
     int player_h, player_w;
 
@@ -71,8 +70,8 @@ public class GameScreen extends ScreenAdapter {
 
 
         batch.begin();
-        batch.draw(player, x, y);
         batch.draw(backgroundTexture,0,0,1000,1000);
+        batch.draw(player, x, y);
         batch.end();
 
         batch.begin();
