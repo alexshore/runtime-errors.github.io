@@ -14,8 +14,7 @@ public class GameScreen extends ScreenAdapter {
     private int playerSpeed = 3;
     AuberGame game;
     boolean demoMode;
-    Texture player;
-    Texture backgroundTexture;
+    Texture playerTexture,  backgroundTexture;
     float x, y;
     int player_h, player_w;
 
@@ -23,9 +22,9 @@ public class GameScreen extends ScreenAdapter {
         this.demoMode  = demoMode;
         this.game = game;
         this.batch = new SpriteBatch();
-        this.player = new Texture("game_assets/P_temp.png");
-        this.player_h = player.getHeight();
-        this.player_w = player.getWidth();
+        this.playerTexture = new Texture("game_assets/P_temp.png");
+        this.player_h = 30;
+        this.player_w = 30;
         this.backgroundTexture = new Texture("game_assets/station_design.png");
     }
 
@@ -40,40 +39,41 @@ public class GameScreen extends ScreenAdapter {
 
 
 //        Basic Player Movement Input Handler
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            x += playerSpeed;
-            if (x + player_w > Gdx.graphics.getWidth()) {
-                x = Gdx.graphics.getWidth() - player_w;
+        if (!demoMode){
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                x += playerSpeed;
+                if (x + player_w > Gdx.graphics.getWidth()) {
+                    x = Gdx.graphics.getWidth() - player_w;
+                }
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                x -= playerSpeed;
+                if (x < 0) {x = 0;}
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                y += playerSpeed;
+                if (y + player_h > Gdx.graphics.getHeight()) {
+                    y = Gdx.graphics.getHeight() - player_h;
+                }
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                y -= playerSpeed;
+                if (y < 0) {y = 0;}
             }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            x -= playerSpeed;
-            if (x < 0) {x = 0;}
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            y += playerSpeed;
-            if (y + player_h > Gdx.graphics.getHeight()) {
-                y = Gdx.graphics.getHeight() - player_h;
-            }
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            y -= playerSpeed;
-            if (y < 0) {y = 0;}
-        }
+        else{
 
-
-
+        }
 
         batch.begin();
+        //draws map and player
         batch.draw(backgroundTexture,0,0,1000,1000);
-        batch.draw(player, x, y, 30, 30);
+        batch.draw(playerTexture, x, y, 30, 30);
         batch.end();
-
-        batch.begin();
+        //checks to see if escape key pressed to return to main menu
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new MainMenu(game));
         }
-        batch.end();
     }
 
     @Override
@@ -98,7 +98,9 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        player.dispose();
+        playerTexture.dispose();
+        backgroundTexture.dispose();
+        playerTexture.dispose();
         batch.dispose();
     }
 }
