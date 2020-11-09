@@ -35,21 +35,20 @@ public class MainMenu implements Screen {
 
     @Override
     public void render(float delta) {
-        int screenHeight = Gdx.graphics.getHeight();;
-        int screenWidth = Gdx.graphics.getWidth();
-        int play_x =(screenWidth/2 - button_width/2);
-        int play_y = screenHeight/2 - button_width/4;
-        int control_x = Gdx.graphics.getWidth()/2 - button_width/2;
-        int control_y = Gdx.graphics.getHeight()/2 - 3* button_width/4;
-        int demo_x = Gdx.graphics.getWidth()/2 - button_width/2;
-        int demo_y = Gdx.graphics.getHeight()/2 - button_width/2;
-        int exit_x = Gdx.graphics.getWidth()/2 - button_width/2;
-        int exit_y = Gdx.graphics.getHeight()/2 - button_width;
+        int screenHeight = Gdx.graphics.getHeight();
+        int play_x =500 - (button_width/2);
+        int play_y = 500;
+        int control_x = 500 - button_width/2;
+        int control_y = 350;
+        int demo_x = 500 - button_width/2;
+        int demo_y = 425;
+        int exit_x = 500 - button_width/2;
+        int exit_y = 275;
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         // Below draws title and buttons as window opens
-        game.batch.draw(title, Gdx.graphics.getWidth()/2 - title.getWidth()/2, Gdx.graphics.getHeight() - title.getHeight());
+        game.batch.draw(title, 500 - Math.round(title.getWidth()/2), 1000 - title.getHeight());
 
         //Action for when player hovers over play
         if(Gdx.input.getX() < play_x + button_width && Gdx.input.getX() > play_x && screenHeight - Gdx.input.getY() < play_y + button_height && screenHeight -  Gdx.input.getY() > play_y){

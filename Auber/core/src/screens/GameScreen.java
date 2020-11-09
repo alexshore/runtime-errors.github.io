@@ -23,8 +23,8 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         this.batch = new SpriteBatch();
         this.playerTexture = new Texture("game_assets/P_temp.png");
-        this.player_h = 30;
-        this.player_w = 30;
+        this.player_h = 25;
+        this.player_w = 25;
         this.backgroundTexture = new Texture("game_assets/station_design.png");
     }
 
@@ -68,7 +68,7 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         //draws map and player
         batch.draw(backgroundTexture,0,0,1000,1000);
-        batch.draw(playerTexture, x, y, 30, 30);
+        batch.draw(playerTexture, x, y, 25, 25);
         batch.end();
         //checks to see if escape key pressed to return to main menu
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
