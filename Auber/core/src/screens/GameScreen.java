@@ -16,7 +16,6 @@ public class GameScreen extends ScreenAdapter {
     private int playerSpeed = 3;
     AuberGame game;
     boolean demoMode;
-    TextureAtlas textureAtlas;
     Texture player;
     float x, y;
     int player_h, player_w;
@@ -101,7 +100,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-
-        textureAtlas.dispose();
+        player.dispose();
+        batch.dispose();
     }
 }
