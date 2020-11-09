@@ -6,12 +6,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eng.auber.AuberGame;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.sun.java.accessibility.util.internal.TextComponentTranslator;
-import input.processors.*;
 
 public class GameScreen extends ScreenAdapter {
     public SpriteBatch batch;
@@ -22,7 +18,6 @@ public class GameScreen extends ScreenAdapter {
     Texture backgroundTexture;
     float x, y;
     int player_h, player_w;
-
 
     public GameScreen(AuberGame game, boolean demoMode){
         this.demoMode  = demoMode;
@@ -36,9 +31,6 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(
-                new GameInputProcessor()
-        );
     }
 
     @Override
@@ -47,6 +39,7 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
+//        Basic Player Movement Input Handler
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             x += playerSpeed;
             if (x + player_w > Gdx.graphics.getWidth()) {
@@ -70,6 +63,7 @@ public class GameScreen extends ScreenAdapter {
 
 
 
+
         batch.begin();
         batch.draw(backgroundTexture,0,0,1000,1000);
         batch.draw(player, x, y);
@@ -79,7 +73,6 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new MainMenu(game));
         }
-        GameKeys.update();
         batch.end();
     }
 
