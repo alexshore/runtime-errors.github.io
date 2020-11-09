@@ -6,9 +6,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eng.auber.AuberGame;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.sun.java.accessibility.util.internal.TextComponentTranslator;
 import input.processors.*;
 
 public class GameScreen extends ScreenAdapter {
@@ -17,6 +19,7 @@ public class GameScreen extends ScreenAdapter {
     AuberGame game;
     boolean demoMode;
     Texture player;
+    Texture backgroundTexture;
     float x, y;
     int player_h, player_w;
 
@@ -28,6 +31,7 @@ public class GameScreen extends ScreenAdapter {
         this.player = new Texture("game_assets/P_temp.png");
         this.player_h = player.getHeight();
         this.player_w = player.getWidth();
+        this.backgroundTexture = new Texture("game_assets/station_design.png");
     }
 
     @Override
@@ -68,6 +72,7 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
         batch.draw(player, x, y);
+        batch.draw(backgroundTexture,0,0,1000,1000);
         batch.end();
 
         batch.begin();
