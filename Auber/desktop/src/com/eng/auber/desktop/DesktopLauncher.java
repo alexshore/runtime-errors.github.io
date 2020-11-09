@@ -11,9 +11,9 @@ public class DesktopLauncher {
 		config.foregroundFPS = 60;
 		config.title = "Auber";
 		new LwjglApplication(new AuberGame(), config);
-		config.width = Gdx.graphics.getWidth();
-		config.height = Gdx.graphics.getHeight();
+		config.width = 1000;
+		config.height = 1000;
 		config.resizable= false;
-		config.fullscreen = true;
+		config.fullscreen = false;
 	}
 }
