@@ -168,6 +168,9 @@ public class GameScreen extends ScreenAdapter {
         //draws map and player
         batch.draw(backgroundTexture,0,0,1000,1000);
         batch.draw(playerTexture, x, y, 25, 25);
+        for (int i = 0; i<15; i++){
+
+        }
         batch.end();
         //checks to see if escape key pressed to return to main menu
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
