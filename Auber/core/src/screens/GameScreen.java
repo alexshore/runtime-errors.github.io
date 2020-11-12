@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.RandomAccess;
 
 import entities.Room;
+import entities.TeleportPad;
 
 
 public class GameScreen extends ScreenAdapter {
@@ -29,8 +30,10 @@ public class GameScreen extends ScreenAdapter {
     Texture playerTexture,  backgroundTexture;
     float x = 495, y = 495;
     int player_h, player_w;
+    private boolean justTeleported = false;
 
     private List<AuberSystems> System_Auber;
+    private ArrayList<TeleportPad> teleporterList;
     public Array<Room> Rooms;
     public Room current_room;
     // rooms defined using primitive arrays
@@ -47,13 +50,23 @@ public class GameScreen extends ScreenAdapter {
         this.player_h = 25;
         this.player_w = 25;
         this.System_Auber = new ArrayList<AuberSystems>();
+        this.teleporterList = new ArrayList<TeleportPad>();
         this.backgroundTexture = new Texture("game_assets/station_design.png");
         this.Rooms = new Array<>();
         for(int i = 0; i<16;i++){
             AuberSystems a = new AuberSystems(x_sys[i],y_sys[i], room[i]);
             System_Auber.add(a);
         }
+        this.teleporterList.add(new TeleportPad(600,600));
+        this.teleporterList.add(new TeleportPad(100,100));
+        this.teleporterList.add(new TeleportPad(100,900));
+        this.teleporterList.add(new TeleportPad(900,900));
+        this.teleporterList.add(new TeleportPad(900,100));
 
+        for(int i = 0; i < teleporterList.size()-1; i++){
+            teleporterList.get(i).setLinkedTeleporter(teleporterList.get(i+1));
+        }
+        teleporterList.get(teleporterList.size()-1).setLinkedTeleporter(teleporterList.get(0));
 
         Room outer_corridor = new Room(0, 0, 1000, 1000, "outer", true, 75);
         Room inner_corridor = new Room(250, 250, 500, 500, "inner", true, 75);
@@ -168,10 +181,29 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         //draws map and player
         batch.draw(backgroundTexture,0,0,1000,1000);
-        batch.draw(playerTexture, x, y, 25, 25);
+        for(TeleportPad teleporterPad : teleporterList){
+            batch.draw(teleporterPad.teleporterSprite, teleporterPad.x,teleporterPad.y);
+        }
+
         for (int i = 0; i<16; i++){
             batch.draw(System_Auber.get(i).systemImg,System_Auber.get(i).x,System_Auber.get(i).y,40,40);
         }
+        batch.draw(playerTexture, x, y, 25, 25);
+        //if(Gdx.input.isKeyPressed(Input.Keys.E) && !justTeleported){
+        for (TeleportPad teleporterPad : teleporterList) {
+            if (!justTeleported && Gdx.input.isKeyPressed(Input.Keys.E) && teleporterPad.canTeleport(x, y)) {
+                ArrayList<Integer> teleportCoords = teleporterPad.teleport();
+                x = teleportCoords.get(0) + 12;
+                y = teleportCoords.get(1) + 12;
+                justTeleported=true;
+            }
+
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.E)){
+            justTeleported = false;
+        }
+
+
         batch.end();
         //checks to see if escape key pressed to return to main menu
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
