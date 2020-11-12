@@ -27,12 +27,13 @@ public class GameScreen extends ScreenAdapter {
     AuberGame game;
     boolean demoMode;
     Texture playerTexture,  backgroundTexture;
-    float x, y;
+    float x= 500;
+    float y= 500;
     int player_h, player_w;
 
     private List<AuberSystems> System_Auber;
-    private static final int[] x_sys_array = {0};
-    private static final int[] y_sys_array = {0};
+    private static final int[] x_sys_array = {325};
+    private static final int[] y_sys_array = {325};
     private Array<Room> Rooms;
 
 
@@ -46,12 +47,15 @@ public class GameScreen extends ScreenAdapter {
         this.System_Auber = new ArrayList<AuberSystems>();
         this.backgroundTexture = new Texture("game_assets/station_design.png");
         this.Rooms = new Array<>();
+
+        //creating the systems
         for(int i = 0; i<15;i++){
             AuberSystems a = new AuberSystems(x_sys_array[0], y_sys_array[0], 1);
             System_Auber.add(a);
         }
 
 
+        //defining the rooms
         Room outer_corridor = new Room(0, 0, 1000, 1000, true, 75);
         Room inner_corridor = new Room(250, 250, 500, 500, true, 75);
         Room brig = new Room(325, 325, 350, 350);
