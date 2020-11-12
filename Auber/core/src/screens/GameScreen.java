@@ -3,20 +3,16 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.eng.auber.AuberGame;
 import entities.AuberSystems;
 
-import java.awt.*;
+
 import java.util.ArrayList;
-import java.util.List;
-import java.util.RandomAccess;
 
 import entities.Enemy;
 import entities.Room;
@@ -38,7 +34,8 @@ public class GameScreen extends ScreenAdapter {
     private ArrayList<TeleportPad> teleporterList;
     public Array<Room> Rooms;
     public Room current_room;
-    // rooms defined using primitive arrays
+
+    //values required for systems functionality - game_assests has labelled map for rooms
     private static final int[] x_sys = {82,210,210,82,82,275,550,700,850,883,752,840,883,500,650,350};
     private static final int[] y_sys = {600,850,125,458,275,77,208,77,77,459,265,503,876,750,875,875};
     private static final int[] room = {6,6,8,8,8,5,5,5,9,9,9,7,7,4,4,4};
@@ -154,7 +151,7 @@ public class GameScreen extends ScreenAdapter {
 
         }
         for(Enemy en: Enemies){
-            if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) && x>= en.x -25 && x <= en.x + 25 &&  x>= en.x-25  && y <= en.y + 25){
+            if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) && x>= en.x -25 && x <= en.x + 25 &&  y>= en.y-25  && y <= en.y + 25){
                 en.beenCaptured();
                 break;
             }

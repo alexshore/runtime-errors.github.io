@@ -34,4 +34,6 @@ public class Room extends Rectangle {
         upper_y_collision = y + height;
         currently_occupied = false;
     }
+
+
 }
