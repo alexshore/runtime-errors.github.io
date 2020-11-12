@@ -12,19 +12,22 @@ public class Enemy {
 
     public Enemy() {
         rd = new Random();
-        this.x = rd.nextInt(1000) + 1;
-        this.y = rd.nextInt(1000) + 1;
+        this.x = rd.nextInt(975) + 1;//975 so they print in boundaries
+        this.y = rd.nextInt(975) + 1;
         this.capture = false;
         this.txtEnemy = new Texture("game_assets/enemy.png");
     }
     public void beenCaptured(){
         this.capture = true;
         this.rd = new Random();
-        this.x = rd.nextInt(200) + 500;
-        this.y = rd.nextInt(200) + 500;
+        this.x = rd.nextInt(200) + 300;
+        this.y = rd.nextInt(200) + 300;
     }
     public boolean isCaptured(){
         return this.capture;
     }
+    public void randomMove(){
+
+    };
 
 }

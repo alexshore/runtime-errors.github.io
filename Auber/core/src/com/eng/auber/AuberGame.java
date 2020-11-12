@@ -7,8 +7,6 @@ import screens.MainMenu;
 public class AuberGame extends Game {
 	public SpriteBatch batch;
 
-
-	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();

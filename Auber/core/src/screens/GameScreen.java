@@ -156,37 +156,45 @@ public class GameScreen extends ScreenAdapter {
         for(Enemy en: Enemies){
             if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) && x>= en.x -25 && x <= en.x + 25 &&  x>= en.x-25  && y <= en.y + 25){
                 en.beenCaptured();
+                break;
             }
         }
 
-        //if statements for movement
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            x += playerSpeed;
-            if (x + player_w > current_room.upper_x_collision) {
-                x = current_room.upper_x_collision - player_w;
+
+        if(!demoMode){
+            //if statements for movement
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                x += playerSpeed;
+                if (x + player_w > current_room.upper_x_collision) {
+                    x = current_room.upper_x_collision - player_w;
+                }
             }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                x -= playerSpeed;
+                if (x < current_room.lower_x_collision) {
+                    x = current_room.lower_x_collision;
+                }
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                y += playerSpeed;
+                if (y + player_h > current_room.upper_y_collision) {
+                    y = current_room.upper_y_collision - player_h;
+                }
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                y -= playerSpeed;
+                if (y < current_room.lower_y_collision) {
+                    y = current_room.lower_y_collision;
+                }
+            }
+        }
+        else{
+            //demo Mode movement for player
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            x -= playerSpeed;
-            if (x < current_room.lower_x_collision) {
-                x = current_room.lower_x_collision;
-            }
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            y += playerSpeed;
-            if (y + player_h > current_room.upper_y_collision) {
-                y = current_room.upper_y_collision - player_h;
-            }
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            y -= playerSpeed;
-            if (y < current_room.lower_y_collision) {
-                y = current_room.lower_y_collision;
-            }
-        }
 
         batch.begin();
 
