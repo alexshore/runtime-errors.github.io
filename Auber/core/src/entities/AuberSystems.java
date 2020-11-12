@@ -22,4 +22,10 @@ public class AuberSystems extends Rectangle {
         this.currentRoom = room;
     }
 
+    public boolean system_sabotage(){
+        working = false;
+        this.systemImg = new Texture("game_assets/system_working.png");
+        return !working;
+    }
+
 }

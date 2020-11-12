@@ -44,6 +44,7 @@ public class GameScreen extends ScreenAdapter {
         this.playerTexture = new Texture("game_assets/P_temp.png");
         this.player_h = 25;
         this.player_w = 25;
+        this.System_Auber = new ArrayList<AuberSystems>();
         this.backgroundTexture = new Texture("game_assets/station_design.png");
         this.Rooms = new Array<>();
 
@@ -79,7 +80,7 @@ public class GameScreen extends ScreenAdapter {
 
 
     }
-    
+
 
 
     @Override
