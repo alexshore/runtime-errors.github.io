@@ -39,7 +39,7 @@ public class ControlScreen implements Screen {
             game.setScreen(new MainMenu(game));
         }
         //draws exit button, highlights it, and directs back to main menu
-        if(Gdx.input.getX() < 5 + button_width && Gdx.input.getX() > 5 && screenHeight - Gdx.input.getY() < 5 + button_height && screenHeight -  Gdx.input.getY() > 5){
+        else if(Gdx.input.getX() < 5 + button_width && Gdx.input.getX() > 5 && screenHeight - Gdx.input.getY() < 5 + button_height && screenHeight -  Gdx.input.getY() > 5){
             game.batch.draw(back_to_menu_highlight, 5, 5, button_width,button_height);
             if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){ //detects click
                 game.setScreen(new MainMenu(game));

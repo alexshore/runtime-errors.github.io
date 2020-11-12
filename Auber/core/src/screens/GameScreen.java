@@ -3,6 +3,7 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,6 +18,7 @@ public class GameScreen extends ScreenAdapter {
     Texture playerTexture,  backgroundTexture;
     float x, y;
     int player_h, player_w;
+
 
     public GameScreen(AuberGame game, boolean demoMode){
         this.demoMode  = demoMode;
@@ -59,6 +61,9 @@ public class GameScreen extends ScreenAdapter {
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 y -= playerSpeed;
                 if (y < 0) {y = 0;}
+            }
+            if(Gdx.input.isKeyPressed(Input.Keys.E)){
+
             }
         }
         else{
