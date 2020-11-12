@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eng.auber.AuberGame;
 import com.badlogic.gdx.math.Rectangle;
 
-public class System extends Rectangle {
+public class AuberSystems extends Rectangle {
 
     boolean working;
     SpriteBatch batch;
     Texture sprite;
 
-    public System(int x, int y) {
+    public AuberSystems(int x, int y) {
         this.x = x;
         this.y = y;
         this.working = true;

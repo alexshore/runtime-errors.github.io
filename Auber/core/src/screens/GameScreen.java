@@ -9,6 +9,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.eng.auber.AuberGame;
+import entities.AuberSystems;
+
+import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.RandomAccess;
 
 public class GameScreen extends ScreenAdapter {
     public SpriteBatch batch;
@@ -18,6 +25,7 @@ public class GameScreen extends ScreenAdapter {
     Texture playerTexture,  backgroundTexture;
     float x, y;
     int player_h, player_w;
+    private static final List<AuberSystems> System_Auber = new ArrayList<AuberSystems>();
 
 
     public GameScreen(AuberGame game, boolean demoMode){
@@ -28,6 +36,10 @@ public class GameScreen extends ScreenAdapter {
         this.player_h = 25;
         this.player_w = 25;
         this.backgroundTexture = new Texture("game_assets/station_design.png");
+        for(int i = 0; i<15;i++){
+            AuberSystems a = new AuberSystems(1,1);
+            System_Auber.add(a);
+        }
     }
 
     @Override
@@ -62,6 +74,8 @@ public class GameScreen extends ScreenAdapter {
                 y -= playerSpeed;
                 if (y < 0) {y = 0;}
             }
+
+            ///potential e interact subroutine
             if(Gdx.input.isKeyPressed(Input.Keys.E)){
 
             }
