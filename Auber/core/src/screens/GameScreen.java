@@ -57,7 +57,7 @@ public class GameScreen extends ScreenAdapter {
             AuberSystems a = new AuberSystems(x_sys[i],y_sys[i], room[i]);
             System_Auber.add(a);
         }
-        this.teleporterList.add(new TeleportPad(600,600));
+        this.teleporterList.add(new TeleportPad(500,600));
         this.teleporterList.add(new TeleportPad(100,100));
         this.teleporterList.add(new TeleportPad(100,900));
         this.teleporterList.add(new TeleportPad(900,900));
