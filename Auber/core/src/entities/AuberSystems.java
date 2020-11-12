@@ -10,14 +10,16 @@ public class AuberSystems extends Rectangle {
 
     boolean working;
     SpriteBatch batch;
-    Texture sprite;
+    Texture systemImg;
+    int currentRoom;
 
-    public AuberSystems(int x, int y) {
+    public AuberSystems(int x, int y, int room) {
         this.x = x;
         this.y = y;
         this.working = true;
         this.batch = new SpriteBatch();
-        this.sprite = new Texture("game_assets/system_working.png");
+        this.systemImg = new Texture("game_assets/system_working.png");
+        this.currentRoom = room;
     }
 
 }

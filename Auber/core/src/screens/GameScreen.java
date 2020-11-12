@@ -37,7 +37,7 @@ public class GameScreen extends ScreenAdapter {
         this.player_w = 25;
         this.backgroundTexture = new Texture("game_assets/station_design.png");
         for(int i = 0; i<15;i++){
-            AuberSystems a = new AuberSystems(1,1);
+            AuberSystems a = new AuberSystems(1,1, 1);
             System_Auber.add(a);
         }
     }
