@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Room extends Rectangle {
 
-    public Array<Room> Neighbours;
+    public Array<Room> Neighbours = new Array<>();
 
     public Room(int x, int y, int width, int height, boolean corridor, int outer_width) {
         int lower_x_collision = x;
@@ -18,7 +18,6 @@ public class Room extends Rectangle {
             int i_lower_y_collision = lower_y_collision + outer_width;
             int i_upper_y_collision = upper_y_collision - outer_width;
         }
-        Array<Room> Neighbours = new Array<>();
         boolean currently_occupied = false;
     }
 
@@ -27,7 +26,6 @@ public class Room extends Rectangle {
         int upper_x_collision = x + width;
         int lower_y_collision = y;
         int upper_y_collision = y + height;
-        Array<Room> Neighbours = new Array<>();
         boolean currently_occupied = false;
     }
 }
