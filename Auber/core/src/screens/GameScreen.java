@@ -33,7 +33,7 @@ public class GameScreen extends ScreenAdapter {
     private static final List<AuberSystems> System_Auber = new ArrayList<AuberSystems>();
 
 
-    private Array<Room> Rooms;
+    public Array<Room> Rooms;
 
 
     public GameScreen(AuberGame game, boolean demoMode){
@@ -44,6 +44,7 @@ public class GameScreen extends ScreenAdapter {
         this.player_h = 25;
         this.player_w = 25;
         this.backgroundTexture = new Texture("game_assets/station_design.png");
+        this.Rooms = new Array<>();
 
         for(int i = 0; i<15;i++){
             AuberSystems a = new AuberSystems(1,1, 1);
@@ -60,16 +61,21 @@ public class GameScreen extends ScreenAdapter {
         Room cargo_right = new Room(750, 500, 175, 500);
         Room living_left = new Room(75, 75, 175, 500);
         Room living_right = new Room(750, 75, 175, 500);
-        outer_corridor.Neighbours.addAll(cargo_left, cargo_right, living_left, living_right);
-        inner_corridor.Neighbours.addAll(brig, cargo_left, cargo_right, living_left, living_right);
+        
+
+        outer_corridor.Neighbours.add(cargo_left, cargo_right, living_left, living_right);
+        inner_corridor.Neighbours.add(cargo_left, cargo_right, living_left, living_right);
+        inner_corridor.Neighbours.add(brig);
         brig.Neighbours.add(inner_corridor);
-        infirmary.Neighbours.addAll(cargo_left, cargo_right);
+        infirmary.Neighbours.add(cargo_left, cargo_right);
         engine_room.Neighbours.add(living_left, living_right);
         cargo_left.Neighbours.add(outer_corridor, inner_corridor, infirmary, living_left);
         cargo_right.Neighbours.add(outer_corridor, inner_corridor, infirmary, living_right);
         living_left.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_left);
         living_right.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_right);
-        Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left, cargo_right, living_left, living_right);
+        Rooms.add(cargo_left, cargo_right, living_left, living_right);
+        Rooms.add(outer_corridor, inner_corridor, infirmary, engine_room);
+        Rooms.add(brig);
 
 
     }
