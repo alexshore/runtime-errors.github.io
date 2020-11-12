@@ -33,9 +33,9 @@ public class GameScreen extends ScreenAdapter {
     private List<AuberSystems> System_Auber;
     public Array<Room> Rooms;
     public Room current_room;
-    private int[] x_sys = {};
-    private int[] y_sys = {};
-    private int[] room = {6,6,8,8,8,5,5,5,9,9,9,7,7,4,4};
+    private int[] x_sys = {82,210,210,82,82,275,550,700,850,883,752,840,883,500,650,350};
+    private int[] y_sys = {600,850,125,458,275,77,208,77,77,459,265,503,876,750,875,875};
+    private int[] room = {6,6,8,8,8,5,5,5,9,9,9,7,7,4,4,4};
 
 
     public GameScreen(AuberGame game, boolean demoMode){
@@ -48,8 +48,8 @@ public class GameScreen extends ScreenAdapter {
         this.System_Auber = new ArrayList<AuberSystems>();
         this.backgroundTexture = new Texture("game_assets/station_design.png");
         this.Rooms = new Array<>();
-        for(int i = 0; i<15;i++){
-            AuberSystems a = new AuberSystems(1,1, 1);
+        for(int i = 0; i<16;i++){
+            AuberSystems a = new AuberSystems(x_sys[i],y_sys[i], room[i]);
             System_Auber.add(a);
         }
 
@@ -168,8 +168,8 @@ public class GameScreen extends ScreenAdapter {
         //draws map and player
         batch.draw(backgroundTexture,0,0,1000,1000);
         batch.draw(playerTexture, x, y, 25, 25);
-        for (int i = 0; i<15; i++){
-
+        for (int i = 0; i<16; i++){
+            batch.draw(System_Auber.get(i).systemImg,System_Auber.get(i).x,System_Auber.get(i).y,40,40);
         }
         batch.end();
         //checks to see if escape key pressed to return to main menu
