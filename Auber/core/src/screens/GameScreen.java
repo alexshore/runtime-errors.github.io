@@ -250,5 +250,6 @@ public class GameScreen extends ScreenAdapter {
         backgroundTexture.dispose();
         playerTexture.dispose();
         batch.dispose();
+
     }
 }
