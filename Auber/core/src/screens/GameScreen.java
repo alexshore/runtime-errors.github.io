@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.RandomAccess;
 
+import entities.Enemy;
 import entities.Room;
 import entities.TeleportPad;
 
@@ -32,7 +33,8 @@ public class GameScreen extends ScreenAdapter {
     int player_h, player_w;
     private boolean justTeleported = false;
 
-    private List<AuberSystems> System_Auber;
+    private ArrayList<AuberSystems> System_Auber;
+    private ArrayList<Enemy> enemies;
     private ArrayList<TeleportPad> teleporterList;
     public Array<Room> Rooms;
     public Room current_room;
@@ -43,20 +45,39 @@ public class GameScreen extends ScreenAdapter {
 
 
     public GameScreen(AuberGame game, boolean demoMode){
-        this.demoMode  = demoMode;
-        this.game = game;
+
+        this.demoMode  = demoMode;//is demo mode active
+        this.game = game;//passing in game
         this.batch = new SpriteBatch();
-        this.playerTexture = new Texture("game_assets/P_temp.png");
+
+        //player texture and area
+        this.playerTexture = new Texture("game_assets/player.png");
         this.player_h = 25;
         this.player_w = 25;
+
+        //ArrayList for systems
         this.System_Auber = new ArrayList<AuberSystems>();
+
+        //ArrayList for teleporters
         this.teleporterList = new ArrayList<TeleportPad>();
+
+        //map texture
         this.backgroundTexture = new Texture("game_assets/station_design.png");
+
         this.Rooms = new Array<>();
+
+        //creates 16 systems
         for(int i = 0; i<16;i++){
             AuberSystems a = new AuberSystems(x_sys[i],y_sys[i], room[i]);
             System_Auber.add(a);
         }
+
+        //creates 8 enemies
+        for(int i = 0; i<8; i++){
+            Enemy en = new Enemy();
+            enemies.add(en);
+        }
+        //creates the teleporters
         this.teleporterList.add(new TeleportPad(500,600));
         this.teleporterList.add(new TeleportPad(100,100));
         this.teleporterList.add(new TeleportPad(100,800));
@@ -68,6 +89,7 @@ public class GameScreen extends ScreenAdapter {
         }
         teleporterList.get(teleporterList.size()-1).setLinkedTeleporter(teleporterList.get(0));
 
+        //creates rooms
         Room outer_corridor = new Room(0, 0, 1000, 1000, "outer", true, 75);
         Room inner_corridor = new Room(250, 250, 500, 500, "inner", true, 75);
         Room infirmary = new Room(250, 750, 500, 175, "infirmary");
@@ -76,11 +98,9 @@ public class GameScreen extends ScreenAdapter {
         Room cargo_right = new Room(750, 500, 175, 500, "cargo_right");
         Room living_left = new Room(75, 75, 175, 500, "living_left");
         Room living_right = new Room(750, 75, 175, 500, "living_right");
-
         Room brig = new Room(325, 325, 350, 350, "brig");
         brig.currently_occupied = true;
         this.current_room = brig;
-
         outer_corridor.Neighbours.add(cargo_left, cargo_right, living_left, living_right);
         inner_corridor.Neighbours.add(cargo_left, cargo_right, living_left, living_right);
         inner_corridor.Neighbours.add(brig);
@@ -106,15 +126,28 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        //render class for the main game screen
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
+        //to check what room your in
         for (Room Room: Rooms) {
             if (Room.currently_occupied) {
                 current_room = Room;
                 break;
             }
+        }
+
+
+        //checks for teleport pad
+        for (TeleportPad teleporterPad : teleporterList) {
+            if (!justTeleported && Gdx.input.isKeyPressed(Input.Keys.E) && teleporterPad.canTeleport(x, y)) {
+                ArrayList<Integer> teleportCoords = teleporterPad.teleport();
+                x = teleportCoords.get(0) + 12;
+                y = teleportCoords.get(1) + 12;
+                justTeleported=true;
+            }
+
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -145,39 +178,6 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
-
-//        Basic Player Movement Input Handler
-//        if (!demoMode){
-//            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//                x += playerSpeed;
-//                if (x + player_w > Gdx.graphics.getWidth()) {
-//                    x = Gdx.graphics.getWidth() - player_w;
-//                }
-//            }
-//            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//                x -= playerSpeed;
-//                if (x < 0) {x = 0;}
-//            }
-//            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//                y += playerSpeed;
-//                if (y + player_h > Gdx.graphics.getHeight()) {
-//                    y = Gdx.graphics.getHeight() - player_h;
-//                }
-//            }
-//            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//                y -= playerSpeed;
-//                if (y < 0) {y = 0;}
-//            }
-//
-//            ///potential e interact subroutine
-//            if(Gdx.input.isKeyPressed(Input.Keys.E)){
-//
-//            }
-//        }
-//        else{
-//
-//        }
-
         batch.begin();
         //draws map and player
         batch.draw(backgroundTexture,0,0,1000,1000);
@@ -185,20 +185,12 @@ public class GameScreen extends ScreenAdapter {
             batch.draw(teleporterPad.teleporterSprite, teleporterPad.x,teleporterPad.y);
         }
 
-        for (int i = 0; i<16; i++){
-            batch.draw(System_Auber.get(i).systemImg,System_Auber.get(i).x,System_Auber.get(i).y,40,40);
+        //renders syste,s
+        for (AuberSystems curr_sys: System_Auber){
+            batch.draw(curr_sys.systemImg,curr_sys.x,curr_sys.y,40,40);
         }
+        //renders player
         batch.draw(playerTexture, x, y, 25, 25);
-        //if(Gdx.input.isKeyPressed(Input.Keys.E) && !justTeleported){
-        for (TeleportPad teleporterPad : teleporterList) {
-            if (!justTeleported && Gdx.input.isKeyPressed(Input.Keys.E) && teleporterPad.canTeleport(x, y)) {
-                ArrayList<Integer> teleportCoords = teleporterPad.teleport();
-                x = teleportCoords.get(0) + 12;
-                y = teleportCoords.get(1) + 12;
-                justTeleported=true;
-            }
-
-        }
         if (!Gdx.input.isKeyPressed(Input.Keys.E)){
             justTeleported = false;
         }
