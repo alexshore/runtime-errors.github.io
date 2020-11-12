@@ -191,8 +191,6 @@ public class GameScreen extends ScreenAdapter {
         else{
             //demo Mode movement for player
         }
-
-
         batch.begin();
 
         //draws map and player
@@ -218,8 +216,13 @@ public class GameScreen extends ScreenAdapter {
 
 
         batch.end();
+
+        // checks if the game has been won
+        if(Enemies.get(0).allCaptured(Enemies)){
+            game.setScreen(new WinScreen(game));
+        }
         //checks to see if escape key pressed to return to main menu
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+        else if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
             game.setScreen(new MainMenu(game));
         }
     }

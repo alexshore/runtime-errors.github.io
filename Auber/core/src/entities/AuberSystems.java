@@ -1,9 +1,7 @@
 package entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.eng.auber.AuberGame;
 import com.badlogic.gdx.math.Rectangle;
 
 public class AuberSystems extends Rectangle {
@@ -22,10 +20,13 @@ public class AuberSystems extends Rectangle {
         this.currentRoom = room;
     }
 
-    public boolean system_sabotage(){
-        working = false;
+    public void doSabotage(){
+        this.working = false;
         this.systemImg = new Texture("game_assets/system_working.png");
-        return !working;
+    }
+
+    public boolean isWorking(){
+        return this.working;
     }
 
 }

@@ -13,6 +13,7 @@ public class Room extends Rectangle {
 
     public Room(int x, int y, int width, int height, String identifier, boolean corridor, int outer_width) {
 
+        //to detect collision between defined walls
         this.identifier = identifier;
         lower_x_collision = x;
         upper_x_collision = x + width;
