@@ -32,9 +32,9 @@ public class GameScreen extends ScreenAdapter {
 
     private List<AuberSystems> System_Auber;
     private Array<Room> Rooms;
-    private int[] x_sys;
+    private int[] x_sys = {};
     private int[] y_sys = {};
-    private int[] room;
+    private int[] room = {6,6,8,8,8,5,5,5,9,9,9,7,7,4,4};
 
 
     public GameScreen(AuberGame game, boolean demoMode){
