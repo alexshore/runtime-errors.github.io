@@ -8,14 +8,18 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.eng.auber.AuberGame;
 import entities.AuberSystems;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.RandomAccess;
+
+import entities.Room;
+
 
 public class GameScreen extends ScreenAdapter {
     public SpriteBatch batch;
@@ -25,7 +29,11 @@ public class GameScreen extends ScreenAdapter {
     Texture playerTexture,  backgroundTexture;
     float x, y;
     int player_h, player_w;
+
     private static final List<AuberSystems> System_Auber = new ArrayList<AuberSystems>();
+
+
+    private Array<Room> Rooms;
 
 
     public GameScreen(AuberGame game, boolean demoMode){
@@ -36,11 +44,37 @@ public class GameScreen extends ScreenAdapter {
         this.player_h = 25;
         this.player_w = 25;
         this.backgroundTexture = new Texture("game_assets/station_design.png");
+
         for(int i = 0; i<15;i++){
             AuberSystems a = new AuberSystems(1,1, 1);
             System_Auber.add(a);
         }
+
+
+        Room outer_corridor = new Room(0, 0, 1000, 1000, true, 75);
+        Room inner_corridor = new Room(250, 250, 500, 500, true, 75);
+        Room brig = new Room(325, 325, 350, 350);
+        Room infirmary = new Room(250, 750, 500, 175);
+        Room engine_room = new Room(250, 75, 500, 175);
+        Room cargo_left = new Room(75, 500, 175, 500);
+        Room cargo_right = new Room(750, 500, 175, 500);
+        Room living_left = new Room(75, 75, 175, 500);
+        Room living_right = new Room(750, 75, 175, 500);
+        outer_corridor.Neighbours.addAll(cargo_left, cargo_right, living_left, living_right);
+        inner_corridor.Neighbours.addAll(brig, cargo_left, cargo_right, living_left, living_right);
+        brig.Neighbours.add(inner_corridor);
+        infirmary.Neighbours.addAll(cargo_left, cargo_right);
+        engine_room.Neighbours.add(living_left, living_right);
+        cargo_left.Neighbours.add(outer_corridor, inner_corridor, infirmary, living_left);
+        cargo_right.Neighbours.add(outer_corridor, inner_corridor, infirmary, living_right);
+        living_left.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_left);
+        living_right.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_right);
+        Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left, cargo_right, living_left, living_right);
+
+
     }
+    
+
 
     @Override
     public void show() {
