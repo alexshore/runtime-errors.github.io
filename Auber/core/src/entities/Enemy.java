@@ -5,22 +5,25 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.Random;
 
 public class Enemy {
-    private int x,y;
+    public int x,y;
     private boolean capture;
-    Texture txtEnemy;
+    public Texture txtEnemy;
+    Random rd;
+
     public Enemy() {
-        Random rd = new Random();
+        rd = new Random();
         this.x = rd.nextInt(1000) + 1;
         this.y = rd.nextInt(1000) + 1;
         this.capture = false;
         this.txtEnemy = new Texture("game_assets/enemy.png");
     }
-    void beenCaptured(){
+    public void beenCaptured(){
         this.capture = true;
-        x = 500;
-        y = 500;
+        this.rd = new Random();
+        this.x = rd.nextInt(200) + 500;
+        this.y = rd.nextInt(200) + 500;
     }
-    boolean isCaptured(){
+    public boolean isCaptured(){
         return this.capture;
     }
 

@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAdapter {
     private boolean justTeleported = false;
 
     private ArrayList<AuberSystems> System_Auber;
-    private ArrayList<Enemy> enemies;
+    private ArrayList<Enemy> Enemies;
     private ArrayList<TeleportPad> teleporterList;
     public Array<Room> Rooms;
     public Room current_room;
@@ -58,6 +58,9 @@ public class GameScreen extends ScreenAdapter {
         //ArrayList for systems
         this.System_Auber = new ArrayList<AuberSystems>();
 
+        //ArrayList for eneies
+        this.Enemies = new ArrayList<Enemy>();
+
         //ArrayList for teleporters
         this.teleporterList = new ArrayList<TeleportPad>();
 
@@ -74,9 +77,10 @@ public class GameScreen extends ScreenAdapter {
 
         //creates 8 enemies
         for(int i = 0; i<8; i++){
-            Enemy en = new Enemy();
-            enemies.add(en);
+            Enemy newEn = new Enemy();
+            Enemies.add(newEn);
         }
+
         //creates the teleporters
         this.teleporterList.add(new TeleportPad(500,600));
         this.teleporterList.add(new TeleportPad(100,100));
@@ -149,7 +153,13 @@ public class GameScreen extends ScreenAdapter {
             }
 
         }
+        for(Enemy en: Enemies){
+            if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) && x>= en.x -25 && x <= en.x + 25 &&  x>= en.x-25  && y <= en.y + 25){
+                en.beenCaptured();
+            }
+        }
 
+        //if statements for movement
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             x += playerSpeed;
             if (x + player_w > current_room.upper_x_collision) {
@@ -179,20 +189,26 @@ public class GameScreen extends ScreenAdapter {
         }
 
         batch.begin();
+
         //draws map and player
         batch.draw(backgroundTexture,0,0,1000,1000);
         for(TeleportPad teleporterPad : teleporterList){
             batch.draw(teleporterPad.teleporterSprite, teleporterPad.x,teleporterPad.y);
         }
 
-        //renders syste,s
+        //renders systems
         for (AuberSystems curr_sys: System_Auber){
             batch.draw(curr_sys.systemImg,curr_sys.x,curr_sys.y,40,40);
         }
+
         //renders player
         batch.draw(playerTexture, x, y, 25, 25);
         if (!Gdx.input.isKeyPressed(Input.Keys.E)){
             justTeleported = false;
+        }
+
+        for(Enemy en: Enemies){
+            batch.draw(en.txtEnemy,en.x,en.y,25,25);
         }
 
 
