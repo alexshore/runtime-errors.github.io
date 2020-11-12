@@ -59,9 +59,9 @@ public class GameScreen extends ScreenAdapter {
         }
         this.teleporterList.add(new TeleportPad(500,600));
         this.teleporterList.add(new TeleportPad(100,100));
-        this.teleporterList.add(new TeleportPad(100,900));
-        this.teleporterList.add(new TeleportPad(900,900));
-        this.teleporterList.add(new TeleportPad(900,100));
+        this.teleporterList.add(new TeleportPad(100,800));
+        this.teleporterList.add(new TeleportPad(800,800));
+        this.teleporterList.add(new TeleportPad(800,100));
 
         for(int i = 0; i < teleporterList.size()-1; i++){
             teleporterList.get(i).setLinkedTeleporter(teleporterList.get(i+1));
