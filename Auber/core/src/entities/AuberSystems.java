@@ -10,7 +10,7 @@ public class AuberSystems extends Rectangle {
 
     boolean working;
     SpriteBatch batch;
-    Texture systemImg;
+    public Texture systemImg;
     int currentRoom;
 
     public AuberSystems(int x, int y, int room) {

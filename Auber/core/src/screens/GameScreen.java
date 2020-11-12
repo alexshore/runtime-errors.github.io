@@ -32,8 +32,9 @@ public class GameScreen extends ScreenAdapter {
     int player_h, player_w;
 
     private List<AuberSystems> System_Auber;
-    private static final int[] x_sys_array = {325};
-    private static final int[] y_sys_array = {325};
+    private static final int[] x_sys_array = {82,82,210,500,350,650,500,700,350,210,885,885,885,885,755};
+    private static final int[] y_sys_array = {700,77,400,877,750,750,210,77,77,825,877,600,300,400,77};
+    private static final int[] room_auber = {6,8,8,4,4,4,5,5,5,6,7,7,9,9,9};
     private Array<Room> Rooms;
 
 
@@ -50,9 +51,12 @@ public class GameScreen extends ScreenAdapter {
 
         //creating the systems
         for(int i = 0; i<15;i++){
-            AuberSystems a = new AuberSystems(x_sys_array[0], y_sys_array[0], 1);
+            AuberSystems a = new AuberSystems(x_sys_array[i], y_sys_array[i], room_auber[i]);
             System_Auber.add(a);
         }
+        //AuberSystems a = new AuberSystems(x_sys_array[0], y_sys_array[0], 1);
+        //Above is example, 1 stands for left cargo room
+
 
 
         //defining the rooms
@@ -126,6 +130,9 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
         //draws map and player
         batch.draw(backgroundTexture,0,0,1000,1000);
+        for(int i = 0; i< 15;i++) {
+            batch.draw(System_Auber.get(i).systemImg, System_Auber.get(i).x, System_Auber.get(i).y, 40,40);
+        }
         batch.draw(playerTexture, x, y, 25, 25);
         batch.end();
         //checks to see if escape key pressed to return to main menu
