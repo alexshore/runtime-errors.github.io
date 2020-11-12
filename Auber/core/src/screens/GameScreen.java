@@ -31,6 +31,8 @@ public class GameScreen extends ScreenAdapter {
     int player_h, player_w;
 
     private List<AuberSystems> System_Auber;
+    private static final int[] x_sys_array = {0};
+    private static final int[] y_sys_array = {0};
     private Array<Room> Rooms;
 
 
@@ -45,7 +47,7 @@ public class GameScreen extends ScreenAdapter {
         this.backgroundTexture = new Texture("game_assets/station_design.png");
         this.Rooms = new Array<>();
         for(int i = 0; i<15;i++){
-            AuberSystems a = new AuberSystems(1,1, 1);
+            AuberSystems a = new AuberSystems(x_sys_array[0], y_sys_array[0], 1);
             System_Auber.add(a);
         }
 
