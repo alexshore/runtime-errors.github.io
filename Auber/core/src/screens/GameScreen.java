@@ -7,6 +7,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.eng.auber.AuberGame;
 import entities.AuberSystems;
@@ -25,7 +26,8 @@ public class GameScreen extends ScreenAdapter {
     AuberGame game;
     boolean demoMode;
     Texture playerTexture,  backgroundTexture;
-    float x = 495, y = 495;
+    float x = 255, y = 255;
+    float last_x, last_y;
     int player_h, player_w;
     private boolean justTeleported = false;
 
@@ -35,7 +37,7 @@ public class GameScreen extends ScreenAdapter {
     public Array<Room> Rooms;
     public Room current_room;
 
-    //values required for systems functionality - game_assests has labelled map for rooms
+    //values required for systems functionality - game_assets has labelled map for rooms
     private static final int[] x_sys = {82,210,210,82,82,275,550,700,850,883,752,840,883,500,650,350};
     private static final int[] y_sys = {600,850,125,458,275,77,208,77,77,459,265,503,876,750,875,875};
     private static final int[] room = {6,6,8,8,8,5,5,5,9,9,9,7,7,4,4,4};
@@ -55,7 +57,7 @@ public class GameScreen extends ScreenAdapter {
         //ArrayList for systems
         this.System_Auber = new ArrayList<AuberSystems>();
 
-        //ArrayList for eneies
+        //ArrayList for enemies
         this.Enemies = new ArrayList<Enemy>();
 
         //ArrayList for teleporters
@@ -93,18 +95,14 @@ public class GameScreen extends ScreenAdapter {
         //creates rooms
         Room outer_corridor = new Room(0, 0, 1000, 1000, "outer", true, 75);
         Room inner_corridor = new Room(250, 250, 500, 500, "inner", true, 75);
+        Room brig = new Room(325, 325, 350, 350, "brig");
         Room infirmary = new Room(250, 750, 500, 175, "infirmary");
         Room engine_room = new Room(250, 75, 500, 175, "engine_room");
         Room cargo_left = new Room(75, 500, 175, 500, "cargo_left");
         Room cargo_right = new Room(750, 500, 175, 500, "cargo_right");
         Room living_left = new Room(75, 75, 175, 500, "living_left");
         Room living_right = new Room(750, 75, 175, 500, "living_right");
-        Room brig = new Room(325, 325, 350, 350, "brig");
-        brig.currently_occupied = true;
-        this.current_room = brig;
-        outer_corridor.Neighbours.add(cargo_left, cargo_right, living_left, living_right);
-        inner_corridor.Neighbours.add(cargo_left, cargo_right, living_left, living_right);
-        inner_corridor.Neighbours.add(brig);
+
         outer_corridor.Neighbours.addAll(cargo_left, cargo_right, living_left, living_right);
         inner_corridor.Neighbours.addAll(brig, cargo_left, cargo_right, living_left, living_right);
         brig.Neighbours.add(inner_corridor);
@@ -114,12 +112,15 @@ public class GameScreen extends ScreenAdapter {
         cargo_right.Neighbours.add(outer_corridor, inner_corridor, infirmary, living_right);
         living_left.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_left);
         living_right.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_right);
-        Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left, cargo_right, living_left, living_right);
+
+        inner_corridor.currently_occupied = true;
+        this.current_room = inner_corridor;
+
+        Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
+                        cargo_right, living_left, living_right);
 
 
     }
-
-
 
     @Override
     public void show() {
@@ -151,7 +152,8 @@ public class GameScreen extends ScreenAdapter {
 
         }
         for(Enemy en: Enemies){
-            if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) && x>= en.x -25 && x <= en.x + 25 &&  y>= en.y-25  && y <= en.y + 25){
+            if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) &&
+                    x >= en.x -25 && x <= en.x + 25 && y>= en.y-25 && y <= en.y + 25){
                 en.beenCaptured();
                 break;
             }
@@ -159,34 +161,66 @@ public class GameScreen extends ScreenAdapter {
 
 
         if(!demoMode){
+            last_x = x; last_y = y;
             //if statements for movement
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 x += playerSpeed;
-                if (x + player_w > current_room.upper_x_collision) {
-                    x = current_room.upper_x_collision - player_w;
-                }
+//                if (x + player_w > current_room.upper_x_collision) {
+//                    x = current_room.upper_x_collision - player_w;
+//                }
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 x -= playerSpeed;
-                if (x < current_room.lower_x_collision) {
-                    x = current_room.lower_x_collision;
-                }
+//                if (x < current_room.lower_x_collision) {
+//                    x = current_room.lower_x_collision;
+//                }
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 y += playerSpeed;
-                if (y + player_h > current_room.upper_y_collision) {
-                    y = current_room.upper_y_collision - player_h;
-                }
+//                if (y + player_h > current_room.upper_y_collision) {
+//                    y = current_room.upper_y_collision - player_h;
+//                }
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 y -= playerSpeed;
-                if (y < current_room.lower_y_collision) {
-                    y = current_room.lower_y_collision;
-                }
+//                if (y < current_room.lower_y_collision) {
+//                    y = current_room.lower_y_collision;
+//                }
             }
+
+            if (!(current_room.lower_x_collision <= x && x <= current_room.upper_x_collision - player_w)) {
+                x = last_x;
+            }
+            if (!(current_room.lower_y_collision <= y && y <= current_room.upper_y_collision - player_h)) {
+                y = last_y;
+            }
+
+            if (current_room.corridor) {
+                if (current_room.i_lower_x_collision <= x + player_w && x <= current_room.i_upper_x_collision) {
+                    if (current_room.i_lower_y_collision <= y + player_h && y <= current_room.i_upper_y_collision) {
+                        x = last_x;
+                    }
+                }
+                if (current_room.i_lower_y_collision <= y + player_h && y <= current_room.i_upper_y_collision) {
+                    if (current_room.i_lower_x_collision <= x + player_w && x <= current_room.i_upper_x_collision) {
+                        y = last_y;
+                    }
+                }
+
+
+
+//                Rectangle oob = new Rectangle(current_room.x + current_room.outer_width,
+//                                                current_room.y + current_room.outer_width,
+//                                                current_room.width - (current_room.outer_width * 2),
+//                                                current_room.height - (current_room.outer_width * 2));
+//                if (oob.contains(x, y)) {
+//                    x = last_x; y = last_y;
+//                }
+            }
+
         }
         else{
             //demo Mode movement for player

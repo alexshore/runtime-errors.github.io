@@ -29,7 +29,7 @@ public class TeleportPad extends Rectangle {
         this.linkedTeleporter = nextTeleporter;
     }
     public boolean canTeleport(float playerX, float playerY){
-        if(super.contains(playerX,playerY)) {
+        if(super.contains(playerX + 12, playerY + 12)) {
             return true;
         }
         else {
