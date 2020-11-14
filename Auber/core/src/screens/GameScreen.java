@@ -178,13 +178,13 @@ public class GameScreen extends ScreenAdapter {
             //if statements for movement
             if (Gdx.input.isKeyPressed(Input.Keys.E)) {
 
-                for (Door Door: current_room.Doors) {
-                    if (current_room.identifier == Door.lower_room) {
-                        if () {
-
-                        }
-                    }
-                }
+//                for (Door Door: current_room.Doors) {
+//                    if (current_room.identifier == Door.lower_room) {
+//                        if () {
+//
+//                        }
+//                    }
+//                }
 
             } else {
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -222,8 +222,7 @@ public class GameScreen extends ScreenAdapter {
         else{
             //demo Mode movement for player
         }
-
-        i
+        
 
 
         batch.begin();
