@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 public class Room extends Rectangle {
 
     public Array<Room> Neighbours = new Array<>();
+    public Array<Door> Doors = new Array<>();
     public boolean currently_occupied;
     public boolean corridor;
     public String identifier;
