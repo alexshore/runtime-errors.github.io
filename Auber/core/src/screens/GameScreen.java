@@ -114,17 +114,23 @@ public class GameScreen extends ScreenAdapter {
         living_left.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_left);
         living_right.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_right);
         //defines doors
-        Door outer_upper = new Door("h", 55, 750, "outer", "cargo_left");
-        Door outer_lower = new Door("h", 55, 215, "outer", "living_left");
+//        Door outer_upper = new Door("h", 55, 750, "outer", "cargo_left");
+//        Door outer_lower = new Door("h", 55, 215, "outer", "living_left");
 
         Door inner_upper_left = new Door("h", 305, 640, "inner", "brig");
-        Door inner_lower_left = new Door("h", 305, 225, "inner", "brig");
-        Door inner_upper_right = new Door("h", 730, 640, "inner", "cargo_right");
-        Door inner_lower_right = new Door("h", 730, 225, "inner", "living_right");
+        Door inner_lower_left = new Door("h", 305, 325, "inner", "brig");
+//        Door inner_upper_right = new Door("h", 730, 640, "inner", "cargo_right");
+//        Door inner_lower_right = new Door("h", 730, 325, "inner", "living_right");
+
+        Door brig_upper = new Door("h", 655, 640, "brig", "inner");
+        Door brig_lower = new Door("h", 655, 325, "brig", "inner");
+
+        inner_corridor.Doors.add(inner_lower_left, inner_upper_left, brig_lower, brig_upper);
+        brig.Doors.add(brig_lower, brig_upper, inner_lower_left, inner_upper_left);
 
         //sets starting room
-        inner_corridor.currently_occupied = true;
-        this.current_room = inner_corridor;
+        brig.currently_occupied = true;
+        this.current_room = brig;
         //fills rooms array with all created rooms
         Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
                         cargo_right, living_left, living_right);
@@ -160,42 +166,55 @@ public class GameScreen extends ScreenAdapter {
         }
         for (Enemy en: Enemies) {
             if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) &&
-                    x >= en.x -25 && x <= en.x + 25 && y>= en.y-25 && y <= en.y + 25){
+                    x >= en.x - 25 && x <= en.x + 25 && y >= en.y - 25 && y <= en.y + 25) {
                 en.beenCaptured();
                 break;
             }
         }
+
         if (!demoMode){
             //backs up last position
             last_x = x; last_y = y;
             //if statements for movement
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                x += playerSpeed;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                x -= playerSpeed;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                y += playerSpeed;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                y -= playerSpeed;
-            }
-            if (!(current_room.lower_x_collision <= x && x <= current_room.upper_x_collision - player_w)) {
-                x = last_x;
-            }
-            if (!(current_room.lower_y_collision <= y && y <= current_room.upper_y_collision - player_h)) {
-                y = last_y;
-            }
-            if (current_room.corridor) {
-                if (current_room.i_lower_x_collision <= x + player_w && x <= current_room.i_upper_x_collision) {
-                    if (current_room.i_lower_y_collision <= y + player_h && y <= current_room.i_upper_y_collision) {
-                        x = last_x;
+            if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+
+                for (Door Door: current_room.Doors) {
+                    if (current_room.identifier == Door.lower_room) {
+                        if () {
+
+                        }
                     }
                 }
-                if (current_room.i_lower_y_collision <= y + player_h && y <= current_room.i_upper_y_collision) {
+
+            } else {
+                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                    x += playerSpeed;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                    x -= playerSpeed;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    y += playerSpeed;
+                }
+                if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                    y -= playerSpeed;
+                }
+                if (!(current_room.lower_x_collision <= x && x <= current_room.upper_x_collision - player_w)) {
+                    x = last_x;
+                }
+                if (!(current_room.lower_y_collision <= y && y <= current_room.upper_y_collision - player_h)) {
+                    y = last_y;
+                }
+                if (current_room.corridor) {
                     if (current_room.i_lower_x_collision <= x + player_w && x <= current_room.i_upper_x_collision) {
-                        y = last_y;
+                        if (current_room.i_lower_y_collision <= y + player_h && y <= current_room.i_upper_y_collision) {
+                            x = last_x;
+                        }
+                    }
+                    if (current_room.i_lower_y_collision <= y + player_h && y <= current_room.i_upper_y_collision) {
+                        if (current_room.i_lower_x_collision <= x + player_w && x <= current_room.i_upper_x_collision) {
+                            y = last_y;
+                        }
                     }
                 }
             }
@@ -203,6 +222,10 @@ public class GameScreen extends ScreenAdapter {
         else{
             //demo Mode movement for player
         }
+
+        i
+
+
         batch.begin();
 
         //draws map and player
