@@ -20,13 +20,14 @@ public class Room extends Rectangle {
     public Room(int x, int y, int width, int height, String id, boolean corridor, int outer_width) {
 
         //to detect collision between defined walls
+        this.width = width;
+        this.height = height;
         this.lower_x_collision = x;
         this.upper_x_collision = x + width;
         this.lower_y_collision = y;
         this.upper_y_collision = y + height;
         this.identifier = id;
-        this.width = width;
-        this.height = height;
+
         this.corridor = corridor;
         this.outer_width = outer_width;
         if (corridor) {
@@ -38,11 +39,14 @@ public class Room extends Rectangle {
     }
 
     public Room(int x, int y, int width, int height, String id) {
+        this.width = width;
+        this.height = height;
         this.lower_x_collision = x;
         this.upper_x_collision = x + width;
         this.lower_y_collision = y;
         this.upper_y_collision = y + height;
         this.identifier = id;
+
     }
 
     @Override
