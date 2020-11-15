@@ -203,9 +203,11 @@ public class GameScreen extends ScreenAdapter {
                     if (!(current_door == null)) {
                         if (current_door.lower_room == current_room.identifier) {
                             if (current_door.direction == "h") {
-                                x = current_door.upper_x + 5;
+                                x = current_door.upper_x + 10;
+                                y = current_door.upper_y + 0;
                             } else if (current_door.direction == "v") {
-                                y = current_door.upper_y + 5;
+                                x = current_door.upper_x + 0;
+                                y = current_door.upper_y + 10;
                             }
                             for (Room Room: Rooms) {
                                 if (current_door.upper_room == Room.identifier) {
@@ -214,9 +216,11 @@ public class GameScreen extends ScreenAdapter {
                             }
                         } else if (current_door.upper_room == current_room.identifier) {
                             if (current_door.direction == "h") {
-                                x = current_door.lower_x - 10;
+                                x = current_door.upper_x - (10 + player_w);
+                                y = current_door.upper_y + 0;
                             } else if (current_door.direction == "v") {
-                                y = current_door.lower_y - 10;
+                                x = current_door.upper_x + 0;
+                                y = current_door.upper_y - (10 + player_h);
                             }
                             for (Room Room: Rooms) {
                                 if (current_door.lower_room == Room.identifier) {
