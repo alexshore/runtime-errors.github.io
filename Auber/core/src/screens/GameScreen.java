@@ -198,8 +198,6 @@ public class GameScreen extends ScreenAdapter {
                     }
                 }
                 if (!(current_door == null)) {
-                    System.out.println(current_door.lower_room);
-                    System.out.println(current_room.identifier);
                     if (current_door.lower_room == current_room.identifier) {
                         if (current_door.direction == "h") {
                             x = current_door.upper_x + 5;
