@@ -215,7 +215,7 @@ public class GameScreen extends ScreenAdapter {
                         } else if (current_door.direction == "v") {
                             y = current_door.lower_y - 10;
                         }
-                        for (Room Room : Rooms) {
+                        for (Room Room: Rooms) {
                             if (current_door.lower_room == Room.identifier) {
                                 new_current_room = Room;
                             }
