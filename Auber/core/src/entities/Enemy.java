@@ -27,7 +27,7 @@ public class Enemy {
         this.txtEnemy = new Texture("game_assets/enemy.png");
     }
     public void beenCaptured(){
-        //moves enemy to random space in the brig and sets their stasus to captured
+        //moves enemy to random space in the brig and sets their status to captured
         this.capture = true;
         this.rd = new Random();
         this.x = rd.nextInt(200) + 325;
