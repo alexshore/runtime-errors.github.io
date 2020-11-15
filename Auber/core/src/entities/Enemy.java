@@ -1,7 +1,6 @@
 package entities;
 
 import com.badlogic.gdx.graphics.Texture;
-import sun.security.util.Length;
 
 import java.util.ArrayList;
 import java.util.Random;
