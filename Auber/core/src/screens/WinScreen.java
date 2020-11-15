@@ -2,18 +2,16 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.eng.auber.AuberGame;
-import org.w3c.dom.Text;
 
 
 public class WinScreen implements Screen {
     private static final int button_width = Math.round(Gdx.graphics.getWidth()/6), button_height = Math.round(Gdx.graphics.getHeight()/15);
     AuberGame game;
-    Texture win, exit_start,exit_end;
+    Texture win, exit_start,exit_end, background;
     int exit_x = 500 - button_width/2;
     int exit_y = 275;
     int screenHeight = Gdx.graphics.getHeight();
@@ -23,6 +21,7 @@ public class WinScreen implements Screen {
         this.win = new Texture("win_assets/winner.png");
         this.exit_start = new Texture("menu_assets/exit_button_highlight.png");
         this.exit_end = new Texture("menu_assets/exit_button.png");
+        this.background = new Texture("game_assets/station_design.png");
     }
 
     @Override
@@ -35,6 +34,7 @@ public class WinScreen implements Screen {
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
+        game.batch.draw(this.background,0,0,1000,1000);
         game.batch.draw(this.win,500 - this.win.getWidth()/2,700);
 
         if(Gdx.input.getX() < this.exit_x + this.button_width && Gdx.input.getX() > this.exit_x && this.screenHeight - Gdx.input.getY() < this.exit_y + this.button_height && this.screenHeight -  Gdx.input.getY() > this.exit_y){
