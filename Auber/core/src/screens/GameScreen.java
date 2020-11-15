@@ -82,9 +82,9 @@ public class GameScreen extends ScreenAdapter {
         //creates the teleporters
         this.teleporterList.add(new TeleportPad(500, 600, "brig"));
         this.teleporterList.add(new TeleportPad(100, 100, "living_left"));
-        this.teleporterList.add(new TeleportPad(100, 800, "living_right"));
+        this.teleporterList.add(new TeleportPad(100, 800, "cargo_left"));
         this.teleporterList.add(new TeleportPad(800, 800, "cargo_right"));
-        this.teleporterList.add(new TeleportPad(800, 100, "cargo_left"));
+        this.teleporterList.add(new TeleportPad(800, 100, "living_right"));
 
         for (int i = 0; i < teleporterList.size() - 1; i++) {
             teleporterList.get(i).setLinkedTeleporter(teleporterList.get(i + 1));
