@@ -18,14 +18,14 @@ import java.util.ArrayList;
 
 
 public class GameScreen extends ScreenAdapter {
-    public SpriteBatch batch;
+    private SpriteBatch batch;
     private static final int playerSpeed = 3;
     AuberGame game;
-    boolean demoMode;
-    Texture playerTexture,  backgroundTexture, lightoffTexture;
-    float x = 495, y = 495;
-    float last_x, last_y;
-    int player_h, player_w;
+    private boolean demoMode;
+    private Texture playerTexture,  backgroundTexture, lightoffTexture,innerblackoutTexture, outerblackoutTexture;
+    private float x = 495, y = 495;
+    private float last_x, last_y;
+    private int player_h, player_w;
     private boolean justTeleported = false;
 
 
@@ -48,7 +48,11 @@ public class GameScreen extends ScreenAdapter {
         this.demoMode  = demoMode; //is demo mode active
         this.game = game;          //passing in game
         this.batch = new SpriteBatch();
-        this.lightoffTexture = new Texture("game_assets/normal_nolight.png");
+
+        //lighting textures
+        this.lightoffTexture = new Texture("game_assets/blackout.png");
+        this.innerblackoutTexture = new Texture("game_assets/innerblackout.png");
+        this.outerblackoutTexture = new Texture("game_assets/outerblackout.png");
 
         //player texture and area
         this.playerTexture = new Texture("game_assets/player.png");
@@ -172,21 +176,9 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
-        batch.begin();
-        batch.draw(backgroundTexture, 0, 0, 1000, 1000);//draw map
+
         if (!demoMode){
-            //Illumination for loop
-            for (Room Room : Rooms) {
-                if (current_room == Room) {
 
-                }
-                else if(Room.identifier != "inner" && Room.identifier != "outer"){
-                    System.out.println(Room.identifier);
-
-                    batch.draw(this.lightoffTexture, Room.getX(),Room.getY(), Room.width, Room.height);
-
-                }
-            }
 
 
             //backs up last position
@@ -256,7 +248,8 @@ public class GameScreen extends ScreenAdapter {
                 }
                 //Illumination below
 
-            } else {
+            }
+            else {
                 //Movement and collision detection
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                     x += playerSpeed;
@@ -293,8 +286,12 @@ public class GameScreen extends ScreenAdapter {
         else{
             //demo Mode movement for player
         }
-        
 
+
+
+
+        batch.begin();
+        batch.draw(backgroundTexture, 0, 0, 1000, 1000);//draw map
 
 
 
@@ -319,6 +316,22 @@ public class GameScreen extends ScreenAdapter {
             batch.draw(en.txtEnemy, en.x, en.y, 25, 25);
         }
 
+        //Illumination for loop
+        for (Room Room : Rooms) {
+            if (current_room != Room) {
+                if(Room.identifier != "inner" && Room.identifier != "outer"){
+                    batch.draw(this.lightoffTexture, Room.getX(),Room.getY(), Room.width, Room.height);
+
+                }
+                else if(Room.identifier == "inner"){
+                    batch.draw(this.innerblackoutTexture, 0,0, 1000, 1000);
+
+                }
+                else{ //if room is outer
+                    batch.draw(this.outerblackoutTexture, Room.getX(),Room.getY(), Room.width, Room.height);
+                }
+            }
+        }
 
         batch.end();
 
