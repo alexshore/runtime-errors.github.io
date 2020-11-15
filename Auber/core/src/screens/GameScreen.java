@@ -7,6 +7,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.eng.auber.AuberGame;
@@ -21,17 +22,18 @@ public class GameScreen extends ScreenAdapter {
     private static final int playerSpeed = 3;
     AuberGame game;
     boolean demoMode;
-    Texture playerTexture,  backgroundTexture;
+    Texture playerTexture,  backgroundTexture, lightoffTexture;
     float x = 495, y = 495;
     float last_x, last_y;
     int player_h, player_w;
     private boolean justTeleported = false;
 
+
     private ArrayList<AuberSystems> System_Auber;
     private ArrayList<Enemy> Enemies;
     private ArrayList<TeleportPad> teleporterList;
     public Array<Room> Rooms;
-    public Room current_room;
+    public Room current_room, prev_room;
 
     //values required for systems functionality - game_assets has labelled map for rooms
     private static final int[] x_sys = {82,  210, 210, 82,  82,  275, 550, 700,
@@ -43,10 +45,10 @@ public class GameScreen extends ScreenAdapter {
 
 
     public GameScreen(AuberGame game, boolean demoMode){
-
         this.demoMode  = demoMode; //is demo mode active
         this.game = game;          //passing in game
         this.batch = new SpriteBatch();
+        this.lightoffTexture = new Texture("game_assets/normal_nolight.png");
 
         //player texture and area
         this.playerTexture = new Texture("game_assets/player.png");
@@ -135,6 +137,7 @@ public class GameScreen extends ScreenAdapter {
 
         //sets starting room
         this.current_room = brig;
+        this.prev_room = cargo_left;
 
         //fills rooms array with all created rooms
         Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
@@ -169,14 +172,32 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
+        batch.begin();
+        batch.draw(backgroundTexture, 0, 0, 1000, 1000);//draw map
         if (!demoMode){
+            //Illumination for loop
+            for (Room Room : Rooms) {
+                if (current_room == Room) {
+
+                }
+                else if(Room.identifier != "inner" && Room.identifier != "outer"){
+                    System.out.println(Room.identifier);
+
+                    batch.draw(this.lightoffTexture, Room.getX(),Room.getY(), Room.width, Room.height);
+
+                }
+            }
+
+
             //backs up last position
             last_x = x; last_y = y;
+
+
             //if statements for movement
             Door current_door = null;
             Room new_current_room = null;
 
-            //Door stuff
+            //Door stuff and drawing of black square for room by room illumination
             if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
 
                 //checks for teleport pad
@@ -233,8 +254,10 @@ public class GameScreen extends ScreenAdapter {
                         current_room = new_current_room;
                     }
                 }
+                //Illumination below
 
             } else {
+                //Movement and collision detection
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                     x += playerSpeed;
                 }
@@ -273,10 +296,9 @@ public class GameScreen extends ScreenAdapter {
         
 
 
-        batch.begin();
 
-        //draws map and player
-        batch.draw(backgroundTexture, 0, 0, 1000, 1000);
+
+        //draws player
         for (TeleportPad teleporterPad: teleporterList) {
             batch.draw(teleporterPad.teleporterSprite, teleporterPad.x,teleporterPad.y);
         }
