@@ -9,14 +9,16 @@ import java.awt.*;
 public class TeleportPad extends Rectangle {
     public Texture teleporterSprite;
     public TeleportPad linkedTeleporter;
+    public String id;
     int xCoord;
     int yCoord;
     SpriteBatch batch;
 
-    public TeleportPad(int xCoord,int yCoord) {
+    public TeleportPad(int xCoord,int yCoord, String id) {
         // Instantiates teleporter - however, teleporter is initially not linked
         // to any other teleporter
         super(xCoord,yCoord,50,50);
+        this.id = id;
         this.xCoord = xCoord;
         this.yCoord = yCoord;
         this.batch = new SpriteBatch();

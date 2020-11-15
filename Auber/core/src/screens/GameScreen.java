@@ -80,11 +80,11 @@ public class GameScreen extends ScreenAdapter {
         }
 
         //creates the teleporters
-        this.teleporterList.add(new TeleportPad(500,600));
-        this.teleporterList.add(new TeleportPad(100,100));
-        this.teleporterList.add(new TeleportPad(100,800));
-        this.teleporterList.add(new TeleportPad(800,800));
-        this.teleporterList.add(new TeleportPad(800,100));
+        this.teleporterList.add(new TeleportPad(500, 600, "brig"));
+        this.teleporterList.add(new TeleportPad(100, 100, "living_left"));
+        this.teleporterList.add(new TeleportPad(100, 800, "living_right"));
+        this.teleporterList.add(new TeleportPad(800, 800, "cargo_right"));
+        this.teleporterList.add(new TeleportPad(800, 100, "cargo_left"));
 
         for (int i = 0; i < teleporterList.size() - 1; i++) {
             teleporterList.get(i).setLinkedTeleporter(teleporterList.get(i + 1));
@@ -92,17 +92,15 @@ public class GameScreen extends ScreenAdapter {
         teleporterList.get(teleporterList.size() - 1).setLinkedTeleporter(teleporterList.get(0));
 
         //creates rooms
-        Room outer_corridor = new Room(0, 0, 1000, 1000, "outer",
-                                            true, 75);
-        Room inner_corridor = new Room(250, 250, 500, 500, "inner",
-                                            true, 75);
-        Room brig = new Room(325, 325, 350, 350, "brig");
-        Room infirmary = new Room(250, 750, 500, 175, "infirmary");
-        Room engine_room = new Room(250, 75, 500, 175, "engine_room");
-        Room cargo_left = new Room(75, 500, 175, 425, "cargo_left");
-        Room cargo_right = new Room(750, 500, 175, 425, "cargo_right");
-        Room living_left = new Room(75, 75, 175, 425, "living_left");
-        Room living_right = new Room(750, 75, 175, 425, "living_right");
+        Room outer_corridor = new Room(0,   0,   1000, 1000, "outer", true, 75);
+        Room inner_corridor = new Room(250, 250, 500,  500,  "inner", true, 75);
+        Room brig           = new Room(325, 325, 350,  350,  "brig");
+        Room infirmary      = new Room(250, 750, 500,  175,  "infirmary");
+        Room engine_room    = new Room(250, 75,  500,  175,  "engine_room");
+        Room cargo_left     = new Room(75,  500, 175,  425,  "cargo_left");
+        Room cargo_right    = new Room(750, 500, 175,  425,  "cargo_right");
+        Room living_left    = new Room(75,  75,  175,  425,  "living_left");
+        Room living_right   = new Room(750, 75,  175,  425,  "living_right");
         //defines relationships between rooms
         outer_corridor.Neighbours.addAll(cargo_left, cargo_right, living_left, living_right);
         inner_corridor.Neighbours.addAll(brig, cargo_left, cargo_right, living_left, living_right);
@@ -148,7 +146,6 @@ public class GameScreen extends ScreenAdapter {
                 if (Door.lower_room == Room.identifier || Door.upper_room == Room.identifier) {
                     Room.Doors.add(Door);
                 }
-
             }
         }
     }
@@ -163,17 +160,7 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //checks for teleport pad
-        for (TeleportPad teleporterPad : teleporterList) {
-            if (!justTeleported && Gdx.input.isKeyPressed(Input.Keys.E) &&
-                    teleporterPad.canTeleport(x, y)) {
-                ArrayList<Integer> teleportCoords = teleporterPad.teleport();
-                x = teleportCoords.get(0) + 12;
-                y = teleportCoords.get(1) + 12;
-                justTeleported=true;
-            }
 
-        }
         for (Enemy en: Enemies) {
             if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) &&
                     x >= en.x - 25 && x <= en.x + 25 && y >= en.y - 25 && y <= en.y + 25) {
@@ -191,41 +178,57 @@ public class GameScreen extends ScreenAdapter {
 
             //Door stuff
             if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-                for (Door Door: current_room.Doors) {
-                    if (Door.playerDetected(x, y)) {
-                        current_door = Door;
-                        break;
-                    }
-                }
-                if (!(current_door == null)) {
-                    if (current_door.lower_room == current_room.identifier) {
-                        if (current_door.direction == "h") {
-                            x = current_door.upper_x + 5;
-                        } else if (current_door.direction == "v") {
-                            y = current_door.upper_y + 5;
-                        }
-                        for (Room Room: Rooms) {
-                            if (current_door.upper_room == Room.identifier) {
-                                new_current_room = Room;
-                            }
-                        }
-                    } else if (current_door.upper_room == current_room.identifier) {
-                        if (current_door.direction == "h") {
-                            x = current_door.lower_x - 10;
-                        } else if (current_door.direction == "v") {
-                            y = current_door.lower_y - 10;
-                        }
-                        for (Room Room: Rooms) {
-                            if (current_door.lower_room == Room.identifier) {
-                                new_current_room = Room;
-                            }
-                        }
-                    }
-                }
-                if (!(new_current_room == null)) {
-                    current_room = new_current_room;
-                }
 
+                //checks for teleport pad
+                for (TeleportPad teleporterPad: teleporterList) {
+                    if (!justTeleported && teleporterPad.canTeleport(x, y)) {
+                        ArrayList<Integer> teleportCoords = teleporterPad.teleport();
+                        x = teleportCoords.get(0) + 12;
+                        y = teleportCoords.get(1) + 12;
+                        justTeleported = true;
+                        for (Room Room : Rooms) {
+                            if (teleporterPad.linkedTeleporter.id == Room.identifier) {
+                                current_room = Room;
+                            }
+                        }
+                    }
+                }
+                if (!justTeleported) {
+                    for (Door Door: current_room.Doors) {
+                        if (Door.playerDetected(x, y)) {
+                            current_door = Door;
+                            break;
+                        }
+                    }
+                    if (!(current_door == null)) {
+                        if (current_door.lower_room == current_room.identifier) {
+                            if (current_door.direction == "h") {
+                                x = current_door.upper_x + 5;
+                            } else if (current_door.direction == "v") {
+                                y = current_door.upper_y + 5;
+                            }
+                            for (Room Room: Rooms) {
+                                if (current_door.upper_room == Room.identifier) {
+                                    new_current_room = Room;
+                                }
+                            }
+                        } else if (current_door.upper_room == current_room.identifier) {
+                            if (current_door.direction == "h") {
+                                x = current_door.lower_x - 10;
+                            } else if (current_door.direction == "v") {
+                                y = current_door.lower_y - 10;
+                            }
+                            for (Room Room: Rooms) {
+                                if (current_door.lower_room == Room.identifier) {
+                                    new_current_room = Room;
+                                }
+                            }
+                        }
+                    }
+                    if (!(new_current_room == null)) {
+                        current_room = new_current_room;
+                    }
+                }
 
             } else {
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
