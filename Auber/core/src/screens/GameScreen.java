@@ -22,7 +22,7 @@ public class GameScreen extends ScreenAdapter {
     AuberGame game;
     boolean demoMode;
     Texture playerTexture,  backgroundTexture;
-    float x = 255, y = 255;
+    float x = 495, y = 495;
     float last_x, last_y;
     int player_h, player_w;
     private boolean justTeleported = false;
@@ -99,10 +99,10 @@ public class GameScreen extends ScreenAdapter {
         Room brig = new Room(325, 325, 350, 350, "brig");
         Room infirmary = new Room(250, 750, 500, 175, "infirmary");
         Room engine_room = new Room(250, 75, 500, 175, "engine_room");
-        Room cargo_left = new Room(75, 500, 175, 500, "cargo_left");
-        Room cargo_right = new Room(750, 500, 175, 500, "cargo_right");
-        Room living_left = new Room(75, 75, 175, 500, "living_left");
-        Room living_right = new Room(750, 75, 175, 500, "living_right");
+        Room cargo_left = new Room(75, 500, 175, 425, "cargo_left");
+        Room cargo_right = new Room(750, 500, 175, 425, "cargo_right");
+        Room living_left = new Room(75, 75, 175, 425, "living_left");
+        Room living_right = new Room(750, 75, 175, 425, "living_right");
         //defines relationships between rooms
         outer_corridor.Neighbours.addAll(cargo_left, cargo_right, living_left, living_right);
         inner_corridor.Neighbours.addAll(brig, cargo_left, cargo_right, living_left, living_right);
@@ -113,27 +113,44 @@ public class GameScreen extends ScreenAdapter {
         cargo_right.Neighbours.add(outer_corridor, inner_corridor, infirmary, living_right);
         living_left.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_left);
         living_right.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_right);
+
         //defines doors
-//        Door outer_upper = new Door("h", 55, 750, "outer", "cargo_left");
-//        Door outer_lower = new Door("h", 55, 215, "outer", "living_left");
-
-        Door inner_upper_left = new Door("h", 305, 640, "inner", "brig");
-        Door inner_lower_left = new Door("h", 305, 325, "inner", "brig");
-//        Door inner_upper_right = new Door("h", 730, 640, "inner", "cargo_right");
-//        Door inner_lower_right = new Door("h", 730, 325, "inner", "living_right");
-
-        Door brig_upper = new Door("h", 655, 640, "brig", "inner");
-        Door brig_lower = new Door("h", 655, 325, "brig", "inner");
-
-        inner_corridor.Doors.add(inner_lower_left, inner_upper_left, brig_lower, brig_upper);
-        brig.Doors.add(brig_lower, brig_upper, inner_lower_left, inner_upper_left);
+        Array<Door> Doors = new Array<>();
+        Doors.add(new Door("h", 55,  750, "outer",        "cargo_left"));
+        Doors.add(new Door("h", 55,  215, "outer",        "living_left"));
+        Doors.add(new Door("h", 305, 640, "inner",        "brig"));
+        Doors.add(new Door("h", 305, 325, "inner",        "brig"));
+        Doors.add(new Door("h", 730, 640, "inner",        "cargo_right"));
+        Doors.add(new Door("h", 730, 325, "inner",        "living_right"));
+        Doors.add(new Door("h", 655, 640, "brig",         "inner"));
+        Doors.add(new Door("h", 655, 325, "brig",         "inner"));
+        Doors.add(new Door("h", 730, 750, "infirmary",    "cargo_right"));
+        Doors.add(new Door("h", 730, 215, "engine_room",  "living_right"));
+        Doors.add(new Door("h", 230, 750, "cargo_left",   "infirmary"));
+        Doors.add(new Door("h", 230, 640, "cargo_left",   "inner"));
+        Doors.add(new Door("h", 905, 750, "cargo_right",  "outer"));
+        Doors.add(new Door("v", 215, 480, "living_left",  "cargo_left"));
+        Doors.add(new Door("h", 230, 325, "living_left",  "inner"));
+        Doors.add(new Door("h", 230, 215, "living_left",  "engine_room"));
+        Doors.add(new Door("v", 750, 480, "living_right", "cargo_right"));
+        Doors.add(new Door("h", 905, 215, "living_right", "outer"));
 
         //sets starting room
-        brig.currently_occupied = true;
         this.current_room = brig;
+
         //fills rooms array with all created rooms
         Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
                         cargo_right, living_left, living_right);
+
+        //gives rooms their door associations
+        for (Room Room: Rooms) {
+            for (Door Door: Doors) {
+                if (Door.lower_room == Room.identifier || Door.upper_room == Room.identifier) {
+                    Room.Doors.add(Door);
+                }
+
+            }
+        }
     }
 
     @Override
@@ -146,13 +163,6 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //to check what room your in
-        for (Room Room: Rooms) {
-            if (Room.currently_occupied) {
-                current_room = Room;
-                break;
-            }
-        }
         //checks for teleport pad
         for (TeleportPad teleporterPad : teleporterList) {
             if (!justTeleported && Gdx.input.isKeyPressed(Input.Keys.E) &&
@@ -176,15 +186,49 @@ public class GameScreen extends ScreenAdapter {
             //backs up last position
             last_x = x; last_y = y;
             //if statements for movement
-            if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            Door current_door = null;
+            Room new_current_room = null;
 
-//                for (Door Door: current_room.Doors) {
-//                    if (current_room.identifier == Door.lower_room) {
-//                        if () {
-//
-//                        }
-//                    }
-//                }
+            //Door stuff
+            if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                for (Door Door: current_room.Doors) {
+                    if (Door.playerDetected(x, y)) {
+                        current_door = Door;
+                        break;
+                    }
+                }
+
+                if (!(current_door == null)) {
+                    System.out.println(current_door.lower_room);
+                    System.out.println(current_room.identifier);
+                    if (current_door.lower_room == current_room.identifier) {
+                        if (current_door.direction == "h") {
+                            x = current_door.upper_x + 5;
+                        } else if (current_door.direction == "v") {
+                            y = current_door.upper_y + 5;
+                        }
+                        for (Room Room: Rooms) {
+                            if (current_door.upper_room == Room.identifier) {
+                                new_current_room = Room;
+                            }
+                        }
+                    } else if (current_door.upper_room == current_room.identifier) {
+                        if (current_door.direction == "h") {
+                            x = current_door.lower_x - 10;
+                        } else if (current_door.direction == "v") {
+                            y = current_door.lower_y - 10;
+                        }
+                        for (Room Room: Rooms) {
+                            if (current_door.lower_room == Room.identifier) {
+                                new_current_room = Room;
+                            }
+                        }
+                    }
+                }
+                if (!(new_current_room == null)) {
+                    current_room = new_current_room;
+                }
+
 
             } else {
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {

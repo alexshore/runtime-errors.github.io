@@ -25,22 +25,26 @@ public class Door {
     }
 
 
-    public boolean playerDetected(int x, int y, String identifier) {
+    public boolean playerDetected(float x, float y) {
 
         if (this.direction == "h") {
-            if (identifier == this.lower_room) {
-                if (this.lower_x < x + 12 && this.lower_y < y + 12 &&
-                        this.lower_x + door_detection_d > x + 12 &&
-                        this.lower_y + door_detection_w > y + 12) {
-                    return true;
-                }
-            } else if (identifier == this.upper_room) {
-
+            if (this.lower_x <= x + 12 && this.lower_y <= y + 12 &&
+                    this.upper_x + door_detection_d >= x + 12 &&
+                    this.upper_y + door_detection_w >= y + 12) {
+                return true;
+            } else {
+                return false;
             }
+        } else if (this.direction == "v") {
+            if (this.lower_x <= x + 12 && this.lower_y <= y + 12 &&
+                    this.upper_x + door_detection_w >= x + 12 &&
+                    this.upper_y + door_detection_d >= y + 12) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
-
-
-
-        return true;
     }
 }
