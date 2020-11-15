@@ -9,15 +9,15 @@ public class AuberSystems extends Rectangle {
     boolean working;
     SpriteBatch batch;
     public Texture systemImg;
-    int currentRoom, x,y;
+    int x,y; // currentRoom,
 
-    public AuberSystems(int x, int y, int room) {
+    public AuberSystems(int x, int y){//, int room) {
         this.x = x;
         this.y = y;
         this.working = true;
         this.batch = new SpriteBatch();
         this.systemImg = new Texture("game_assets/system_working.png");
-        this.currentRoom = room;
+//        this.currentRoom = room;
     }
 
     public void doSabotage(){

@@ -38,8 +38,8 @@ public class GameScreen extends ScreenAdapter {
                                         850, 883, 752, 840, 883, 500, 650, 350};
     private static final int[] y_sys = {600, 850, 125, 458, 275, 77,  208, 77,
                                         77,  459, 265, 503, 876, 750, 875, 875};
-    private static final int[] room =  {6,   6,   8,   8,   8,   5,   5,   5,
-                                        9,   9,   9,   7,   7,   4,   4,   4};
+//    private static final int[] room =  {6,   6,   8,   8,   8,   5,   5,   5,
+//                                        9,   9,   9,   7,   7,   4,   4,   4};
 
 
     public GameScreen(AuberGame game, boolean demoMode){
@@ -69,7 +69,7 @@ public class GameScreen extends ScreenAdapter {
 
         //creates 16 systems
         for (int i = 0; i < 16;i++) {
-            AuberSystems a = new AuberSystems(x_sys[i], y_sys[i], room[i]);
+            AuberSystems a = new AuberSystems(x_sys[i], y_sys[i]); //, room[i]);
             System_Auber.add(a);
         }
 
