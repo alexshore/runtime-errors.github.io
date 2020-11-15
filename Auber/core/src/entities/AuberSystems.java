@@ -9,7 +9,7 @@ public class AuberSystems extends Rectangle {
     boolean working;
     SpriteBatch batch;
     public Texture systemImg;
-    int currentRoom;
+    int currentRoom, x,y;
 
     public AuberSystems(int x, int y, int room) {
         this.x = x;
@@ -27,6 +27,10 @@ public class AuberSystems extends Rectangle {
 
     public boolean isWorking(){
         return this.working;
+    }
+
+    public int[] getCoord(){
+        return new int[]{this.x,this.y};
     }
 
 }

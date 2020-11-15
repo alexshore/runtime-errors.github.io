@@ -197,7 +197,6 @@ public class GameScreen extends ScreenAdapter {
                         break;
                     }
                 }
-
                 if (!(current_door == null)) {
                     System.out.println(current_door.lower_room);
                     System.out.println(current_room.identifier);
@@ -218,7 +217,7 @@ public class GameScreen extends ScreenAdapter {
                         } else if (current_door.direction == "v") {
                             y = current_door.lower_y - 10;
                         }
-                        for (Room Room: Rooms) {
+                        for (Room Room : Rooms) {
                             if (current_door.lower_room == Room.identifier) {
                                 new_current_room = Room;
                             }
@@ -279,7 +278,8 @@ public class GameScreen extends ScreenAdapter {
 
         //renders systems
         for (AuberSystems curr_sys: System_Auber) {
-            batch.draw(curr_sys.systemImg, curr_sys.x, curr_sys.y, 40, 40);
+            int[] xy = curr_sys.getCoord();
+            batch.draw(curr_sys.systemImg, xy[0], xy[1], 40, 40);
         }
 
         //renders player
