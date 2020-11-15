@@ -15,7 +15,9 @@ public class Enemy {
         rd = new Random();
         this.x = 500;
         this.y = 500;
-        while (x > 325 && y > 325 && x < 675 && y< 625){
+//        while (x > 225 && y> 225 && x <750 && y<750 && y < 900 && x > 100 && x < 900 && y > 100 ){
+
+        while (x > 225 && y> 225 && x <750 && y<750 ){
             //while statement makes sure no enemies spawn in the brig
             this.x = rd.nextInt(975) + 1;//975 so they print in boundaries
             this.y = rd.nextInt(975) + 1;
