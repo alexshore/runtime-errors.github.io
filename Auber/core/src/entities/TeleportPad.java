@@ -3,7 +3,6 @@ package entities;
 import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import java.awt.*;
 
 public class TeleportPad extends Rectangle {
@@ -26,8 +25,7 @@ public class TeleportPad extends Rectangle {
     }
 
     public void setLinkedTeleporter(TeleportPad nextTeleporter) {
-        // Sets the destination of this teleporter to the location of another
-        // teleporter
+        // Sets the destination of this teleporter to the location of another teleporter
         this.linkedTeleporter = nextTeleporter;
     }
     public boolean canTeleport(float playerX, float playerY){
@@ -35,7 +33,7 @@ public class TeleportPad extends Rectangle {
     }
 
     public ArrayList<Integer> teleport(){
-        //returns an arraylist of the coords of the next teleporter.
+        //returns an arraylist of the coordinates of the next teleporter.
         ArrayList<Integer> teleportCoords = new ArrayList<>();
         teleportCoords.add(this.linkedTeleporter.xCoord);
         teleportCoords.add(this.linkedTeleporter.yCoord);

@@ -10,6 +10,7 @@ public class Enemy {
     private boolean capture;
     public Texture txtEnemy;
     Random rd;
+    private int ability = -1;
 
     public Enemy() {
         rd = new Random();
@@ -21,7 +22,7 @@ public class Enemy {
             this.x = rd.nextInt(975) + 1;//975 so they print in boundaries
             this.y = rd.nextInt(975) + 1;
         }
-
+        this.setAbility();
         this.capture = false;
         this.txtEnemy = new Texture("game_assets/enemy.png");
     }
@@ -46,6 +47,13 @@ public class Enemy {
             }
         }
         return enemies.size() == count;
+    }
+    private void setAbility(){
+        Random ran = new Random();
+        ability = ran.nextInt(2);
+        // 0 = invisibility
+        // 1 = super speed
+        // 2 = slow player
     }
 
     public void randomMove(){
