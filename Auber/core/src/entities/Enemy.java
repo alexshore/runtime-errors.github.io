@@ -9,13 +9,13 @@ public class Enemy {
     public int x,y;
     private boolean capture;
     public Texture txtEnemy;
+    public Room currentRoom;
     Random rd;
 
     public Enemy() {
         rd = new Random();
         this.x = 500;
         this.y = 500;
-//        while (x > 225 && y> 225 && x <750 && y<750 && y < 900 && x > 100 && x < 900 && y > 100 ){
 
         while (x > 225 && y> 225 && x <750 && y<750 ){
             //while statement makes sure no enemies spawn in the brig

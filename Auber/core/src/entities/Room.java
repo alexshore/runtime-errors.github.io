@@ -18,7 +18,7 @@ public class Room extends Rectangle {
     public int width, height;
 
     public Room(int x, int y, int width, int height, String id, boolean corridor, int outer_width) {
-
+        //setup for collisions in corridors
         //to detect collision between defined walls
         this.width = width;
         this.height = height;
@@ -39,6 +39,7 @@ public class Room extends Rectangle {
     }
 
     public Room(int x, int y, int width, int height, String id) {
+        // for rooms
         this.width = width;
         this.height = height;
         this.lower_x_collision = x;
