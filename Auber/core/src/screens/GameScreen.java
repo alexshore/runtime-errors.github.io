@@ -20,13 +20,14 @@ public class GameScreen extends ScreenAdapter {
     private static final int playerSpeed = 3;
     AuberGame game;
     private final boolean demoMode;
-    private final Texture playerTexture;
+
+    //player texture and area
+    private final Texture playerTexture = new Texture("game_assets/player.png");
     private final Texture backgroundTexture;
     private final Texture standard_blankTexture;
     private final Texture innerTexture;
     private final Texture outerTexture;
     private float x = 495, y = 495;
-    private float last_x, last_y;
     private final int player_h;
     private final int player_w;
     private boolean justTeleported = false;
@@ -54,22 +55,20 @@ public class GameScreen extends ScreenAdapter {
 
         //lighting textures
         this.standard_blankTexture = new Texture("game_assets/blackout.png");
-        this.innerTexture = new Texture("game_assets/innerblackout.png");
-        this.outerTexture = new Texture("game_assets/outerblackout.png");
+        this.innerTexture = new Texture("game_assets/innerBlackout.png");
+        this.outerTexture = new Texture("game_assets/outerBlackout.png");
 
-        //player texture and area
-        this.playerTexture = new Texture("game_assets/player.png");
         this.player_h = 25;
         this.player_w = 25;
 
         //ArrayList for systems
-        this.System_Auber = new ArrayList<AuberSystems>();
+        this.System_Auber = new ArrayList<>();
 
         //ArrayList for enemies
-        this.Enemies = new ArrayList<Enemy>();
+        this.Enemies = new ArrayList<>();
 
         //ArrayList for teleport
-        this.teleporterList = new ArrayList<TeleportPad>();
+        this.teleporterList = new ArrayList<>();
 
         //map texture
         this.backgroundTexture = new Texture("game_assets/station_design.png");
@@ -181,11 +180,9 @@ public class GameScreen extends ScreenAdapter {
 
 
         if (!demoMode){
-
-
-
             //backs up last position
-            last_x = x; last_y = y;
+            float last_x = x;
+            float last_y = y;
 
 
             //if statements for movement
@@ -295,8 +292,6 @@ public class GameScreen extends ScreenAdapter {
 
         batch.begin();
         batch.draw(backgroundTexture, 0, 0, 1000, 1000);//draw map
-
-
 
         //draws player
         for (TeleportPad teleportPad: teleporterList) {

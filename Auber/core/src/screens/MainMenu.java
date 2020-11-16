@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.eng.auber.AuberGame;
 
 public class MainMenu implements Screen {
-    private static final int button_width = Math.round(Gdx.graphics.getWidth()/6), button_height = Math.round(Gdx.graphics.getHeight()/15);
+    private static final int button_width = Math.round(Gdx.graphics.getWidth()>>2), button_height = Math.round(Gdx.graphics.getHeight()>>4);
     AuberGame game;
 
     Texture exit_start, exit_end, play_start, play_end,demo_start,demo_end, control_start, control_end,title;
@@ -48,7 +48,7 @@ public class MainMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         // Below draws title and buttons as window opens
-        game.batch.draw(title, 500 - Math.round(title.getWidth()/2), 1000 - title.getHeight());
+        game.batch.draw(title, 500 - Math.round(title.getWidth() >> 1), 1000 - title.getHeight());
 
         //Action for when player hovers over play
         if(Gdx.input.getX() < play_x + button_width && Gdx.input.getX() > play_x && screenHeight - Gdx.input.getY() < play_y + button_height && screenHeight -  Gdx.input.getY() > play_y){

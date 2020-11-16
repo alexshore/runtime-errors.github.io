@@ -31,17 +31,12 @@ public class TeleportPad extends Rectangle {
         this.linkedTeleporter = nextTeleporter;
     }
     public boolean canTeleport(float playerX, float playerY){
-        if(super.contains(playerX + 12, playerY + 12)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return super.contains(playerX + 12, playerY + 12);
     }
 
     public ArrayList<Integer> teleport(){
         //returns an arraylist of the coords of the next teleporter.
-        ArrayList<Integer> teleportCoords = new ArrayList<Integer>();
+        ArrayList<Integer> teleportCoords = new ArrayList<>();
         teleportCoords.add(this.linkedTeleporter.xCoord);
         teleportCoords.add(this.linkedTeleporter.yCoord);
         return teleportCoords;

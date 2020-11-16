@@ -1,10 +1,7 @@
 package entities;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleSorter;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import org.w3c.dom.Text;
 
 public class Room extends Rectangle {
 

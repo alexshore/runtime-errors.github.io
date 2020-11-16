@@ -11,7 +11,7 @@ import com.eng.auber.AuberGame;
 public class WinScreen implements Screen {
 
 
-    private static final int button_width = Math.round(Gdx.graphics.getWidth()/6), button_height = Math.round(Gdx.graphics.getHeight()/15);
+    private static final int button_width = Math.round(Gdx.graphics.getWidth()>>2), button_height = Math.round(Gdx.graphics.getHeight()>>4);
     AuberGame game;
     Texture win, exit_start,exit_end, background;
     int exit_x = 500 - button_width/2;
@@ -37,16 +37,18 @@ public class WinScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         game.batch.draw(this.background,0,0,1000,1000);
-        game.batch.draw(this.win,500 - this.win.getWidth()/2,700);
+        game.batch.draw(this.win,
+                (500 - (this.win.getWidth()/2)),
+                700);
 
-        if(Gdx.input.getX() < this.exit_x + this.button_width && Gdx.input.getX() > this.exit_x && this.screenHeight - Gdx.input.getY() < this.exit_y + this.button_height && this.screenHeight -  Gdx.input.getY() > this.exit_y){
-            game.batch.draw(this.exit_start, this.exit_x, this.exit_y, this.button_width,this.button_height);
+        if(Gdx.input.getX() < this.exit_x + button_width && Gdx.input.getX() > this.exit_x && this.screenHeight - Gdx.input.getY() < this.exit_y + button_height && this.screenHeight -  Gdx.input.getY() > this.exit_y){
+            game.batch.draw(this.exit_start, this.exit_x, this.exit_y, button_width, button_height);
             if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
                 game.setScreen(new MainMenu(game));
             }
         }
         else{
-            game.batch.draw(this.exit_end, this.exit_x, this.exit_y, this.button_width, this.button_height);
+            game.batch.draw(this.exit_end, this.exit_x, this.exit_y, button_width, button_height);
         }
 
         game.batch.end();

@@ -9,7 +9,6 @@ public class Enemy {
     public int x,y;
     private boolean capture;
     public Texture txtEnemy;
-    public Room currentRoom;
     Random rd;
 
     public Enemy() {

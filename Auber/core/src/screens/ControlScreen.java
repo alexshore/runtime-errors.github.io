@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.eng.auber.AuberGame;
 
 public class ControlScreen implements Screen {
-    private static final int button_width = Math.round(Gdx.graphics.getWidth()/6), button_height = Math.round(Gdx.graphics.getHeight()/15);
+    private static final int button_width = Math.round(Gdx.graphics.getWidth()>>2), button_height = Math.round(Gdx.graphics.getHeight()>>4);
     Texture instructions, back_to_menu, back_to_menu_highlight;
     AuberGame game;
 
@@ -28,7 +28,7 @@ public class ControlScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        int screenHeight = Gdx.graphics.getHeight();;
+        int screenHeight = Gdx.graphics.getHeight();
         int screenWidth = Gdx.graphics.getWidth();
         instructions.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         game.batch.begin();
