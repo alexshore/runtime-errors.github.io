@@ -172,7 +172,7 @@ public class GameScreen extends ScreenAdapter {
 
         for (Enemy en: Enemies) {
             if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) &&
-                    x >= en.x - 25 && x <= en.x + 25 && y >= en.y - 25 && y <= en.y + 25) {
+                    x >= en.getX() - 25 && x <= en.getX() + 25 && y >= en.y - 25 && y <= en.y + 25) {
                 en.beenCaptured();
                 break;
             }
@@ -311,7 +311,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         for (Enemy en: Enemies) {
-            batch.draw(en.txtEnemy, en.x, en.y, 25, 25);
+            batch.draw(en.getTexture(), en.getX(), en.y, 25, 25);
         }
 
         //Illumination for loop

@@ -6,17 +6,15 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Enemy {
-    public int x,y;
+    private int x,y, ability;
     private boolean capture;
-    public Texture txtEnemy;
-    Random rd;
-    private int ability = -1;
+    private Texture txtEnemy;
+    private Random rd;
 
     public Enemy() {
         rd = new Random();
         this.x = 500;
         this.y = 500;
-
         while (x > 225 && y> 225 && x <750 && y<750 ){
             //while statement makes sure no enemies spawn in the brig
             this.x = rd.nextInt(975) + 1;//975 so they print in boundaries
@@ -26,6 +24,19 @@ public class Enemy {
         this.capture = false;
         this.txtEnemy = new Texture("game_assets/enemy.png");
     }
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
+    }
+
+    public Texture getTexture(){
+        return this.txtEnemy;
+    }
+
     public void beenCaptured(){
         //moves enemy to random space in the brig and sets their status to captured
         this.capture = true;
@@ -33,6 +44,7 @@ public class Enemy {
         this.x = rd.nextInt(200) + 325;
         this.y = rd.nextInt(200) + 325;
     }
+
     public boolean isCaptured(){
         //returns if enemy is captured
         return this.capture;
@@ -48,9 +60,9 @@ public class Enemy {
         }
         return enemies.size() == count;
     }
+
     private void setAbility(){
-        Random ran = new Random();
-        ability = ran.nextInt(2);
+        ability = this.rd.nextInt(2);
         // 0 = invisibility
         // 1 = super speed
         // 2 = slow player
