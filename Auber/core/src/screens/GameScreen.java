@@ -7,8 +7,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.eng.auber.AuberGame;
 import entities.*;
@@ -18,20 +16,25 @@ import java.util.ArrayList;
 
 
 public class GameScreen extends ScreenAdapter {
-    private SpriteBatch batch;
+    private final SpriteBatch batch;
     private static final int playerSpeed = 3;
     AuberGame game;
-    private boolean demoMode;
-    private Texture playerTexture,  backgroundTexture, lightoffTexture,innerblackoutTexture, outerblackoutTexture;
+    private final boolean demoMode;
+    private final Texture playerTexture;
+    private final Texture backgroundTexture;
+    private final Texture standard_blankTexture;
+    private final Texture innerTexture;
+    private final Texture outerTexture;
     private float x = 495, y = 495;
     private float last_x, last_y;
-    private int player_h, player_w;
+    private final int player_h;
+    private final int player_w;
     private boolean justTeleported = false;
 
 
-    private ArrayList<AuberSystems> System_Auber;
-    private ArrayList<Enemy> Enemies;
-    private ArrayList<TeleportPad> teleporterList;
+    private final ArrayList<AuberSystems> System_Auber;
+    private final ArrayList<Enemy> Enemies;
+    private final ArrayList<TeleportPad> teleporterList;
     public Array<Room> Rooms;
     public Room current_room, prev_room;
 
@@ -50,9 +53,9 @@ public class GameScreen extends ScreenAdapter {
         this.batch = new SpriteBatch();
 
         //lighting textures
-        this.lightoffTexture = new Texture("game_assets/blackout.png");
-        this.innerblackoutTexture = new Texture("game_assets/innerblackout.png");
-        this.outerblackoutTexture = new Texture("game_assets/outerblackout.png");
+        this.standard_blankTexture = new Texture("game_assets/blackout.png");
+        this.innerTexture = new Texture("game_assets/innerblackout.png");
+        this.outerTexture = new Texture("game_assets/outerblackout.png");
 
         //player texture and area
         this.playerTexture = new Texture("game_assets/player.png");
@@ -65,7 +68,7 @@ public class GameScreen extends ScreenAdapter {
         //ArrayList for enemies
         this.Enemies = new ArrayList<Enemy>();
 
-        //ArrayList for teleporters
+        //ArrayList for teleport
         this.teleporterList = new ArrayList<TeleportPad>();
 
         //map texture
@@ -85,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
             Enemies.add(newEn);
         }
 
-        //creates the teleporters
+        //creates the teleport pads
         this.teleporterList.add(new TeleportPad(500, 600, "brig"));
         this.teleporterList.add(new TeleportPad(100, 100, "living_left"));
         this.teleporterList.add(new TeleportPad(100, 800, "cargo_left"));
@@ -150,7 +153,7 @@ public class GameScreen extends ScreenAdapter {
         //gives rooms their door associations
         for (Room Room: Rooms) {
             for (Door Door: Doors) {
-                if (Door.lower_room == Room.identifier || Door.upper_room == Room.identifier) {
+                if (Door.lower_room.equals(Room.identifier) || Door.upper_room.equals(Room.identifier)) {
                     Room.Doors.add(Door);
                 }
             }
@@ -200,7 +203,7 @@ public class GameScreen extends ScreenAdapter {
                         y = teleportCoords.get(1) + 12;
                         justTeleported = true;
                         for (Room Room : Rooms) {
-                            if (teleporterPad.linkedTeleporter.id == Room.identifier) {
+                            if (teleporterPad.linkedTeleporter.id.equals(Room.identifier)) {
                                 current_room = Room;
                             }
                         }
@@ -214,29 +217,29 @@ public class GameScreen extends ScreenAdapter {
                         }
                     }
                     if (!(current_door == null)) {
-                        if (current_door.lower_room == current_room.identifier) {
-                            if (current_door.direction == "h") {
+                        if (current_door.lower_room.equals(current_room.identifier)) {
+                            if (current_door.direction.equals("h")) {
                                 x = current_door.upper_x + 10;
-                                y = current_door.upper_y + 0;
-                            } else if (current_door.direction == "v") {
-                                x = current_door.upper_x + 0;
+                                y = current_door.upper_y;// + 0;
+                            } else if (current_door.direction.equals("v")) {
+                                x = current_door.upper_x;// + 0;
                                 y = current_door.upper_y + 10;
                             }
                             for (Room Room: Rooms) {
-                                if (current_door.upper_room == Room.identifier) {
+                                if (current_door.upper_room.equals(Room.identifier)) {
                                     new_current_room = Room;
                                 }
                             }
-                        } else if (current_door.upper_room == current_room.identifier) {
-                            if (current_door.direction == "h") {
+                        } else if (current_door.upper_room.equals(current_room.identifier)){
+                            if (current_door.direction.equals("h")) {
                                 x = current_door.upper_x - (10 + player_w);
-                                y = current_door.upper_y + 0;
-                            } else if (current_door.direction == "v") {
-                                x = current_door.upper_x + 0;
+                                y = current_door.upper_y;//+ 0;
+                            } else if (current_door.direction.equals("v")) {
+                                x = current_door.upper_x;// + 0;
                                 y = current_door.upper_y - (10 + player_h);
                             }
                             for (Room Room: Rooms) {
-                                if (current_door.lower_room == Room.identifier) {
+                                if (current_door.lower_room.equals(Room.identifier)) {
                                     new_current_room = Room;
                                 }
                             }
@@ -296,8 +299,8 @@ public class GameScreen extends ScreenAdapter {
 
 
         //draws player
-        for (TeleportPad teleporterPad: teleporterList) {
-            batch.draw(teleporterPad.teleporterSprite, teleporterPad.x,teleporterPad.y);
+        for (TeleportPad teleportPad: teleporterList) {
+            batch.draw(teleportPad.teleporterSprite, teleportPad.x,teleportPad.y);
         }
 
         //renders systems
@@ -319,16 +322,16 @@ public class GameScreen extends ScreenAdapter {
         //Illumination for loop
         for (Room Room : Rooms) {
             if (current_room != Room) {
-                if(Room.identifier != "inner" && Room.identifier != "outer"){
-                    batch.draw(this.lightoffTexture, Room.getX(),Room.getY(), Room.width, Room.height);
+                if(!Room.identifier.equals("inner") && !Room.identifier.equals("outer")){
+                    batch.draw(this.standard_blankTexture, Room.getX(),Room.getY(), Room.width, Room.height);
 
                 }
-                else if(Room.identifier == "inner"){
-                    batch.draw(this.innerblackoutTexture, 0,0, 1000, 1000);
+                else if(Room.identifier.equals("inner")){
+                    batch.draw(this.innerTexture, 0,0, 1000, 1000);
 
                 }
                 else{ //if room is outer
-                    batch.draw(this.outerblackoutTexture, Room.getX(),Room.getY(), Room.width, Room.height);
+                    batch.draw(this.outerTexture, Room.getX(),Room.getY(), Room.width, Room.height);
                 }
             }
         }
