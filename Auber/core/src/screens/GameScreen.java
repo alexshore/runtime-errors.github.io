@@ -4,9 +4,7 @@ package screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.eng.auber.AuberGame;
 import entities.*;
@@ -16,7 +14,6 @@ import java.util.ArrayList;
 
 
 public class GameScreen extends ScreenAdapter {
-    private final SpriteBatch batch;
     private static final int playerSpeed = 3;
     AuberGame game;
     private final boolean demoMode;
@@ -50,8 +47,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(AuberGame game, boolean demoMode){
         this.demoMode  = demoMode; //is demo mode active
-        this.game = game;          //passing in game
-        this.batch = new SpriteBatch();
+        this.game = game; //passing in game
 
         //lighting textures
         this.standard_blankTexture = new Texture("game_assets/blackout.png");
@@ -166,13 +162,10 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         //render class for the main game screen
-        Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
 
         for (Enemy en: Enemies) {
             if (!en.isCaptured() && Gdx.input.isKeyJustPressed(Input.Keys.E) &&
-                    x >= en.getX() - 25 && x <= en.getX() + 25 && y >= en.y - 25 && y <= en.y + 25) {
+                    x >= en.getX() - 25 && x <= en.getX() + 25 && y >= en.getY() - 25 && y <= en.getY() + 25) {
                 en.beenCaptured();
                 break;
             }
@@ -246,7 +239,6 @@ public class GameScreen extends ScreenAdapter {
                         current_room = new_current_room;
                     }
                 }
-                //Illumination below
 
             }
             else {
@@ -290,48 +282,48 @@ public class GameScreen extends ScreenAdapter {
 
 
 
-        batch.begin();
-        batch.draw(backgroundTexture, 0, 0, 1000, 1000);//draw map
+        this.game.batch.begin();
+        this.game.batch.draw(backgroundTexture, 0, 0, 1000, 1000);//draw map
 
         //draws player
         for (TeleportPad teleportPad: teleporterList) {
-            batch.draw(teleportPad.teleporterSprite, teleportPad.x,teleportPad.y);
+            this.game.batch.draw(teleportPad.teleporterSprite, teleportPad.x,teleportPad.y);
         }
 
         //renders systems
         for (AuberSystems curr_sys: System_Auber) {
             int[] xy = curr_sys.getCoord();
-            batch.draw(curr_sys.systemImg, xy[0], xy[1], 40, 40);
+            this.game.batch.draw(curr_sys.systemImg, xy[0], xy[1], 40, 40);
         }
 
         //renders player
-        batch.draw(playerTexture, x, y, 25, 25);
+        this.game.batch.draw(playerTexture, x, y, 25, 25);
         if (!Gdx.input.isKeyPressed(Input.Keys.E)) {
             justTeleported = false;
         }
 
         for (Enemy en: Enemies) {
-            batch.draw(en.getTexture(), en.getX(), en.y, 25, 25);
+            this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
         }
 
-        //Illumination for loop
+        //Illumination
         for (Room Room : Rooms) {
             if (current_room != Room) {
                 if(!Room.identifier.equals("inner") && !Room.identifier.equals("outer")){
-                    batch.draw(this.standard_blankTexture, Room.getX(),Room.getY(), Room.width, Room.height);
+                    this.game.batch.draw(this.standard_blankTexture, Room.getX(),Room.getY(), Room.width, Room.height);
 
                 }
                 else if(Room.identifier.equals("inner")){
-                    batch.draw(this.innerTexture, 0,0, 1000, 1000);
+                    this.game.batch.draw(this.innerTexture, 0,0, 1000, 1000);
 
                 }
                 else{ //if room is outer
-                    batch.draw(this.outerTexture, Room.getX(),Room.getY(), Room.width, Room.height);
+                    this.game.batch.draw(this.outerTexture, Room.getX(),Room.getY(), Room.width, Room.height);
                 }
             }
         }
 
-        batch.end();
+        this.game.batch.end();
 
         // checks if the game has been won
         if (Enemies.get(0).allCaptured(Enemies)) {
@@ -340,6 +332,9 @@ public class GameScreen extends ScreenAdapter {
         //checks to see if escape key pressed to return to main menu
         else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             game.setScreen(new MainMenu(game));
+        }
+        else if (System_Auber.get(0).hasLost(System_Auber)) {
+        //if the player has lost
         }
     }
 
@@ -360,7 +355,7 @@ public class GameScreen extends ScreenAdapter {
         playerTexture.dispose();
         backgroundTexture.dispose();
         playerTexture.dispose();
-        batch.dispose();
+        this.game.batch.dispose();
 
     }
 }

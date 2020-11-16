@@ -9,7 +9,7 @@ import com.eng.auber.AuberGame;
 
 public class MainMenu implements Screen {
     private static final int button_width = Math.round(Gdx.graphics.getWidth()>>2), button_height = Math.round(Gdx.graphics.getHeight()>>4);
-    AuberGame game;
+    private final AuberGame game;
 
     Texture exit_start, exit_end, play_start, play_end,demo_start,demo_end, control_start, control_end,title;
 

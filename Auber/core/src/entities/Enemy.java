@@ -17,8 +17,8 @@ public class Enemy {
         this.y = 500;
         while (x > 225 && y> 225 && x <750 && y<750 ){
             //while statement makes sure no enemies spawn in the brig
-            this.x = rd.nextInt(975) + 1;//975 so they print in boundaries
-            this.y = rd.nextInt(975) + 1;
+            this.setX(rd.nextInt(975) + 1);
+            this.setY(rd.nextInt(975) + 1);
         }
         this.setAbility();
         this.capture = false;
@@ -33,6 +33,14 @@ public class Enemy {
         return this.y;
     }
 
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void  setY(int y){
+        this.y = y;
+    }
+
     public Texture getTexture(){
         return this.txtEnemy;
     }
@@ -41,8 +49,8 @@ public class Enemy {
         //moves enemy to random space in the brig and sets their status to captured
         this.capture = true;
         this.rd = new Random();
-        this.x = rd.nextInt(200) + 325;
-        this.y = rd.nextInt(200) + 325;
+        this.setX(this.rd.nextInt(200) + 325);
+        this.setY(this.rd.nextInt(200) + 325);
     }
 
     public boolean isCaptured(){
@@ -62,15 +70,16 @@ public class Enemy {
     }
 
     private void setAbility(){
+        this.rd = new Random();
         ability = this.rd.nextInt(2);
         // 0 = invisibility
         // 1 = super speed
         // 2 = slow player
     }
 
-    public void randomMove(){
-        //for random Movement of enemies
-    };
+    public int getAbility(){
+        return this.ability;
+    }
 
 
 }
