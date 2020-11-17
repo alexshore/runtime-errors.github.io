@@ -37,6 +37,7 @@ public class GameScreen extends ScreenAdapter {
     public Room current_room, prev_room;
     public String currentDirection = "down";
     public boolean backwardsDirectionloop = false;
+    public int demoLoop = 0;
     public boolean goneThroughDoorInDemo;
 
     //values required for systems functionality - game_assets has labelled map for rooms
