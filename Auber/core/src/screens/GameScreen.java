@@ -388,6 +388,11 @@ public class GameScreen extends ScreenAdapter {
             //System.out.println("x: " + x);
             //System.out.println("y: " + y);
             System.out.println("room" + current_room.identifier);
+            demoLoop += 1;
+            if(demoLoop > 150){
+                backwardsDirectionloop = !backwardsDirectionloop;
+            }
+            System.out.println(demoLoop);
 
         }
 
