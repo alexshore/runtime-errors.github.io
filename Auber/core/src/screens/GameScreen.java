@@ -36,6 +36,7 @@ public class GameScreen extends ScreenAdapter {
     public Array<Room> Rooms;
     public Room current_room, prev_room;
     public String currentDirection = "down";
+    public boolean backwardsDirectionloop = false;
     public boolean goneThroughDoorInDemo;
 
     //values required for systems functionality - game_assets has labelled map for rooms
@@ -241,6 +242,7 @@ public class GameScreen extends ScreenAdapter {
                         current_room = new_current_room;
                     }
                 }
+                System.out.println(current_room.identifier);
 
             }
             else {
@@ -278,7 +280,6 @@ public class GameScreen extends ScreenAdapter {
             }
         }
         else{
-            System.out.println(y);
             //demo Mode movement for player
             goneThroughDoorInDemo = false;
             float last_x = x;
@@ -353,7 +354,6 @@ public class GameScreen extends ScreenAdapter {
                         break;
                     case "up":
                         y += playerSpeed;
-                        System.out.println("going up");
                         break;
                     case "left":
                         x -= playerSpeed;
@@ -362,29 +362,32 @@ public class GameScreen extends ScreenAdapter {
                         x += playerSpeed;
                         break;
                 }
-                if (current_room.lower_y_collision > y) {
+                if (current_room.lower_y_collision > y || y < 0) {
                     y = last_y;
-
                     currentDirection = "right";
                 }
-                if (current_room.upper_y_collision < y) {
+                if (current_room.upper_y_collision < y + player_h|| y > 1000) {
                     y = last_y;
                     currentDirection = "left";
                 }
-                if (current_room.lower_x_collision > x) {
+                if (current_room.lower_x_collision > x || x < 0) {
                     x = last_x;
                     currentDirection = "down";
                 }
-                if (current_room.upper_x_collision < x) {
+                if (current_room.upper_x_collision < x + player_w || x > 1000) {
                     x = last_x;
                     currentDirection = "up";
-                }
+                } /// ADD SUPPORT FOR CORRIDORS
+
+            }
+            if (!(new_current_room == null)) {
+                current_room = new_current_room;
             }
 
-            System.out.println("x: " + x);
-            System.out.println("y: " + y);
+            //System.out.println("x: " + x);
+            //System.out.println("y: " + y);
+            System.out.println("room" + current_room.identifier);
 
-                //player movement
         }
 
 
