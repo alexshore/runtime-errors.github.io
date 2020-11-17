@@ -35,6 +35,7 @@ public class GameScreen extends ScreenAdapter {
     private final ArrayList<TeleportPad> teleporterList;
     public Array<Room> Rooms;
     public Room current_room, prev_room;
+    public String currentDirection = "down";
 
     //values required for systems functionality - game_assets has labelled map for rooms
     private static final int[] x_sys = {82,  210, 210, 82,  82,  275, 550, 700,
@@ -277,6 +278,100 @@ public class GameScreen extends ScreenAdapter {
         }
         else{
             //demo Mode movement for player
+            float last_x = x;
+            float last_y = y;
+
+
+            //if statements for movement
+            Door current_door = null;
+            Room new_current_room = null;
+
+            //Door stuff and drawing of black square for room by room illumination
+                //checks for teleport pad
+            for (TeleportPad teleporterPad : teleporterList) {
+                if (!justTeleported && teleporterPad.canTeleport(x, y)) {
+                    ArrayList<Integer> teleportCoords = teleporterPad.teleport();
+                    x = teleportCoords.get(0) + 12;
+                    y = teleportCoords.get(1) + 12;
+                    justTeleported = true;
+                    for (Room Room : Rooms) {
+                        if (teleporterPad.linkedTeleporter.id.equals(Room.identifier)) {
+                                current_room = Room;
+
+                        }
+                    }
+                }
+            }
+            if (!justTeleported) {
+                for (Door Door : current_room.Doors) {
+                    if (Door.playerDetected(x, y)) {
+                        current_door = Door;
+                        break;
+                    }
+                }
+                if (!(current_door == null)) {
+                    if (current_door.lower_room.equals(current_room.identifier)) {
+                        if (current_door.direction.equals("h")) {
+                            x = current_door.upper_x + 10;
+                            y = current_door.upper_y;// + 0;
+                        } else if (current_door.direction.equals("v")) {
+                            x = current_door.upper_x;// + 0;
+                            y = current_door.upper_y + 10;
+                        }
+                        for (Room Room : Rooms) {
+                            if (current_door.upper_room.equals(Room.identifier)) {
+                                new_current_room = Room;
+                            }
+                        }
+                    } else if (current_door.upper_room.equals(current_room.identifier)) {
+                        if (current_door.direction.equals("h")) {
+                            x = current_door.upper_x - (10 + player_w);
+                            y = current_door.upper_y;//+ 0;
+                        } else if (current_door.direction.equals("v")) {
+                            x = current_door.upper_x;// + 0;
+                            y = current_door.upper_y - (10 + player_h);
+                        }
+                        for (Room Room : Rooms) {
+                            if (current_door.lower_room.equals(Room.identifier)) {
+                                new_current_room = Room;
+                            }
+                        }
+                    }
+                }
+            }
+            switch(currentDirection){
+                case "down": y -= playerSpeed;
+                    break;
+                case "up": y += playerSpeed;
+                    System.out.println("going up");
+                    break;
+                case "left": x -= playerSpeed;
+                    break;
+                case "right": x += playerSpeed;
+                    break;
+            }
+            if(current_room.lower_y_collision > y) {
+                y = last_y;
+                currentDirection = "right";
+            }
+            if(current_room.upper_y_collision < y) {
+                y = last_y;
+                currentDirection = "left";
+            }
+            if(current_room.lower_x_collision > x) {
+                x = last_x;
+                currentDirection = "down";
+            }
+            if(current_room.upper_x_collision < x) {
+                x = last_x;
+                currentDirection = "up";
+            }
+
+            System.out.println("x: " + x);
+            System.out.println("y: " + y);
+            System.out.println(currentDirection);
+
+                //player movement
         }
 
 

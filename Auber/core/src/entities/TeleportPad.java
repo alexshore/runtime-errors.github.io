@@ -34,7 +34,7 @@ public class TeleportPad extends Rectangle {
 
     public ArrayList<Integer> teleport(){
         //returns an arraylist of the coordinates of the next teleporter.
-        ArrayList<Integer> teleportCoords = new ArrayList<>();
+        ArrayList<Integer> teleportCoords = new ArrayList<Integer>();
         teleportCoords.add(this.linkedTeleporter.xCoord);
         teleportCoords.add(this.linkedTeleporter.yCoord);
         return teleportCoords;
