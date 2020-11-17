@@ -243,7 +243,7 @@ public class GameScreen extends ScreenAdapter {
                         current_room = new_current_room;
                     }
                 }
-                System.out.println(current_room.identifier);
+                //System.out.println(current_room.identifier);
 
             }
             else {
@@ -387,12 +387,12 @@ public class GameScreen extends ScreenAdapter {
 
             //System.out.println("x: " + x);
             //System.out.println("y: " + y);
-            System.out.println("room" + current_room.identifier);
+            //System.out.println("room" + current_room.identifier);
             demoLoop += 1;
             if(demoLoop > 150){
                 backwardsDirectionloop = !backwardsDirectionloop;
             }
-            System.out.println(demoLoop);
+            //System.out.println(demoLoop);
 
         }
 
