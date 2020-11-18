@@ -1,6 +1,8 @@
 package entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
+import returns.values;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -81,5 +83,18 @@ public class Enemy {
         return this.ability;
     }
 
+    public values getDest(float x, float y, String room_id, Array<Room> Rooms) {
+        float destX = 0; float destY = 0;
+
+        for (Room Room: Rooms) {
+            if (Room.identifier == room_id) {
+                Room current_room = Room;
+            }
+        }
+
+
+
+        return new values(destX, destY);
+    }
 
 }

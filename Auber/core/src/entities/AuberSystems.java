@@ -11,11 +11,13 @@ public class AuberSystems extends Rectangle {
     boolean working;
     SpriteBatch batch;
     public Texture systemImg;
-    int x,y;
+    public int x,y;
+    public String room;
 
-    public AuberSystems(int x, int y){
+    public AuberSystems(int x, int y, String room){
         this.x = x;
         this.y = y;
+        this.room = room;
         this.working = true;
         this.batch = new SpriteBatch();
         this.systemImg = new Texture("game_assets/system_working.png");

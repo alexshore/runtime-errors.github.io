@@ -49,6 +49,13 @@ public class GameScreen extends ScreenAdapter {
 //    private static final int[] room =  {6,   6,   8,   8,   8,   5,   5,   5,
 //                                        9,   9,   9,   7,   7,   4,   4,   4};
 
+    private static final String[] room = {"cargo_left", "cargo_left", "living_left",
+                                          "living_left", "living_left", "engine_room",
+                                          "engine_room", "engine_room", "living_right",
+                                          "living_right", "living_right", "cargo_right",
+                                          "cargo_right", "infirmary", "infirmary",
+                                          "infirmary"};
+
 
     public GameScreen(AuberGame game, boolean demoMode){
         this.demoMode  = demoMode; //is demo mode active
@@ -78,7 +85,7 @@ public class GameScreen extends ScreenAdapter {
 
         //creates 16 systems
         for (int i = 0; i < 16;i++) {
-            AuberSystems a = new AuberSystems(x_sys[i], y_sys[i]); //, room[i]);
+            AuberSystems a = new AuberSystems(x_sys[i], y_sys[i], room[i]); //, room[i]);
             System_Auber.add(a);
         }
 
@@ -175,6 +182,8 @@ public class GameScreen extends ScreenAdapter {
                 break;
             }
         }
+
+
 
 
         if (!demoMode){
