@@ -285,14 +285,11 @@ public class GameScreen extends ScreenAdapter {
             goneThroughDoorInDemo = false;
             float last_x = x;
             float last_y = y;
-
-
-            //if statements for movement
             Door current_door = null;
             Room new_current_room = null;
 
             //Door stuff and drawing of black square for room by room illumination
-                //checks for teleport pad
+            //checks for teleport pad
             for (TeleportPad teleporterPad : teleporterList) {
                 if (!justTeleported && teleporterPad.canTeleport(x, y)) {
                     ArrayList<Integer> teleportCoords = teleporterPad.teleport();
@@ -348,6 +345,7 @@ public class GameScreen extends ScreenAdapter {
                     }
                 }
             }
+            //Changes the direction of the player when it hits a wall
             if(!goneThroughDoorInDemo) {
                 if(!returnToBrig) {
                     switch (currentDirection) {
@@ -366,6 +364,7 @@ public class GameScreen extends ScreenAdapter {
 
                     }
                 } else {
+                    //Moves the player back to the brig by a set path
                     demoLoop += 1;
                     if(demoLoop < 240){
                         x -= playerSpeed;
@@ -381,6 +380,7 @@ public class GameScreen extends ScreenAdapter {
                         currentDirection = directions[num];
                     }
                 }
+                //detects collisions with walls and changes player direction
                 if (current_room.lower_y_collision > y || y < 0) {
                     y = last_y;
                     currentDirection = "right";
@@ -396,13 +396,14 @@ public class GameScreen extends ScreenAdapter {
                 if (current_room.upper_x_collision < x + player_w || x > 1000) {
                     x = last_x;
                     currentDirection = "up";
-                } /// ADD SUPPORT FOR CORRIDORS
+                }
 
             }
             if (!(new_current_room == null)) {
                 current_room = new_current_room;
             }
-
+            //detects player is in outer corridor and starts the process of
+            //returning it to the brig
             if(y > 210 && y < 220 && x > 965 && x < 975 ) {
                 returnToBrig = true;
                 demoLoop = 0;
