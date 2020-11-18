@@ -11,6 +11,7 @@ import entities.*;
 
 
 import java.util.ArrayList;
+import java.lang.Math;
 
 
 public class GameScreen extends ScreenAdapter {
@@ -36,9 +37,9 @@ public class GameScreen extends ScreenAdapter {
     public Array<Room> Rooms;
     public Room current_room, prev_room;
     public String currentDirection = "down";
-    public boolean backwardsDirectionloop = false;
     public int demoLoop = 0;
     public boolean goneThroughDoorInDemo;
+    public boolean returnToBrig = false;
 
     //values required for systems functionality - game_assets has labelled map for rooms
     private static final int[] x_sys = {82,  210, 210, 82,  82,  275, 550, 700,
@@ -243,7 +244,6 @@ public class GameScreen extends ScreenAdapter {
                         current_room = new_current_room;
                     }
                 }
-                //System.out.println(current_room.identifier);
 
             }
             else {
@@ -349,19 +349,37 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
             if(!goneThroughDoorInDemo) {
-                switch (currentDirection) {
-                    case "down":
-                        y -= playerSpeed;
-                        break;
-                    case "up":
-                        y += playerSpeed;
-                        break;
-                    case "left":
+                if(!returnToBrig) {
+                    switch (currentDirection) {
+                        case "down":
+                            y -= playerSpeed;
+                            break;
+                        case "up":
+                            y += playerSpeed;
+                            break;
+                        case "left":
+                            x -= playerSpeed;
+                            break;
+                        case "right":
+                            x += playerSpeed;
+                            break;
+
+                    }
+                } else {
+                    demoLoop += 1;
+                    if(demoLoop < 240){
                         x -= playerSpeed;
-                        break;
-                    case "right":
+                    } else if(demoLoop < 275){
+                        y += playerSpeed;
+                    } else if(demoLoop < 390){
                         x += playerSpeed;
-                        break;
+                    } else if(demoLoop == 390){
+                        returnToBrig = false;
+                        demoLoop = 0;
+                        int num = (int) (Math.random()*4);
+                        String[] directions = {"up","down","left","right"};
+                        currentDirection = directions[num];
+                    }
                 }
                 if (current_room.lower_y_collision > y || y < 0) {
                     y = last_y;
@@ -385,14 +403,11 @@ public class GameScreen extends ScreenAdapter {
                 current_room = new_current_room;
             }
 
-            //System.out.println("x: " + x);
-            //System.out.println("y: " + y);
-            //System.out.println("room" + current_room.identifier);
-            demoLoop += 1;
-            if(demoLoop > 150){
-                backwardsDirectionloop = !backwardsDirectionloop;
+            if(y > 210 && y < 220 && x > 965 && x < 975 ) {
+                returnToBrig = true;
+                demoLoop = 0;
+
             }
-            //System.out.println(demoLoop);
 
         }
 
