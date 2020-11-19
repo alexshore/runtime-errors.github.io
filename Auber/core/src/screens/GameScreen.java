@@ -468,7 +468,7 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
-        this.game.batch.draw(healthBars[3-health],x+10,y+30);
+        this.game.batch.draw(healthBars[3-health],x-19,y+30);
         this.game.batch.end();
         // checks if the game has been won
         if (Enemies.get(0).allCaptured(Enemies)) {
