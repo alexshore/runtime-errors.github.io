@@ -35,7 +35,7 @@ public class GameScreen extends ScreenAdapter {
     private final ArrayList<Enemy> Enemies;
     private final ArrayList<TeleportPad> teleporterList;
     public Array<Room> Rooms;
-    public Room current_room, prev_room;
+    public Room current_room;
     public String currentDirection = "down";
     public int demoLoop = 0;
     public boolean goneThroughDoorInDemo;
@@ -151,7 +151,6 @@ public class GameScreen extends ScreenAdapter {
 
         //sets starting room
         this.current_room = brig;
-        this.prev_room = cargo_left;
 
         //fills rooms array with all created rooms
         Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
@@ -476,7 +475,6 @@ public class GameScreen extends ScreenAdapter {
             game.setScreen(new MainMenu(game));
         }
         else if (System_Auber.get(0).hasLost(System_Auber)) {
-        //if the player has lost
         }
     }
 
