@@ -15,7 +15,7 @@ import java.lang.Math;
 public class GameScreen extends ScreenAdapter {
     private static final int playerSpeed = 2;
     private static int enemySpeed = 2;
-    AuberGame game;
+    public AuberGame game;
     private final boolean demoMode;
 
     //player texture and area
@@ -49,7 +49,6 @@ public class GameScreen extends ScreenAdapter {
     public int health = 3;
 
     //for bomb effect on player
-    private int boom, tillExplode;
 
     //values required for systems functionality - game_assets has labelled map for rooms
     private static final int[] x_sys = {82,  210, 210, 82,  82,  275, 550, 700,
@@ -173,8 +172,6 @@ public class GameScreen extends ScreenAdapter {
             newEn.current_room = enemy_room;
             Enemies.add(newEn);
         }
-        this.boom = -1;
-        this.tillExplode = -1;
 
         //gives rooms their door associations
         for (Room Room: Rooms) {
@@ -469,6 +466,7 @@ public class GameScreen extends ScreenAdapter {
             justTeleported = false;
         }
         //render enemy
+
         for (Enemy en: Enemies) {
             int ability = en.tryAbility(current_room);
             //if stops print of enemies for invisibility
@@ -479,12 +477,10 @@ public class GameScreen extends ScreenAdapter {
                 }
                 else if(ability == 3 && cooldown <=  0){
                     this.game.batch.draw(this.bombTexture, en.getX(),en.getY(),50,50);
-
                 }
                 else if(ability == 4 && cooldown < 0 && !damage){
-                    bombTexture = new Texture("game_assets/explode_bomb.png");
+                    bombTexture = new Texture("game_assets/Explode_bomb.png");
                     this.game.batch.draw(this.bombTexture, en.getX(),en.getY(),50,50);
-                    bombTexture = new Texture("game_assets/bomb.png");
                     damage = true;
                     cooldown = 360;
                 }
@@ -494,11 +490,16 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
-        if (damage && cooldown == 360){
+        if (damage && cooldown == 240){
+
             health --;
+        }
+        else if(cooldown > 240){
+            cooldown --;
         }
         else if (cooldown <=0){
             damage = false;
+            bombTexture = new Texture("game_assets/bomb.png");
         }
         cooldown --;
 
@@ -556,7 +557,4 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
-    public void resetBomb(){
-        bombTexture = new Texture("game_assets/bomb.png");
-    }
 }
