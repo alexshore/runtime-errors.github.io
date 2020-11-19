@@ -53,8 +53,6 @@ public class GameScreen extends ScreenAdapter {
                                         850, 883, 752, 840, 883, 500, 650, 350};
     private static final int[] y_sys = {600, 850, 125, 458, 275, 77,  208, 77,
                                         77,  459, 265, 503, 876, 750, 875, 875};
-//    private static final int[] room =  {6,   6,   8,   8,   8,   5,   5,   5,
-//                                        9,   9,   9,   7,   7,   4,   4,   4};
 
     private static final String[] room = {"cargo_left", "cargo_left", "living_left",
                                           "living_left", "living_left", "engine_room",
@@ -452,7 +450,7 @@ public class GameScreen extends ScreenAdapter {
         //render enemy
         for (Enemy en: Enemies) {
             int ability = en.getAbility();
-            if (ability != 1 && ability != -1) {
+            if (ability != -1) {
                 this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
             }
         }
