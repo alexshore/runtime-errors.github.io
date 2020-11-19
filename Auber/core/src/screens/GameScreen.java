@@ -15,7 +15,8 @@ import java.lang.Math;
 
 
 public class GameScreen extends ScreenAdapter {
-    private static final int playerSpeed = 3;
+    private static final int playerSpeed = 2;
+    private static final int enemySpeed = 2;
     AuberGame game;
     private final boolean demoMode;
 
