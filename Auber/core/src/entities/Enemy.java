@@ -101,14 +101,18 @@ public class Enemy {
     }
 
     public int tryAbility(Room player){
-        this.cooldown = 0;
-        this.abilitytime = 0;
-        this.abilityUsed = false;
         if (abilityUsed){
             abilitytime++;
         }
-        if (sameRoom(player) && !player.identifier.equals("brig") && !isCaptured() && cooldown >= 1200) {
+
+        if (abilitytime >= 240){
+            abilityUsed = false;
+            cooldown ++;
+        }
+
+        if (sameRoom(player) && !player.identifier.equals("brig") && !isCaptured() && cooldown >= 1200 && !abilityUsed) {
             cooldown = 0;
+            abilityUsed = false;
             int ability = getAbility();
             if (ability == 1) {
                 return 1;
