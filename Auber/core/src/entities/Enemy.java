@@ -15,6 +15,7 @@ public class Enemy {
     public Room current_room;
     public int cooldown, abilitytime;
     boolean abilityUsed;
+    public Bomb healthBomb;
 
     public Enemy() {
         rd = new Random();
@@ -26,6 +27,9 @@ public class Enemy {
             this.setY(rd.nextInt(150) + 75);
         }
         this.setAbility();
+        if (this.getAbility() == 3){
+            healthBomb = new Bomb("engine_room");
+        }
         this.capture = false;
         this.txtEnemy = new Texture("game_assets/enemy.png");
         this.cooldown = -1;
@@ -33,6 +37,9 @@ public class Enemy {
         this.abilityUsed = false;
     }
 
+    public Bomb returnHealthBomb(){
+        return healthBomb;
+    }
     public int getX(){
         return this.x;
     }
@@ -110,29 +117,44 @@ public class Enemy {
                 } else if (this.getAbility() == 2) {
                     return 2;
                 } else if (this.getAbility() == 3) {
+                    this.healthBomb.currroom = current_room.identifier;
+                    this.healthBomb.setXY(this.x,this.y);
+                    this.healthBomb.active = true;
                     return 3;
                 }
             }
         }
         else if(abilitytime > -1 && abilitytime < 240){
             abilitytime ++;
-            if( abilitytime <120 &&this.getAbility() ==3){
-                return 3;
-            }
-            else  if( abilitytime > 120 &&this.getAbility() ==3){
-                return 4;
+            if(getAbility() == 3) {
+                if (abilitytime == 120 && player.identifier.equals(this.healthBomb.currroom)) {
+                    this.healthBomb.explode = true;
+                    this.healthBomb.active = false;
+                    this.healthBomb.blast = true;
+                } else if (abilitytime == 121 && getAbility() == 3) {
+                    this.healthBomb.explode = false;
+                }
+                if(abilitytime>120){
+                    this.healthBomb.blast = true;
+                }
             }
             return getAbility();
         }
-        else if (abilitytime == 240){
+        else if (abilitytime == 240){ //~ 4 seconds then abiility ends
             abilitytime = 1000;
             cooldown = 0;
+            if (this.getAbility() ==3) {
+                this.healthBomb.explode = false;
+                this.healthBomb.active = false;
+                this.healthBomb.blast = false;
+
+            }
             return this.ability;
         }
-        else if(cooldown > -1 && cooldown <1200){
+        else if(cooldown > -1 && cooldown <1200){//count up cooldown
             cooldown ++;
         }
-        else if (cooldown == 1200 && abilitytime == 1000 ){
+        else if (cooldown == 1200 && abilitytime == 1000 ){//once cooldown and ability end
             abilitytime = -1;
             cooldown = -1;
         }
