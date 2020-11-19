@@ -9,6 +9,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.foregroundFPS = 60;
+		config.backgroundFPS = 60;
 		config.title = "Auber";
 		new LwjglApplication(new AuberGame(), config);
 		config.width = 1000;

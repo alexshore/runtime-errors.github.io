@@ -94,7 +94,7 @@ public class Enemy {
 
     private void setAbility() {
         this.rd = new Random();
-        ability = this.rd.nextInt(2);
+        ability = this.rd.nextInt(3) +1;
         // 0 = invisibility
         // 1 = super speed
         // 2 = damage
@@ -117,9 +117,9 @@ public class Enemy {
             if (ability == 1) {
                 return 1;
             } else if (ability == 2) {
-
+                return 2;
             } else if (ability == 3) {
-
+                return 3;
             }
         }
         return -1;
