@@ -95,9 +95,9 @@ public class Enemy {
         this.rd = new Random();
         ability = this.rd.nextInt(3) +1;
         System.out.print(ability);
-        // 0 = invisibility
-        // 1 = super speed
-        // 2 = damage
+        // 1 = invisibility
+        // 2 = super speed
+        // 3 = damage
     }
 
     public int tryAbility(Room player){

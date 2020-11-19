@@ -17,7 +17,7 @@ import java.lang.Math;
 
 public class GameScreen extends ScreenAdapter {
     private static final int playerSpeed = 2;
-    private static final int enemySpeed = 2;
+    private static int enemySpeed = 2;
     AuberGame game;
     private final boolean demoMode;
 
@@ -463,9 +463,20 @@ public class GameScreen extends ScreenAdapter {
         for (Enemy en: Enemies) {
             int ability = en.tryAbility(current_room);
             System.out.println(ability);
+            //if stops print of enemies for invisibility
             if (ability !=1) {
                 this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
+                if (ability ==2){//increasing enemy speed
+                    enemySpeed = 4;
+                }
+                else if(ability == 3){
+
+                }
+                else{
+                    enemySpeed = 2;
+                }
             }
+
         }
 
         //Illumination for normal mode
