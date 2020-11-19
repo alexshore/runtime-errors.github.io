@@ -399,8 +399,8 @@ public class GameScreen extends ScreenAdapter {
                     } else if(demoLoop == 293*playerSpeed){
                         returnToBrig = false;
                         demoLoop = 0;
-                        int num = (int) (Math.random()*4);
-                        String[] directions = {"up","down","left","right"};
+                        int num = (int) (Math.random()*3);
+                        String[] directions = {"down","left","right"};
                         currentDirection = directions[num];
                     }
                 }
