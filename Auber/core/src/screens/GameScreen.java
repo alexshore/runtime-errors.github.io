@@ -22,6 +22,10 @@ public class GameScreen extends ScreenAdapter {
 
     //player texture and area
     private final Texture playerTexture = new Texture("game_assets/player.png");
+    private final Texture[] healthBars = {new Texture("game_assets/bar1_small.png"),
+                                        new Texture("game_assets/bar2_small.png"),
+                                        new Texture("game_assets/bar3_small.png"),
+                                        new Texture("game_assets/bar4_small.png")};
     private final Texture backgroundTexture;
     private final Texture standard_blankTexture;
     private final Texture innerTexture;
@@ -30,6 +34,7 @@ public class GameScreen extends ScreenAdapter {
     private final int player_h;
     private final int player_w;
     private boolean justTeleported = false;
+
 
 
     private final ArrayList<AuberSystems> System_Auber;
@@ -41,6 +46,7 @@ public class GameScreen extends ScreenAdapter {
     public int demoLoop = 0;
     public boolean goneThroughDoorInDemo;
     public boolean returnToBrig = false;
+    public int health = 3;
 
     //values required for systems functionality - game_assets has labelled map for rooms
     private static final int[] x_sys = {82,  210, 210, 82,  82,  275, 550, 700,
@@ -67,6 +73,8 @@ public class GameScreen extends ScreenAdapter {
         this.standard_blankTexture = new Texture("game_assets/blackout.png");
         this.innerTexture = new Texture("game_assets/innerBlackout.png");
         this.outerTexture = new Texture("game_assets/outerBlackout.png");
+
+        //health bar textures
 
         this.player_h = 25;
         this.player_w = 25;
@@ -177,6 +185,12 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
+        if(health < 3) {
+            if (x > infirmary.lower_x_collision && x < infirmary.upper_x_collision &&
+                    infirmary.upper_y_collision > y && infirmary.lower_y_collision < y) {
+                health += 1;
+            }
+        }
     }
 
     @Override
@@ -195,6 +209,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if (!demoMode){
+
             //backs up last position
             float last_x = x;
             float last_y = y;
@@ -455,6 +470,7 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
+        this.game.batch.draw(healthBars[3-health],x+10,y+30);
         this.game.batch.end();
         // checks if the game has been won
         if (Enemies.get(0).allCaptured(Enemies)) {
