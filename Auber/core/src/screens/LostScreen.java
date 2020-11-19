@@ -3,6 +3,7 @@ package screens;
 import com.badlogic.gdx.Screen;
 
 public class LostScreen implements Screen {
+
     @Override
     public void show() {
 
