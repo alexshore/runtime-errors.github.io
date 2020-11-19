@@ -390,13 +390,13 @@ public class GameScreen extends ScreenAdapter {
                 } else {
                     //Moves the player back to the brig by a set path
                     demoLoop += 1;
-                    if(demoLoop < 240){
+                    if(demoLoop < 180*playerSpeed){
                         x -= playerSpeed;
-                    } else if(demoLoop < 275){
+                    } else if(demoLoop < 210*playerSpeed){
                         y += playerSpeed;
-                    } else if(demoLoop < 390){
+                    } else if(demoLoop < 293*playerSpeed){
                         x += playerSpeed;
-                    } else if(demoLoop == 390){
+                    } else if(demoLoop == 293*playerSpeed){
                         returnToBrig = false;
                         demoLoop = 0;
                         int num = (int) (Math.random()*4);
