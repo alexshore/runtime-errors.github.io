@@ -477,13 +477,14 @@ public class GameScreen extends ScreenAdapter {
                 if (ability ==2){//increasing enemy speed
                     enemySpeed = 4;
                 }
-                else if(ability == 3){
+                else if(ability == 3 && cooldown <=  0){
                     this.game.batch.draw(this.bombTexture, en.getX(),en.getY(),50,50);
 
                 }
                 else if(ability == 4 && cooldown < 0 && !damage){
                     bombTexture = new Texture("game_assets/explode_bomb.png");
                     this.game.batch.draw(this.bombTexture, en.getX(),en.getY(),50,50);
+                    bombTexture = new Texture("game_assets/bomb.png");
                     damage = true;
                     cooldown = 360;
                 }

@@ -106,7 +106,6 @@ public class Enemy {
             if (sameRoom(player) && !isCaptured()) {
                 abilitytime = 0;
                 if (this.getAbility() == 1) {
-                    System.out.println(1);
                     return 1;
                 } else if (this.getAbility() == 2) {
                     return 2;
@@ -117,10 +116,9 @@ public class Enemy {
         }
         else if(abilitytime > -1 && abilitytime < 240){
             abilitytime ++;
-            if( abilitytime > 120 &&this.getAbility() ==3){
+            if( abilitytime > 60 &&this.getAbility() ==3){
                 return 4;
             }
-
             return getAbility();
         }
         else if (abilitytime == 240){
