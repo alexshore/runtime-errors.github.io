@@ -29,8 +29,8 @@ public class Enemy {
         this.setAbility();
         this.capture = false;
         this.txtEnemy = new Texture("game_assets/enemy.png");
-        this.cooldown = 0;
-        this.abilitytime = 0;
+        this.cooldown = -1;
+        this.abilitytime = -1;
         this.abilityUsed = false;
     }
 
@@ -101,26 +101,51 @@ public class Enemy {
     }
 
     public int tryAbility(Room player){
-        if (abilityUsed){
-            abilitytime++;
+//        if (abilityUsed){
+//            abilitytime++;
+//        }
+//
+//        if (abilitytime == 240 &&abilityUsed){
+//            abilityUsed = false;
+//            cooldown ++;
+//        }
+//        else if(abilitytime <240){
+//            return getAbility();
+//        }
+//
+//
+//        if (sameRoom(player) && !isCaptured() && cooldown >= 1200) {
+//            cooldown = 0;
+//            abilityUsed = true;
+//            int ability = getAbility();
+//            if (ability == 1) {
+//                return 1;
+//            } else if (ability == 2) {
+//                return 2;
+//            } else if (ability == 3) {
+//                return 3;
+//            }
+//        }
+//        return -1;
+        if (abilitytime >= 240){ //if ability expired
+            cooldown ++;
+            abilitytime = -1;
+            System.out.println("b");
         }
+        else if(abilitytime <240 && abilitytime >-1){
 
-        if (abilitytime >= 240){
-            abilityUsed = false;
+            System.out.println("c");
+        }
+        else if (cooldown >= 1200){//if cooldown expired
+            System.out.println("a");
+            cooldown = -1;
+            abilitytime = -1;
+        }
+        else if (abilitytime == -1 && cooldown != -1){//cooldown in progress
             cooldown ++;
         }
+        else if (abilitytime == -1 && cooldown == -1){//ability can be used again
 
-        if (sameRoom(player) && !player.identifier.equals("brig") && !isCaptured() && cooldown >= 1200 && !abilityUsed) {
-            cooldown = 0;
-            abilityUsed = false;
-            int ability = getAbility();
-            if (ability == 1) {
-                return 1;
-            } else if (ability == 2) {
-                return 2;
-            } else if (ability == 3) {
-                return 3;
-            }
         }
         return -1;
     }
