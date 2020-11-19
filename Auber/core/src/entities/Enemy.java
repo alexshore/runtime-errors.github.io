@@ -2,7 +2,6 @@ package entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
-
 import java.util.ArrayList;
 import java.util.Random;
 
