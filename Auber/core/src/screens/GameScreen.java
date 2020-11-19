@@ -55,6 +55,7 @@ public class GameScreen extends ScreenAdapter {
                                           "living_right", "living_right", "cargo_right",
                                           "cargo_right", "infirmary", "infirmary",
                                           "infirmary"};
+    public int[] encoolddown;
 
 
     public GameScreen(AuberGame game, boolean demoMode){
@@ -151,6 +152,7 @@ public class GameScreen extends ScreenAdapter {
                         cargo_right, living_left, living_right);
 
         //creates 8 enemies
+        encoolddown = new int[8];
         for (int i = 0; i < 8; i++) {
             Enemy newEn = new Enemy();
             Room enemy_room = newEn.findRoom(Rooms);
@@ -431,8 +433,12 @@ public class GameScreen extends ScreenAdapter {
         if (!Gdx.input.isKeyPressed(Input.Keys.E)) {
             justTeleported = false;
         }
+        //render enemy
         for (Enemy en: Enemies) {
-            this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
+            int ability = en.getAbility();
+            if (ability != 1 && ability != -1) {
+                this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
+            }
         }
         //Illumination
         for (Room Room : Rooms) {

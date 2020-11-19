@@ -9,11 +9,14 @@ import java.util.Random;
 public class Enemy {
     private int x, y, ability;
     private boolean capture;
-    private final Texture txtEnemy;
+    private Texture txtEnemy;
     private Random rd;
     public boolean hasDest;
     public float destX, destY;
     public Room current_room;
+    public int cooldown;
+    public int abilitytime;
+    boolean abilityUsed;
 
     public Enemy() {
         rd = new Random();
@@ -27,6 +30,9 @@ public class Enemy {
         this.setAbility();
         this.capture = false;
         this.txtEnemy = new Texture("game_assets/enemy.png");
+        this.cooldown = 0;
+        this.abilitytime = 0;
+        this.abilityUsed = false;
     }
 
     public int getX(){
@@ -95,6 +101,30 @@ public class Enemy {
         // 2 = damage
     }
 
+    public int tryAbility(Room player){
+        this.cooldown = 0;
+        this.abilitytime = 0;
+        this.abilityUsed = false;
+        if (abilityUsed){
+            abilitytime++;
+        }
+        if (sameRoom(player) && !player.identifier.equals("brig") && !isCaptured() && cooldown >= 1200) {
+            cooldown = 0;
+            int ability = getAbility();
+            if (ability == 1) {
+                return 1;
+            } else if (ability == 2) {
+
+            } else if (ability == 3) {
+
+            }
+        }
+        return -1;
+    }
+
+    private boolean sameRoom(Room player){
+        return current_room.equals(player);
+    }
 
     public int getAbility(){
         return this.ability;
