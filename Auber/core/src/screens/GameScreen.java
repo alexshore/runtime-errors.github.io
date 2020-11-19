@@ -172,6 +172,7 @@ public class GameScreen extends ScreenAdapter {
             newEn.current_room = enemy_room;
             Enemies.add(newEn);
         }
+        this.damage = false;
 
         //gives rooms their door associations
         for (Room Room: Rooms) {
@@ -478,20 +479,24 @@ public class GameScreen extends ScreenAdapter {
                 else if(ability == 3 && cooldown <=  0){
                     this.game.batch.draw(this.bombTexture, en.getX(),en.getY(),50,50);
                 }
-                else if(ability == 4 && cooldown < 0 && !damage){
+                else if(ability == 4 ){
                     bombTexture = new Texture("game_assets/Explode_bomb.png");
                     this.game.batch.draw(this.bombTexture, en.getX(),en.getY(),50,50);
-                    damage = true;
-                    cooldown = 360;
+                    if (cooldown < 0 && !this.damage){
+                        this.damage = true;
+                        cooldown = 360;
+                    }
+
+                }
                 }
                 else{
                     enemySpeed = 2;
 
                 }
             }
-        }
-        if (damage && cooldown == 240){
 
+
+        if (this.damage && cooldown == 240){
             health --;
         }
         else if(cooldown > 240){
@@ -504,20 +509,20 @@ public class GameScreen extends ScreenAdapter {
         cooldown --;
 
 
-        //Illumination for normal mode
-//        if (!demoMode) {
-//            for (Room Room : Rooms) {
-//                if (current_room != Room) {
-//                    if (!Room.identifier.equals("inner") && !Room.identifier.equals("outer")) {
-//                        this.game.batch.draw(this.standard_blankTexture, Room.getX(), Room.getY(), Room.width, Room.height);
-//                    } else if (Room.identifier.equals("inner")) {
-//                        this.game.batch.draw(this.innerTexture, 0, 0, 1000, 1000);
-//                    } else { //if room is outer
-//                        this.game.batch.draw(this.outerTexture, Room.getX(), Room.getY(), Room.width, Room.height);
-//                    }
-//                }
-//            }
-//        }
+//        Illumination for normal mode
+        if (!demoMode) {
+            for (Room Room : Rooms) {
+                if (current_room != Room) {
+                    if (!Room.identifier.equals("inner") && !Room.identifier.equals("outer")) {
+                        this.game.batch.draw(this.standard_blankTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+                    } else if (Room.identifier.equals("inner")) {
+                        this.game.batch.draw(this.innerTexture, 0, 0, 1000, 1000);
+                    } else { //if room is outer
+                        this.game.batch.draw(this.outerTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+                    }
+                }
+            }
+        }
 
         //renders the health bar
         this.game.batch.draw(healthBars[3-health],x-19,y+30);
