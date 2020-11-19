@@ -478,7 +478,7 @@ public class GameScreen extends ScreenAdapter {
         else if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             game.setScreen(new MainMenu(game));
         }
-        else if (System_Auber.get(0).hasLost(System_Auber)) {
+        else if (System_Auber.get(0).hasLost(System_Auber) || health == 0 ){
         }
     }
 
