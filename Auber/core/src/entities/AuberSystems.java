@@ -14,8 +14,10 @@ public class AuberSystems extends Rectangle {
     public int x, y;
     public String room;
     public boolean currently_assigned;
+    public Rectangle areaOfAffect;
 
     public AuberSystems(int x, int y, String room) {
+        this.areaOfAffect = new Rectangle(x,y,40,40);
         this.x = x;
         this.y = y;
         this.room = room;
@@ -24,6 +26,21 @@ public class AuberSystems extends Rectangle {
         this.batch = new SpriteBatch();
         this.systemImg = new Texture("game_assets/system_working.png");
     }
+    public boolean enemyInSystem(Enemy enemyObject) {
+        int enemyLeftX = enemyObject.getX();
+        int enemyBottomY = enemyObject.getY();
+        int enemyRightX = enemyLeftX + 40;
+        int enemyTopY = enemyBottomY + 40;
+        if(areaOfAffect.contains(enemyLeftX,enemyBottomY) ||
+                areaOfAffect.contains(enemyRightX,enemyTopY) ||
+                areaOfAffect.contains(enemyRightX,enemyBottomY) ||
+                areaOfAffect.contains(enemyLeftX,enemyTopY)){
+            working = false;
+           return true;
+        }
+        return false;
+    }
+
 
     public void doSabotage() {
         //Called when sabotage has happened
