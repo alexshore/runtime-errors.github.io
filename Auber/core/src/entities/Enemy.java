@@ -117,6 +117,10 @@ public class Enemy {
         }
         else if(abilitytime > -1 && abilitytime < 240){
             abilitytime ++;
+            if( abilitytime > 120 &&this.getAbility() ==3){
+                return 4;
+            }
+
             return getAbility();
         }
         else if (abilitytime == 240){

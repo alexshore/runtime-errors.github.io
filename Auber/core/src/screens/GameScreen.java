@@ -8,9 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.eng.auber.AuberGame;
 import entities.*;
-
-
-import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 import java.lang.Math;
 
@@ -31,11 +28,13 @@ public class GameScreen extends ScreenAdapter {
     private final Texture standard_blankTexture;
     private final Texture innerTexture;
     private final Texture outerTexture;
+    private Texture bombTexture;
     private float x = 495, y = 495;
     private final int player_h;
     private final int player_w;
     private boolean justTeleported = false;
-
+    private int cooldown = 0;
+    private boolean damage = false;
 
 
     private final ArrayList<AuberSystems> System_Auber;
@@ -48,6 +47,9 @@ public class GameScreen extends ScreenAdapter {
     public boolean goneThroughDoorInDemo;
     public boolean returnToBrig = false;
     public int health = 3;
+
+    //for bomb effect on player
+    private int boom, tillExplode;
 
     //values required for systems functionality - game_assets has labelled map for rooms
     private static final int[] x_sys = {82,  210, 210, 82,  82,  275, 550, 700,
@@ -68,6 +70,7 @@ public class GameScreen extends ScreenAdapter {
         this.demoMode  = demoMode; //is demo mode active
         this.game = game; //passing in game
 
+
         //lighting textures
         this.standard_blankTexture = new Texture("game_assets/blackout.png");
         this.innerTexture = new Texture("game_assets/innerBlackout.png");
@@ -83,6 +86,7 @@ public class GameScreen extends ScreenAdapter {
         //ArrayList for enemies
         this.Enemies = new ArrayList<>();
 
+
         //ArrayList for teleport
         this.teleporterList = new ArrayList<>();
 
@@ -90,6 +94,9 @@ public class GameScreen extends ScreenAdapter {
         this.backgroundTexture = new Texture("game_assets/station_design.png");
 
         this.Rooms = new Array<>();
+
+        //bomb texture
+        this.bombTexture = new Texture("game_assets/bomb.png");
 
         //creates 16 systems
         for (int i = 0; i < 16;i++) {
@@ -166,6 +173,8 @@ public class GameScreen extends ScreenAdapter {
             newEn.current_room = enemy_room;
             Enemies.add(newEn);
         }
+        this.boom = -1;
+        this.tillExplode = -1;
 
         //gives rooms their door associations
         for (Room Room: Rooms) {
@@ -462,7 +471,6 @@ public class GameScreen extends ScreenAdapter {
         //render enemy
         for (Enemy en: Enemies) {
             int ability = en.tryAbility(current_room);
-            System.out.println(ability);
             //if stops print of enemies for invisibility
             if (ability !=1) {
                 this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
@@ -470,14 +478,29 @@ public class GameScreen extends ScreenAdapter {
                     enemySpeed = 4;
                 }
                 else if(ability == 3){
+                    this.game.batch.draw(this.bombTexture, en.getX(),en.getY(),50,50);
 
+                }
+                else if(ability == 4 && cooldown < 0 && !damage){
+                    bombTexture = new Texture("game_assets/explode_bomb.png");
+                    this.game.batch.draw(this.bombTexture, en.getX(),en.getY(),50,50);
+                    damage = true;
+                    cooldown = 360;
                 }
                 else{
                     enemySpeed = 2;
+
                 }
             }
-
         }
+        if (damage && cooldown == 360){
+            health --;
+        }
+        else if (cooldown <=0){
+            damage = false;
+        }
+        cooldown --;
+
 
         //Illumination for normal mode
 //        if (!demoMode) {
@@ -530,5 +553,9 @@ public class GameScreen extends ScreenAdapter {
         playerTexture.dispose();
         this.game.batch.dispose();
 
+    }
+
+    public void resetBomb(){
+        bombTexture = new Texture("game_assets/bomb.png");
     }
 }
