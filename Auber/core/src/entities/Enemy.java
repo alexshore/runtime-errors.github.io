@@ -13,8 +13,7 @@ public class Enemy {
     public boolean hasDest;
     public float destX, destY;
     public Room current_room;
-    public int cooldown;
-    public int abilitytime;
+    public int cooldown, abilitytime;
     boolean abilityUsed;
 
     public Enemy() {
@@ -95,63 +94,48 @@ public class Enemy {
     private void setAbility() {
         this.rd = new Random();
         ability = this.rd.nextInt(3) +1;
+        System.out.print(ability);
         // 0 = invisibility
         // 1 = super speed
         // 2 = damage
     }
 
     public int tryAbility(Room player){
-//        if (abilityUsed){
-//            abilitytime++;
-//        }
-//
-//        if (abilitytime == 240 &&abilityUsed){
-//            abilityUsed = false;
-//            cooldown ++;
-//        }
-//        else if(abilitytime <240){
-//            return getAbility();
-//        }
-//
-//
-//        if (sameRoom(player) && !isCaptured() && cooldown >= 1200) {
-//            cooldown = 0;
-//            abilityUsed = true;
-//            int ability = getAbility();
-//            if (ability == 1) {
-//                return 1;
-//            } else if (ability == 2) {
-//                return 2;
-//            } else if (ability == 3) {
-//                return 3;
-//            }
-//        }
-//        return -1;
-        if (abilitytime >= 240){ //if ability expired
-            cooldown ++;
-            abilitytime = -1;
-            System.out.println("b");
-        }
-        else if(abilitytime <240 && abilitytime >-1){
 
-            System.out.println("c");
+        if(cooldown == -1 && abilitytime == -1) {
+            if (sameRoom(player) && !isCaptured()) {
+                abilitytime = 0;
+                if (this.getAbility() == 1) {
+                    System.out.println(1);
+                    return 1;
+                } else if (this.getAbility() == 2) {
+                    return 2;
+                } else if (this.getAbility() == 3) {
+                    return 3;
+                }
+            }
         }
-        else if (cooldown >= 1200){//if cooldown expired
-            System.out.println("a");
+        else if(abilitytime > -1 && abilitytime < 240){
+            abilitytime ++;
+            return getAbility();
+        }
+        else if (abilitytime == 240){
+            abilitytime = 1000;
+            cooldown = 0;
+            return this.ability;
+        }
+        else if(cooldown > -1 && cooldown <1200){
+            cooldown ++;
+        }
+        else if (cooldown == 1200 && abilitytime == 1000 ){
+            abilitytime = -1;
             cooldown = -1;
-            abilitytime = -1;
-        }
-        else if (abilitytime == -1 && cooldown != -1){//cooldown in progress
-            cooldown ++;
-        }
-        else if (abilitytime == -1 && cooldown == -1){//ability can be used again
-
         }
         return -1;
     }
 
     private boolean sameRoom(Room player){
-        return current_room.equals(player);
+        return current_room.identifier.equals(player.identifier);
     }
 
     public int getAbility(){

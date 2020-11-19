@@ -462,25 +462,26 @@ public class GameScreen extends ScreenAdapter {
         //render enemy
         for (Enemy en: Enemies) {
             int ability = en.tryAbility(current_room);
+            System.out.println(ability);
             if (ability !=1) {
                 this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
             }
         }
 
         //Illumination for normal mode
-        if (!demoMode) {
-            for (Room Room : Rooms) {
-                if (current_room != Room) {
-                    if (!Room.identifier.equals("inner") && !Room.identifier.equals("outer")) {
-                        this.game.batch.draw(this.standard_blankTexture, Room.getX(), Room.getY(), Room.width, Room.height);
-                    } else if (Room.identifier.equals("inner")) {
-                        this.game.batch.draw(this.innerTexture, 0, 0, 1000, 1000);
-                    } else { //if room is outer
-                        this.game.batch.draw(this.outerTexture, Room.getX(), Room.getY(), Room.width, Room.height);
-                    }
-                }
-            }
-        }
+//        if (!demoMode) {
+//            for (Room Room : Rooms) {
+//                if (current_room != Room) {
+//                    if (!Room.identifier.equals("inner") && !Room.identifier.equals("outer")) {
+//                        this.game.batch.draw(this.standard_blankTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+//                    } else if (Room.identifier.equals("inner")) {
+//                        this.game.batch.draw(this.innerTexture, 0, 0, 1000, 1000);
+//                    } else { //if room is outer
+//                        this.game.batch.draw(this.outerTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+//                    }
+//                }
+//            }
+//        }
 
         //renders the health bar
         this.game.batch.draw(healthBars[3-health],x-19,y+30);
