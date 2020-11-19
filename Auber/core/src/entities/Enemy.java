@@ -9,7 +9,7 @@ import java.util.Random;
 public class Enemy {
     private int x, y, ability;
     private boolean capture;
-    private Texture txtEnemy;
+    private final Texture txtEnemy;
     private Random rd;
     public boolean hasDest;
     public float destX, destY;
@@ -19,10 +19,10 @@ public class Enemy {
         rd = new Random();
         this.x = 500;
         this.y = 500;
-        while (x > 225 && y > 225 && x < 750 && y < 750 ) {
+        while (!(x > 251 && y > 76 && x < 740 && y < 225) ) {
             //while statement makes sure no enemies spawn in the brig
-            this.setX(rd.nextInt(975) + 1);
-            this.setY(rd.nextInt(975) + 1);
+            this.setX(rd.nextInt(450) + 250);
+            this.setY(rd.nextInt(150) + 75);
         }
         this.setAbility();
         this.capture = false;
@@ -53,7 +53,7 @@ public class Enemy {
         Room room_out = null;
 
         for (Room Room: Rooms) {
-            if (!(Room.identifier == "outer" || Room.identifier == "inner")) {
+            if (!(Room.identifier.equals("outer") || Room.identifier.equals("inner"))) {
                 if (this.x >= Room.lower_x_collision && this.y >= Room.lower_y_collision &&
                     this.x <= Room.upper_x_collision && this.y <= Room.upper_y_collision) {
                     room_out = Room;
