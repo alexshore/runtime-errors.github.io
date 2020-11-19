@@ -35,7 +35,7 @@ public class AuberSystems extends Rectangle {
                 areaOfAffect.contains(enemyRightX,enemyTopY) ||
                 areaOfAffect.contains(enemyRightX,enemyBottomY) ||
                 areaOfAffect.contains(enemyLeftX,enemyTopY)){
-            working = false;
+            this.doSabotage();
            return true;
         }
         return false;
