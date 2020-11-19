@@ -29,8 +29,8 @@ public class AuberSystems extends Rectangle {
     public boolean enemyInSystem(Enemy enemyObject) {
         int enemyLeftX = enemyObject.getX();
         int enemyBottomY = enemyObject.getY();
-        int enemyRightX = enemyLeftX + 40;
-        int enemyTopY = enemyBottomY + 40;
+        int enemyRightX = enemyLeftX + 25;
+        int enemyTopY = enemyBottomY + 25;
         if(areaOfAffect.contains(enemyLeftX,enemyBottomY) ||
                 areaOfAffect.contains(enemyRightX,enemyTopY) ||
                 areaOfAffect.contains(enemyRightX,enemyBottomY) ||
@@ -45,7 +45,7 @@ public class AuberSystems extends Rectangle {
     public void doSabotage() {
         //Called when sabotage has happened
         this.working = false;
-        this.systemImg = new Texture("game_assets/system_working.png");
+        this.systemImg = new Texture("game_assets/system_broken.png");
     }
 
     public boolean isWorking() {

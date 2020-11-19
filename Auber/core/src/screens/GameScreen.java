@@ -10,6 +10,7 @@ import com.eng.auber.AuberGame;
 import entities.*;
 
 
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 import java.lang.Math;
 
@@ -72,7 +73,6 @@ public class GameScreen extends ScreenAdapter {
         this.innerTexture = new Texture("game_assets/innerBlackout.png");
         this.outerTexture = new Texture("game_assets/outerBlackout.png");
 
-        //health bar textures
 
         this.player_h = 25;
         this.player_w = 25;
@@ -183,6 +183,7 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
+        //heals the player if they're in the infirmary
         if(health < 3) {
             if (x > infirmary.lower_x_collision && x < infirmary.upper_x_collision &&
                     infirmary.upper_y_collision > y && infirmary.lower_y_collision < y) {
@@ -431,6 +432,17 @@ public class GameScreen extends ScreenAdapter {
                 demoLoop = 0;
             }
         }
+        //checks if an enemy is overlapping a system and breaks it if so
+        for(Enemy enemyObj : Enemies){
+            for(AuberSystems system : System_Auber) {
+                //enemyInSystem will set system to broken if true
+                if(system.enemyInSystem(enemyObj)){
+                    enemyObj.hasDest = false;
+                }
+            }
+        }
+
+
         this.game.batch.begin();
         this.game.batch.draw(backgroundTexture, 0, 0, 1000, 1000);//draw map
         //draws player
@@ -470,7 +482,7 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
-
+        //renders the health bar
         this.game.batch.draw(healthBars[3-health],x-19,y+30);
         this.game.batch.end();
 
