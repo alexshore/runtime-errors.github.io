@@ -2,22 +2,24 @@ package entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
-import returns.values;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Enemy {
-    private int x,y, ability;
+    private int x, y, ability;
     private boolean capture;
     private Texture txtEnemy;
     private Random rd;
+    public boolean hasDest;
+    public float destX, destY;
+    public Room current_room;
 
     public Enemy() {
         rd = new Random();
         this.x = 500;
         this.y = 500;
-        while (x > 225 && y> 225 && x <750 && y<750 ){
+        while (x > 225 && y > 225 && x < 750 && y < 750 ) {
             //while statement makes sure no enemies spawn in the brig
             this.setX(rd.nextInt(975) + 1);
             this.setY(rd.nextInt(975) + 1);
@@ -39,7 +41,7 @@ public class Enemy {
         this.x = x;
     }
 
-    public void  setY(int y){
+    public void setY(int y){
         this.y = y;
     }
 
@@ -47,7 +49,21 @@ public class Enemy {
         return this.txtEnemy;
     }
 
-    public void beenCaptured(){
+    public Room findRoom(Array<Room> Rooms) {
+        Room room_out = null;
+
+        for (Room Room: Rooms) {
+            if (!(Room.identifier == "outer" || Room.identifier == "inner")) {
+                if (this.x >= Room.lower_x_collision && this.y >= Room.lower_y_collision &&
+                    this.x <= Room.upper_x_collision && this.y <= Room.upper_y_collision) {
+                    room_out = Room;
+                }
+            }
+        }
+        return room_out;
+    }
+
+    public void beenCaptured() {
         //moves enemy to random space in the brig and sets their status to captured
         this.capture = true;
         this.rd = new Random();
@@ -55,23 +71,23 @@ public class Enemy {
         this.setY(this.rd.nextInt(200) + 325);
     }
 
-    public boolean isCaptured(){
+    public boolean isCaptured() {
         //returns if enemy is captured
         return this.capture;
     }
 
-    public boolean allCaptured(ArrayList<Enemy> enemies){
+    public boolean allCaptured(ArrayList<Enemy> enemies) {
         //returns true if all enemies have been captured
         int count = 0;
-        for(Enemy e: enemies){
-            if (e.isCaptured()){
+        for (Enemy e: enemies) {
+            if (e.isCaptured()) {
                 count ++;
             }
         }
         return enemies.size() == count;
     }
 
-    private void setAbility(){
+    private void setAbility() {
         this.rd = new Random();
         ability = this.rd.nextInt(2);
         // 0 = invisibility
@@ -83,18 +99,33 @@ public class Enemy {
         return this.ability;
     }
 
-    public values getDest(float x, float y, String room_id, Array<Room> Rooms) {
-        float destX = 0; float destY = 0;
-
-        for (Room Room: Rooms) {
-            if (Room.identifier == room_id) {
-                Room current_room = Room;
+    public void getDest(float x, float y, String room_id, Array<Room> Rooms) {
+        for (AuberSystems System: current_room.Systems) {
+            if (!System.currently_assigned && System.working) {
+                System.currently_assigned = true;
+                this.hasDest = true;
+                this.destX = System.getX() + 1;
+                this.destY = System.getY() + 1;
+                return;
+            }
+        }
+        Door door_dest = current_room.Doors.random();
+        while (door_dest.upper_room == "outer" || door_dest.lower_room == "inner" ||
+                door_dest.lower_room == "outer" || door_dest.upper_room == "inner") {
+            door_dest = current_room.Doors.random();
+        }
+        if (door_dest != null) {
+            this.hasDest = true;
+            if (door_dest.lower_room.equals(current_room.identifier)) {
+                this.destX = door_dest.lower_x + 1;
+                this.destY = door_dest.lower_y + 1;
+            }
+            if (door_dest.upper_room.equals(current_room.identifier)) {
+                this.destX = door_dest.upper_x + 1;
+                this.destY = door_dest.upper_y + 1;
             }
         }
 
-
-
-        return new values(destX, destY);
     }
 
 }

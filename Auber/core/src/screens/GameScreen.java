@@ -89,12 +89,6 @@ public class GameScreen extends ScreenAdapter {
             System_Auber.add(a);
         }
 
-        //creates 8 enemies
-        for (int i = 0; i < 8; i++) {
-            Enemy newEn = new Enemy();
-            Enemies.add(newEn);
-        }
-
         //creates the teleport pads
         this.teleporterList.add(new TeleportPad(500, 600, "brig"));
         this.teleporterList.add(new TeleportPad(100, 100, "living_left"));
@@ -156,11 +150,26 @@ public class GameScreen extends ScreenAdapter {
         Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
                         cargo_right, living_left, living_right);
 
+        //creates 8 enemies
+        for (int i = 0; i < 8; i++) {
+            Enemy newEn = new Enemy();
+            newEn.findRoom(Rooms);
+            Enemies.add(newEn);
+        }
+
         //gives rooms their door associations
         for (Room Room: Rooms) {
             for (Door Door: Doors) {
                 if (Door.lower_room.equals(Room.identifier) || Door.upper_room.equals(Room.identifier)) {
                     Room.Doors.add(Door);
+                }
+            }
+        }
+
+        for (Room Room: Rooms) {
+            for (AuberSystems System: System_Auber) {
+                if (System.room.equals(Room.identifier)) {
+                    Room.Systems.add(System);
                 }
             }
         }
@@ -182,22 +191,15 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
-
-
-
         if (!demoMode){
             //backs up last position
             float last_x = x;
             float last_y = y;
-
-
             //if statements for movement
             Door current_door = null;
             Room new_current_room = null;
-
             //Door stuff and drawing of black square for room by room illumination
             if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-
                 //checks for teleport pad
                 for (TeleportPad teleporterPad: teleporterList) {
                     if (!justTeleported && teleporterPad.canTeleport(x, y)) {
@@ -252,7 +254,6 @@ public class GameScreen extends ScreenAdapter {
                         current_room = new_current_room;
                     }
                 }
-
             }
             else {
                 //Movement and collision detection
@@ -295,7 +296,6 @@ public class GameScreen extends ScreenAdapter {
             float last_y = y;
             Door current_door = null;
             Room new_current_room = null;
-
             //Door stuff and drawing of black square for room by room illumination
             //checks for teleport pad
             for (TeleportPad teleporterPad : teleporterList) {
@@ -369,7 +369,6 @@ public class GameScreen extends ScreenAdapter {
                         case "right":
                             x += playerSpeed;
                             break;
-
                     }
                 } else {
                     //Moves the player back to the brig by a set path
@@ -405,7 +404,6 @@ public class GameScreen extends ScreenAdapter {
                     x = last_x;
                     currentDirection = "up";
                 }
-
             }
             if (!(new_current_room == null)) {
                 current_room = new_current_room;
@@ -415,57 +413,42 @@ public class GameScreen extends ScreenAdapter {
             if(y > 210 && y < 220 && x > 965 && x < 975 ) {
                 returnToBrig = true;
                 demoLoop = 0;
-
             }
-
         }
-
-
-
-
         this.game.batch.begin();
         this.game.batch.draw(backgroundTexture, 0, 0, 1000, 1000);//draw map
-
         //draws player
         for (TeleportPad teleportPad: teleporterList) {
             this.game.batch.draw(teleportPad.teleporterSprite, teleportPad.x,teleportPad.y);
         }
-
         //renders systems
         for (AuberSystems curr_sys: System_Auber) {
             int[] xy = curr_sys.getCoord();
             this.game.batch.draw(curr_sys.systemImg, xy[0], xy[1], 40, 40);
         }
-
         //renders player
         this.game.batch.draw(playerTexture, x, y, 25, 25);
         if (!Gdx.input.isKeyPressed(Input.Keys.E)) {
             justTeleported = false;
         }
-
         for (Enemy en: Enemies) {
             this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
         }
-
         //Illumination
         for (Room Room : Rooms) {
             if (current_room != Room) {
                 if(!Room.identifier.equals("inner") && !Room.identifier.equals("outer")){
                     this.game.batch.draw(this.standard_blankTexture, Room.getX(),Room.getY(), Room.width, Room.height);
-
                 }
                 else if(Room.identifier.equals("inner")){
                     this.game.batch.draw(this.innerTexture, 0,0, 1000, 1000);
-
                 }
                 else{ //if room is outer
                     this.game.batch.draw(this.outerTexture, Room.getX(),Room.getY(), Room.width, Room.height);
                 }
             }
         }
-
         this.game.batch.end();
-
         // checks if the game has been won
         if (Enemies.get(0).allCaptured(Enemies)) {
             game.setScreen(new WinScreen(game));

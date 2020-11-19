@@ -7,6 +7,7 @@ public class Room extends Rectangle {
 
     public Array<Room> Neighbours = new Array<>();
     public Array<Door> Doors = new Array<>();
+    public Array<AuberSystems> Systems = new Array<>();
     public boolean corridor;
     public String identifier;
     public int outer_width;
