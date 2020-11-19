@@ -92,8 +92,9 @@ public class Enemy {
         ability = this.rd.nextInt(2);
         // 0 = invisibility
         // 1 = super speed
-        // 2 = slow player
+        // 2 = damage
     }
+
 
     public int getAbility(){
         return this.ability;
