@@ -440,7 +440,7 @@ public class GameScreen extends ScreenAdapter {
             for (AuberSystems system : System_Auber) {
                 //enemyInSystem will set system to broken if true
                 if (system.enemyInSystem(enemyObj)) {
-                    enemyObj.hasDest = false;
+                    enemyObj.breakSys();
                 }
             }
         }

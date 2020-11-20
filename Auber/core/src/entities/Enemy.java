@@ -206,5 +206,8 @@ public class Enemy {
         }
 
     }
+    public void breakSys(){
+        this.hasDest = false;
+    }
 
 }
