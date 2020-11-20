@@ -133,18 +133,18 @@ public class Enemy {
                 }
             }
         }
-        else if(abilitytime > -1 && abilitytime < 240){
+        else if(abilitytime > -1 && abilitytime < 240){//when t=ability time us less than 4 sec
             abilitytime ++;
             if(getAbility() == 3) {
                 if (abilitytime == 120 && player.identifier.equals(this.healthBomb.currroom)) {
                     this.healthBomb.explode = true;
                     this.healthBomb.active = false;
-                    this.healthBomb.blast = true;
-                } else if (abilitytime == 121 && getAbility() == 3) {
-                    this.healthBomb.explode = false;
                 }
-                if(abilitytime>120){
+                else if (abilitytime == 121 && getAbility() == 3) {
                     this.healthBomb.blast = true;
+                }
+                if(abilitytime == 122){
+                    this.healthBomb.explode = false;
                 }
             }
             return getAbility();
