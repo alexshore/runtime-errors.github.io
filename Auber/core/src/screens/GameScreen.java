@@ -42,6 +42,7 @@ public class GameScreen extends ScreenAdapter {
     public Room current_room;
     public String currentDirection = "down";
     public int demoLoop = 0;
+    public int sysLoop = 0;
     public boolean goneThroughDoorInDemo;
     public boolean returnToBrig = false;
     public int health = 3;
@@ -180,7 +181,6 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
-
         for (Room Room: Rooms) {
             for (AuberSystems System: System_Auber) {
                 if (System.room.equals(Room.identifier)) {
@@ -435,11 +435,12 @@ public class GameScreen extends ScreenAdapter {
                 demoLoop = 0;
             }
         }
+        sysLoop +=1;
         //checks if an enemy is overlapping a system and breaks it if so
         for (Enemy enemyObj : Enemies) {
             for (AuberSystems system : System_Auber) {
                 //enemyInSystem will set system to broken if true
-                if (system.enemyInSystem(enemyObj)) {
+                if (sysLoop > 400 && system.enemyInSystem(enemyObj)) {
                     enemyObj.breakSys();
                 }
             }
