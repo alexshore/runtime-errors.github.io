@@ -188,13 +188,7 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
-        //heals the player if they're in the infirmary
-        if(health < 3) {
-            if (x > infirmary.lower_x_collision && x < infirmary.upper_x_collision &&
-                    infirmary.upper_y_collision > y && infirmary.lower_y_collision < y) {
-                health += 1;
-            }
-        }
+
     }
 
     @Override
@@ -444,6 +438,10 @@ public class GameScreen extends ScreenAdapter {
                     enemyObj.breakSys();
                 }
             }
+        }
+        //heals the player if they're in the infirmary
+        if(health < 3 && current_room.identifier.equals("infirmary")){
+            health++;
         }
 
 
