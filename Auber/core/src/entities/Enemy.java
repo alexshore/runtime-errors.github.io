@@ -1,6 +1,7 @@
 package entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g3d.particles.ParticleSorter;
 import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 import java.util.Random;
@@ -38,7 +39,12 @@ public class Enemy {
     }
 
     public Bomb returnHealthBomb(){
-        return healthBomb;
+        if(getAbility() ==3){
+            return healthBomb;
+        }
+        else{
+            return null;
+        }
     }
     public int getX(){
         return this.x;
@@ -108,16 +114,19 @@ public class Enemy {
     }
 
     public int tryAbility(Room player){
-
+        if (this.capture){
+            return -1;
+        }
         if(cooldown == -1 && abilitytime == -1) {
-            if (sameRoom(player) && !isCaptured()) {
+            if (sameRoom(player)) {
                 abilitytime = 0;
                 if (this.getAbility() == 1) {
                     return 1;
                 } else if (this.getAbility() == 2) {
                     return 2;
                 } else if (this.getAbility() == 3) {
-                    this.healthBomb.currroom = current_room.identifier;
+                    System.out.println("2");
+                    this.healthBomb.currroom = player.identifier;
                     this.healthBomb.setXY(this.x,this.y);
                     this.healthBomb.active = true;
                     return 3;
@@ -180,8 +189,8 @@ public class Enemy {
             }
         }
         Door door_dest = current_room.Doors.random();
-        while (door_dest.upper_room == "outer" || door_dest.lower_room == "inner" ||
-                door_dest.lower_room == "outer" || door_dest.upper_room == "inner") {
+        while (door_dest.upper_room.equals("outer") || door_dest.lower_room.equals("inner") ||
+                door_dest.lower_room.equals("outer") || door_dest.upper_room.equals("inner")) {
             door_dest = current_room.Doors.random();
         }
         if (door_dest != null) {

@@ -28,14 +28,11 @@ public class GameScreen extends ScreenAdapter {
     private final Texture standard_blankTexture;
     private final Texture innerTexture;
     private final Texture outerTexture;
-    private Texture bombTexture, blastTexture;
+    private final Texture bombTexture, blastTexture; //bomb textures
     private float x = 495, y = 495;
     private final int player_h;
     private final int player_w;
     private boolean justTeleported = false;
-    private int cooldown = 0;
-    private String bombRoom;
-    private boolean damage = false;
 
 
     private final ArrayList<AuberSystems> System_Auber;
@@ -174,7 +171,6 @@ public class GameScreen extends ScreenAdapter {
             newEn.current_room = enemy_room;
             Enemies.add(newEn);
         }
-        this.damage = false;
 
         //gives rooms their door associations
         for (Room Room: Rooms) {
@@ -468,6 +464,7 @@ public class GameScreen extends ScreenAdapter {
         }
         //render enemy
 
+        //enemy render and abilities
         for (Enemy en : Enemies) {
             int ability = en.tryAbility(current_room);
             //if stops print of enemies for invisibility
@@ -489,13 +486,28 @@ public class GameScreen extends ScreenAdapter {
 
             }
         }
+        //enemy bomb functionality
         for (Enemy en : Enemies){
-            if(en.getAbility() != 3){
-                break;
+            if(en.returnHealthBomb() != null)
+            {
+                if(en.returnHealthBomb().explode && en.returnHealthBomb().blast){
+                    health --;
+                    break;
+                }
             }
-            else if(en.returnHealthBomb().explode && en.returnHealthBomb().blast){
-                health --;
-                break;
+        }
+        //        Illumination for normal mode
+        if (!demoMode) {
+            for (Room Room : Rooms) {
+                if (current_room != Room) {
+                    if (!Room.identifier.equals("inner") && !Room.identifier.equals("outer")) {
+                        this.game.batch.draw(this.standard_blankTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+                    } else if (Room.identifier.equals("inner")) {
+                        this.game.batch.draw(this.innerTexture, 0, 0, 1000, 1000);
+                    } else { //if room is outer
+                        this.game.batch.draw(this.outerTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+                    }
+                }
             }
         }
 
@@ -515,7 +527,10 @@ public class GameScreen extends ScreenAdapter {
         if (System_Auber.get(0).hasLost(System_Auber) || health <= 0) {
             game.setScreen(new LossScreen(game));
         }
-    }
+
+        }
+
+
 
     @Override
     public void resize(int width, int height) {}
