@@ -68,54 +68,39 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(AuberGame game, boolean demoMode){
         this.demoMode  = demoMode; //is demo mode active
         this.game = game; //passing in game
-
-
         //lighting textures
         this.standard_blankTexture = new Texture("game_assets/blackout.png");
         this.innerTexture = new Texture("game_assets/innerBlackout.png");
         this.outerTexture = new Texture("game_assets/outerBlackout.png");
-
-
         this.player_h = 25;
         this.player_w = 25;
-
         //ArrayList for systems
         this.System_Auber = new ArrayList<>();
-
         //ArrayList for enemies
         this.Enemies = new ArrayList<>();
-
-
         //ArrayList for teleport
         this.teleporterList = new ArrayList<>();
-
         //map texture
         this.backgroundTexture = new Texture("game_assets/station_design.png");
-
         this.Rooms = new Array<>();
-
         //bomb texture
         this.bombTexture = new Texture("game_assets/bomb.png");
         this.blastTexture = new Texture("game_assets/Explode_bomb.png");
-
         //creates 16 systems
         for (int i = 0; i < 16;i++) {
             AuberSystems a = new AuberSystems(x_sys[i], y_sys[i], room[i]); //, room[i]);
             System_Auber.add(a);
         }
-
         //creates the teleport pads
         this.teleporterList.add(new TeleportPad(500, 600, "brig"));
         this.teleporterList.add(new TeleportPad(100, 100, "living_left"));
         this.teleporterList.add(new TeleportPad(100, 800, "cargo_left"));
         this.teleporterList.add(new TeleportPad(800, 800, "cargo_right"));
         this.teleporterList.add(new TeleportPad(800, 100, "living_right"));
-
         for (int i = 0; i < teleporterList.size() - 1; i++) {
             teleporterList.get(i).setLinkedTeleporter(teleporterList.get(i + 1));
         }
         teleporterList.get(teleporterList.size() - 1).setLinkedTeleporter(teleporterList.get(0));
-
         //creates rooms
         Room outer_corridor = new Room(0,   0,   1000, 1000, "outer", true, 75);
         Room inner_corridor = new Room(250, 250, 500,  500,  "inner", true, 75);
@@ -136,7 +121,6 @@ public class GameScreen extends ScreenAdapter {
         cargo_right.Neighbours.add(outer_corridor, inner_corridor, infirmary, living_right);
         living_left.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_left);
         living_right.Neighbours.add(outer_corridor, inner_corridor, engine_room, cargo_right);
-
         //defines doors
         Array<Door> Doors = new Array<>();
         Doors.add(new Door("h", 55,  750, "outer",        "cargo_left"));
@@ -157,23 +141,20 @@ public class GameScreen extends ScreenAdapter {
         Doors.add(new Door("h", 230, 215, "living_left",  "engine_room"));
         Doors.add(new Door("v", 750, 480, "living_right", "cargo_right"));
         Doors.add(new Door("h", 905, 215, "living_right", "outer"));
-
         //sets starting room
         this.current_room = brig;
-
         //fills rooms array with all created rooms
         Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
                         cargo_right, living_left, living_right);
-
         //creates 8 enemies
         encoolddown = new int[8];
         for (int i = 0; i < 8; i++) {
             Enemy newEn = new Enemy();
             Room enemy_room = newEn.findRoom(Rooms);
             newEn.current_room = enemy_room;
+            newEn.getDest();
             Enemies.add(newEn);
         }
-
         //gives rooms their door associations
         for (Room Room: Rooms) {
             for (Door Door: Doors) {
@@ -189,7 +170,6 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
-
     }
 
     @Override
@@ -206,9 +186,7 @@ public class GameScreen extends ScreenAdapter {
                 break;
             }
         }
-
         if (!demoMode) {
-
             //backs up last position
             float last_x = x;
             float last_y = y;
@@ -322,7 +300,6 @@ public class GameScreen extends ScreenAdapter {
                     for (Room Room : Rooms) {
                         if (teleporterPad.linkedTeleporter.id.equals(Room.identifier)) {
                             current_room = Room;
-
                         }
                     }
                 }
@@ -431,23 +408,16 @@ public class GameScreen extends ScreenAdapter {
             }
         }
         sysLoop +=1;
-        //checks if an enemy is overlapping a system and breaks it if so
-        for (Enemy enemyObj : Enemies) {
-            for (AuberSystems system : System_Auber) {
-                //enemyInSystem will set system to broken if true
-                if (sysLoop > 400 && system.enemyInSystem(enemyObj)) {
-                    enemyObj.breakSys();
-                }
-            }
-        }
+
         //heals the player if they're on infirmary cross and cooldown is atleast 0
         if(health < 3 && x >= 480 && x <= 530 &&  y >= 810 && y <= 860 && cooldown <= 0){
             health = 3;
             cooldown = 720;
         }
         else if (cooldown > 0 ){
-            cooldown --;
+            cooldown--;
         }
+
 
 
         this.game.batch.begin();
@@ -468,26 +438,75 @@ public class GameScreen extends ScreenAdapter {
         }
         //render enemy
 
+
+
+
+        for (Enemy enemyObj : Enemies) {
+            for (AuberSystems system : System_Auber) {
+                //enemyInSystem will set system to broken if true
+                if (sysLoop > 400 && system.enemyInSystem(enemyObj)) {
+                    enemyObj.breakSys();
+                }
+            }
+        }
+
+
         //enemy render and abilities
         for (Enemy en : Enemies) {
             int ability = en.tryAbility(current_room);
-            //if stops print of enemies for invisibility
-            if (ability != 1) {
-                this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
-                if (ability == 2) {//increasing enemy speed
-                    enemySpeed = 4;
-                }
-                else if (ability == 3){
-                    if(en.healthBomb.active){
-                        this.game.batch.draw(bombTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
+            if (ability == -1) {
+                if (!en.hasDest) {
+                    en.getDest();
+                    continue;
+                } else {
+                    boolean found = false;
+                    if (en.getX() >= en.destX - 30 && en.getX() <= en.destX + 30 &&
+                            en.getY() >= en.destY - 30 && en.getY() <= en.destY + 30) {
+                        for (Door Door: en.current_room.Doors) {
+                            if (Door.playerDetected(en.getX(), en.getY())) {
+                                en.enterDoor(Door, Rooms);
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            for (AuberSystems System: current_room.Systems) {
+                                if (sysLoop > 400 && System.enemyInSystem(en)) {
+                                    en.breakSys();
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    else if (en.healthBomb.blast){
-                        this.game.batch.draw(blastTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
+                    if (!found) {
+                        if (en.getX() <= en.destX) {
+                            en.setX(en.getX() + en.speed);
+                        } else if (en.getX() >= en.destY) {
+                            en.setX(en.getX() - en.speed);
+                        }
+                        if (en.getY() <= en.destY) {
+                            en.setY(en.getY() + en.speed);
+                        } else if (en.getY() >= en.destY) {
+                            en.setY(en.getY() - en.speed);
+                        }
                     }
                 }
             } else {
-                enemySpeed = 2;
-
+                if (ability != 1) {
+                    this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
+                    if (ability == 2) {//increasing enemy speed
+                        en.speed = 4;
+                    } else if (ability == 3) {
+                        if (en.healthBomb.active) {
+                            this.game.batch.draw(bombTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
+                        } else if (en.healthBomb.blast) {
+                            this.game.batch.draw(blastTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
+                        }
+                    }
+                } else {
+                    en.speed = 2;
+                }
             }
         }
         //enemy bomb functionality
@@ -531,10 +550,7 @@ public class GameScreen extends ScreenAdapter {
         if (System_Auber.get(0).hasLost(System_Auber) || health <= 0) {
             game.setScreen(new LossScreen(game));
         }
-
     }
-
-
 
     @Override
     public void resize(int width, int height) {}

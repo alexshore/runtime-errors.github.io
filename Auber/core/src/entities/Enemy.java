@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Enemy {
+    private int enemy_w = 25, enemy_h = 25;
     private int x, y, ability;
     private boolean capture;
     private Texture txtEnemy;
@@ -15,6 +16,7 @@ public class Enemy {
     public float destX, destY;
     public Room current_room;
     public int cooldown, abilitytime;
+    public int speed;
     boolean abilityUsed;
     public Bomb healthBomb;
 
@@ -178,7 +180,37 @@ public class Enemy {
         return this.ability;
     }
 
-    public void getDest(float x, float y, String room_id, Array<Room> Rooms) {
+    public void enterDoor(Door Door, Array<Room> Rooms) {
+        if (Door.lower_room.equals(current_room.identifier)) {
+            if (Door.direction.equals("h")) {
+                this.x = Door.upper_x + 10;
+                this.y = Door.upper_y;
+            } else if (Door.direction.equals("v")) {
+                this.x = Door.upper_x;
+                this.y = Door.upper_y + 10;
+            }
+            for (Room Room: Rooms) {
+                if (Door.upper_room.equals(Room.identifier)) {
+                    current_room = Room;
+                }
+            }
+        } else if (Door.upper_room.equals(current_room.identifier)) {
+            if (Door.direction.equals("h")) {
+                this.x = Door.upper_x - (10 + enemy_w);
+                this.y = Door.upper_y;
+            } else if (Door.direction.equals("v")) {
+                this.x = Door.upper_x;
+                this.y = Door.upper_y - (10 + enemy_h);
+            }
+            for (Room Room: Rooms) {
+                if (Door.upper_room.equals(Room.identifier)) {
+                    current_room = Room;
+                }
+            }
+        }
+    }
+
+    public void getDest() {
         for (AuberSystems System: current_room.Systems) {
             if (!System.currently_assigned && System.working) {
                 System.currently_assigned = true;
@@ -189,9 +221,12 @@ public class Enemy {
             }
         }
         Door door_dest = current_room.Doors.random();
-        while (door_dest.upper_room.equals("outer") || door_dest.lower_room.equals("inner") ||
-                door_dest.lower_room.equals("outer") || door_dest.upper_room.equals("inner")) {
-            door_dest = current_room.Doors.random();
+        while (true) {
+            if (door_dest.upper_room.equals("outer") || door_dest.lower_room.equals("inner") || door_dest.lower_room.equals("outer") || door_dest.upper_room.equals("inner")) {
+                door_dest = current_room.Doors.random();
+            } else {
+                break;
+            }
         }
         if (door_dest != null) {
             this.hasDest = true;
