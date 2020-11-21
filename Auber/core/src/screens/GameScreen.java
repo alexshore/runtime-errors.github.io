@@ -46,6 +46,7 @@ public class GameScreen extends ScreenAdapter {
     public boolean goneThroughDoorInDemo;
     public boolean returnToBrig = false;
     public int health = 3;
+    private int cooldown = 0;
 
     //for bomb effect on player
 
@@ -439,9 +440,13 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
-        //heals the player if they're in the infirmary
-        if(health < 3 && current_room.identifier.equals("infirmary")){
-            health++;
+        //heals the player if they're on infirmary cross and cooldown is atleast 0
+        if(health < 3 && x >= 480 && x <= 530 &&  y >= 810 && y <= 860 && cooldown <= 0){
+            health = 3;
+            cooldown = 720;
+        }
+        else if (cooldown > 0 ){
+            cooldown --;
         }
 
 
@@ -527,7 +532,7 @@ public class GameScreen extends ScreenAdapter {
             game.setScreen(new LossScreen(game));
         }
 
-        }
+    }
 
 
 

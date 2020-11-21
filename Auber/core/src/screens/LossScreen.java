@@ -11,12 +11,12 @@ public class LossScreen implements Screen {
 
     private static final int button_width = Math.round(Gdx.graphics.getWidth()>>2), button_height = Math.round(Gdx.graphics.getHeight()>>4);
     private final AuberGame game;
-    private final Texture win, exit_start,exit_end, background;
+    private final Texture loss, exit_start,exit_end, background;
     private final int exit_x,exit_y, screenHeight;
 
     public LossScreen(AuberGame game) {
         this.game = game;
-        this.win = new Texture("win_assets/winner.png");
+        this.loss = new Texture("loss_assets/game_over.png");
         this.exit_start = new Texture("menu_assets/exit_button_highlight.png");
         this.exit_end = new Texture("menu_assets/exit_button.png");
         this.background = new Texture("game_assets/station_design.png");
@@ -34,7 +34,7 @@ public class LossScreen implements Screen {
     public void render(float delta) {
         game.batch.begin();
         game.batch.draw(this.background,0,0,1000,1000);
-        game.batch.draw(this.win, (500 - (this.win.getWidth()>>1)), 700);
+        game.batch.draw(this.loss, 500 -( loss.getWidth()>>1), 700);
 
         if(Gdx.input.getX() < this.exit_x + button_width && Gdx.input.getX() > this.exit_x && this.screenHeight - Gdx.input.getY() < this.exit_y + button_height && this.screenHeight -  Gdx.input.getY() > this.exit_y){
             game.batch.draw(this.exit_start, this.exit_x, this.exit_y, button_width, button_height);
