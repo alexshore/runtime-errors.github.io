@@ -29,7 +29,7 @@ public class GameScreen extends ScreenAdapter {
     private final Texture innerTexture;
     private final Texture outerTexture;
     private final Texture bombTexture, blastTexture; //bomb textures
-    private float x = 500, y = 170;
+    private float x = 495, y = 495;
     private final int player_h;
     private final int player_w;
     private boolean justTeleported = false;
@@ -51,9 +51,9 @@ public class GameScreen extends ScreenAdapter {
     //for bomb effect on player
 
     //values required for systems functionality - game_assets has labelled map for rooms
-    private static final int[] x_sys = {82,  210, 210, 82,  82,  275, 550, 700,
+    private static final float[] x_sys = {82,  210, 210, 82,  82,  275, 550, 700,
                                         850, 883, 752, 840, 883, 500, 650, 350};
-    private static final int[] y_sys = {600, 850, 125, 458, 275, 77,  208, 77,
+    private static final float[] y_sys = {600, 850, 125, 458, 275, 77,  208, 77,
                                         77,  459, 265, 503, 876, 750, 875, 875};
 
     private static final String[] room = {"cargo_left", "cargo_left", "living_left",
@@ -142,7 +142,7 @@ public class GameScreen extends ScreenAdapter {
         Doors.add(new Door("v", 750, 480, "living_right", "cargo_right"));
         Doors.add(new Door("h", 905, 215, "living_right", "outer"));
         //sets starting room
-        this.current_room = engine_room;
+        this.current_room = brig;
         //fills rooms array with all created rooms
         Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
                         cargo_right, living_left, living_right);
@@ -429,7 +429,7 @@ public class GameScreen extends ScreenAdapter {
         }
         //renders systems
         for (AuberSystems curr_sys : System_Auber) {
-            int[] xy = curr_sys.getCoord();
+            float[] xy = curr_sys.getCoord();
             this.game.batch.draw(curr_sys.systemImg, xy[0], xy[1], 40, 40);
         }
         //renders player
@@ -442,102 +442,102 @@ public class GameScreen extends ScreenAdapter {
 
 
 
-        for (Enemy enemyObj : Enemies) {
-            for (AuberSystems system : System_Auber) {
-                //enemyInSystem will set system to broken if true
-                if (sysLoop > 400 && system.enemyInSystem(enemyObj)) {
-                    enemyObj.breakSys();
-                }
-            }
-        }
+//        for (Enemy enemyObj : Enemies) {
+//            for (AuberSystems system : System_Auber) {
+//                //enemyInSystem will set system to broken if true
+//                if (sysLoop > 400 && system.enemyInSystem(enemyObj)) {
+//                    enemyObj.breakSys();
+//                }
+//            }
+//        }
 
 
         //enemy render and abilities
-        for (Enemy en : Enemies) {
-            int ability = en.tryAbility(current_room);
-            if (ability == -1) {
-                if (!en.hasDest) {
-                    en.getDest();
-                    continue;
-                } else {
-                    boolean found = false;
-                    if (en.getX() >= en.destX - 30 && en.getX() <= en.destX + 30 &&
-                            en.getY() >= en.destY - 30 && en.getY() <= en.destY + 30) {
-                        for (Door Door: en.current_room.Doors) {
-                            if (Door.playerDetected(en.getX(), en.getY())) {
-                                en.enterDoor(Door, Rooms);
+        for (Enemy en: Enemies) {
+            if (!en.hasDest) {
+                en.getDest();
+                continue;
+            } else {
+                boolean found = false;
+                if (en.getX() >= en.destX - 30 && en.getX() <= en.destX + 30 &&
+                        en.getY() >= en.destY - 30 && en.getY() <= en.destY + 30) {
+                    for (Door Door: en.current_room.Doors) {
+                        if (Door.playerDetected(en.getX(), en.getY())) {
+                            en.enterDoor(Door, Rooms);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        for (AuberSystems System: current_room.Systems) {
+                            if (sysLoop > 400 && System.enemyInSystem(en)) {
+                                en.breakSys();
                                 found = true;
                                 break;
                             }
                         }
-                        if (!found) {
-                            for (AuberSystems System: current_room.Systems) {
-                                if (sysLoop > 400 && System.enemyInSystem(en)) {
-                                    en.breakSys();
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (!found) {
-                        if (en.getX() <= en.destX) {
-                            en.setX(en.getX() + en.speed);
-                        } else if (en.getX() >= en.destY) {
-                            en.setX(en.getX() - en.speed);
-                        }
-                        if (en.getY() <= en.destY) {
-                            en.setY(en.getY() + en.speed);
-                        } else if (en.getY() >= en.destY) {
-                            en.setY(en.getY() - en.speed);
-                        }
-                    } else {
-                        en.hasDest = false;
                     }
                 }
-                this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
-
-            } else {
-                if (ability != 1) {
-                    this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
-                    if (ability == 2) {//increasing enemy speed
-                        en.speed = 4;
-                    } else if (ability == 3) {
-                        if (en.healthBomb.active) {
-                            this.game.batch.draw(bombTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
-                        } else if (en.healthBomb.blast) {
-                            this.game.batch.draw(blastTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
-                        }
+                if (!found) {
+                    if (en.getX() <= en.destX) {
+                        en.setX(en.getX() + en.speed);
+                    } else if (en.getX() >= en.destY) {
+                        en.setX(en.getX() - en.speed);
+                    }
+                    if (en.getY() <= en.destY) {
+                        en.setY(en.getY() + en.speed);
+                    } else if (en.getY() >= en.destY) {
+                        en.setY(en.getY() - en.speed);
                     }
                 } else {
-                    en.speed = 2;
+                    en.hasDest = false;
                 }
             }
+            this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
         }
+
+//        for (Enemy en : Enemies) {
+//            int ability = en.tryAbility(current_room);
+//            if (ability != 1) {
+//                this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
+//                if (ability == 2) {//increasing enemy speed
+//                    en.speed = 4;
+//                } else if (ability == 3) {
+//                    if (en.healthBomb.active) {
+//                        this.game.batch.draw(bombTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
+//                    } else if (en.healthBomb.blast) {
+//                        this.game.batch.draw(blastTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
+//                    }
+//                }
+//            } else {
+//                en.speed = 2;
+//            }
+//
+//        }
         //enemy bomb functionality
-        for (Enemy en : Enemies){
-            if(en.returnHealthBomb() != null)
-            {
-                if(en.returnHealthBomb().explode && en.returnHealthBomb().blast){
-                    health --;
-                    break;
-                }
-            }
-        }
+//        for (Enemy en : Enemies){
+//            if(en.returnHealthBomb() != null)
+//            {
+//                if(en.returnHealthBomb().explode && en.returnHealthBomb().blast){
+//                    health --;
+//                    break;
+//                }
+//            }
+//        }
         //        Illumination for normal mode
-        if (!demoMode) {
-            for (Room Room : Rooms) {
-                if (current_room != Room) {
-                    if (!Room.identifier.equals("inner") && !Room.identifier.equals("outer")) {
-                        this.game.batch.draw(this.standard_blankTexture, Room.getX(), Room.getY(), Room.width, Room.height);
-                    } else if (Room.identifier.equals("inner")) {
-                        this.game.batch.draw(this.innerTexture, 0, 0, 1000, 1000);
-                    } else { //if room is outer
-                        this.game.batch.draw(this.outerTexture, Room.getX(), Room.getY(), Room.width, Room.height);
-                    }
-                }
-            }
-        }
+//        if (!demoMode) {
+//            for (Room Room : Rooms) {
+//                if (current_room != Room) {
+//                    if (!Room.identifier.equals("inner") && !Room.identifier.equals("outer")) {
+//                        this.game.batch.draw(this.standard_blankTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+//                    } else if (Room.identifier.equals("inner")) {
+//                        this.game.batch.draw(this.innerTexture, 0, 0, 1000, 1000);
+//                    } else { //if room is outer
+//                        this.game.batch.draw(this.outerTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+//                    }
+//                }
+//            }
+//        }
 
         //renders the health bar
         this.game.batch.draw(healthBars[3-health],x-19,y+30);

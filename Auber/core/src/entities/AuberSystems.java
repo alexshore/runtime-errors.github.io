@@ -14,12 +14,9 @@ public class AuberSystems extends Rectangle {
     public int x, y;
     public String room;
     public boolean currently_assigned;
-    public Rectangle areaOfAffect;
 
-    public AuberSystems(int x, int y, String room) {
-        this.areaOfAffect = new Rectangle(x,y,40,40);
-        this.x = x;
-        this.y = y;
+    public AuberSystems(float x, float y, String room) {
+        super(x, y, 40, 40);
         this.room = room;
         this.working = true;
         this.currently_assigned = false;
@@ -31,10 +28,10 @@ public class AuberSystems extends Rectangle {
         int enemyBottomY = enemyObject.getY();
         int enemyRightX = enemyLeftX + 25;
         int enemyTopY = enemyBottomY + 25;
-        if(areaOfAffect.contains(enemyLeftX,enemyBottomY) ||
-                areaOfAffect.contains(enemyRightX,enemyTopY) ||
-                areaOfAffect.contains(enemyRightX,enemyBottomY) ||
-                areaOfAffect.contains(enemyLeftX,enemyTopY)){
+        if(super.contains(enemyLeftX,enemyBottomY) ||
+                super.contains(enemyRightX,enemyTopY) ||
+                super.contains(enemyRightX,enemyBottomY) ||
+                super.contains(enemyLeftX,enemyTopY)){
             this.doSabotage();
            return true;
         }
@@ -63,9 +60,9 @@ public class AuberSystems extends Rectangle {
         }
         return count == sys.size();
     }
-    public int[] getCoord() {
+    public float[] getCoord() {
         //returns coordinates of the system as int array length 2
-        return new int[] {this.x, this.y};
+        return new float[] {super.x, super.y};
     }
 
 }

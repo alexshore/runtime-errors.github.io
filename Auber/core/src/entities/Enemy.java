@@ -24,6 +24,7 @@ public class Enemy {
         rd = new Random();
         this.x = 500;
         this.y = 500;
+        this.hasDest = false;
         while (!(x > 251 && y > 76 && x < 740 && y < 225) ) {
             //while statement makes sure no enemies spawn in the brig
             this.setX(rd.nextInt(450) + 250);
