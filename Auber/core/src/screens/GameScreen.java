@@ -442,17 +442,17 @@ public class GameScreen extends ScreenAdapter {
 
 
 
-//        for (Enemy enemyObj : Enemies) {
-//            for (AuberSystems system : System_Auber) {
-//                //enemyInSystem will set system to broken if true
-//                if (sysLoop > 400 && system.enemyInSystem(enemyObj)) {
-//                    enemyObj.breakSys();
-//                }
-//            }
-//        }
+        for (Enemy enemyObj : Enemies) {
+            for (AuberSystems system : System_Auber) {
+                //enemyInSystem will set system to broken if true
+                if (sysLoop > 400 && system.enemyInSystem(enemyObj)) {
+                    enemyObj.breakSys();
+                }
+            }
+        }
 
 
-        //enemy render and abilities
+//        enemy render and abilities
         for (Enemy en: Enemies) {
             if (!en.isCaptured()) {
                 if (!en.hasDest) {
@@ -504,7 +504,7 @@ public class GameScreen extends ScreenAdapter {
             if (ability != 1) {
                 this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
                 if (ability == 2) {//increasing enemy speed
-                    en.speed = 4;
+                    en.speed = 3;
                 } else if (ability == 3) {
                     if (en.healthBomb.active) {
                         this.game.batch.draw(bombTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);

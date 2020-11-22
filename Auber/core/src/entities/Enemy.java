@@ -110,7 +110,7 @@ public class Enemy {
     private void setAbility() {
         this.rd = new Random();
         ability = this.rd.nextInt(3) +1;
-        System.out.print(ability);
+        ability = 2;
         // 1 = invisibility
         // 2 = super speed
         // 3 = damage
