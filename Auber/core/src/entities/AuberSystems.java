@@ -28,7 +28,7 @@ public class AuberSystems extends Rectangle {
         int enemyBottomY = enemyObject.getY();
         int enemyRightX = enemyLeftX + 25;
         int enemyTopY = enemyBottomY + 25;
-        if(super.contains(enemyLeftX,enemyBottomY) ||
+        if (super.contains(enemyLeftX,enemyBottomY) ||
                 super.contains(enemyRightX,enemyTopY) ||
                 super.contains(enemyRightX,enemyBottomY) ||
                 super.contains(enemyLeftX,enemyTopY)){

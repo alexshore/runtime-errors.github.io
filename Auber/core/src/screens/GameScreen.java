@@ -454,81 +454,79 @@ public class GameScreen extends ScreenAdapter {
 
         //enemy render and abilities
         for (Enemy en: Enemies) {
-            if (!en.hasDest) {
-                en.getDest();
-                continue;
-            } else {
-                boolean found = false;
-                if (en.getX() >= en.destX - 8 && en.getX() <= en.destX + 8 &&
-                        en.getY() >= en.destY - 8 && en.getY() <= en.destY + 8) {
-                    for (Door Door: en.current_room.Doors) {
-                        if (Door.playerDetected(en.getX(), en.getY())) {
-                            en.enterDoor(Door, Rooms);
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        for (AuberSystems System: current_room.Systems) {
-                            if (System.enemyInSystem(en)) {
-                                en.breakSys();
+            if (!en.isCaptured()) {
+                if (!en.hasDest) {
+                    en.getDest();
+                    continue;
+                } else {
+                    boolean found = false;
+                    if (en.getX() >= en.destX - 8 && en.getX() <= en.destX + 8 &&
+                            en.getY() >= en.destY - 8 && en.getY() <= en.destY + 8) {
+                        for (Door Door: en.current_room.Doors) {
+                            if (Door.playerDetected(en.getX(), en.getY())) {
+                                en.enterDoor(Door, Rooms);
                                 found = true;
                                 break;
                             }
                         }
+                        if (!found) {
+
+                            for (AuberSystems Sys: en.current_room.Systems) {
+                                if (Sys.enemyInSystem(en)) {
+                                    System.out.println("should break");
+                                    en.breakSys();
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
-                }
-                if (!found) {
-                    System.out.println("we are here");
-                    if (en.getX() <= en.destX) {
-                        System.out.println("if1");
-                        en.setX(en.getX() + en.speed);
-                    } else if (en.getX() >= en.destX) {
-                        System.out.println("if2");
-                        en.setX(en.getX() - en.speed);
+                    if (!found) {
+                        if (en.getX() <= en.destX) {
+                            en.setX(en.getX() + en.speed);
+                        } else if (en.getX() >= en.destX) {
+                            en.setX(en.getX() - en.speed);
+                        }
+                        if (en.getY() <= en.destY) {
+                            en.setY(en.getY() + en.speed);
+                        } else if (en.getY() >= en.destY) {
+                            en.setY(en.getY() - en.speed);
+                        }
+                    } else {
+                        en.hasDest = false;
                     }
-                    if (en.getY() <= en.destY) {
-                        System.out.println("if3");
-                        en.setY(en.getY() + en.speed);
-                    } else if (en.getY() >= en.destY) {
-                        System.out.println("if4");
-                        en.setY(en.getY() - en.speed);
-                    }
-                } else {
-                    en.hasDest = false;
                 }
             }
-            this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
         }
 
-//        for (Enemy en : Enemies) {
-//            int ability = en.tryAbility(current_room);
-//            if (ability != 1) {
-//                this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
-//                if (ability == 2) {//increasing enemy speed
-//                    en.speed = 4;
-//                } else if (ability == 3) {
-//                    if (en.healthBomb.active) {
-//                        this.game.batch.draw(bombTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
-//                    } else if (en.healthBomb.blast) {
-//                        this.game.batch.draw(blastTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
-//                    }
-//                }
-//            } else {
-//                en.speed = 2;
-//            }
-//
-//        }
-        //enemy bomb functionality
-//        for (Enemy en : Enemies){
-//            if(en.returnHealthBomb() != null)
-//            {
-//                if(en.returnHealthBomb().explode && en.returnHealthBomb().blast){
-//                    health --;
-//                    break;
-//                }
-//            }
-//        }
+        for (Enemy en : Enemies) {
+            int ability = en.tryAbility(current_room);
+            if (ability != 1) {
+                this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
+                if (ability == 2) {//increasing enemy speed
+                    en.speed = 4;
+                } else if (ability == 3) {
+                    if (en.healthBomb.active) {
+                        this.game.batch.draw(bombTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
+                    } else if (en.healthBomb.blast) {
+                        this.game.batch.draw(blastTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
+                    }
+                }
+            } else {
+                en.speed = 2;
+            }
+
+        }
+//        enemy bomb functionality
+        for (Enemy en : Enemies){
+            if(en.returnHealthBomb() != null)
+            {
+                if(en.returnHealthBomb().explode && en.returnHealthBomb().blast){
+                    health --;
+                    break;
+                }
+            }
+        }
         //        Illumination for normal mode
 //        if (!demoMode) {
 //            for (Room Room : Rooms) {

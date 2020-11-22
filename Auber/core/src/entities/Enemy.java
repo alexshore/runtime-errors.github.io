@@ -204,7 +204,7 @@ public class Enemy {
                 this.y = Door.upper_y - (10 + enemy_h);
             }
             for (Room Room: Rooms) {
-                if (Door.upper_room.equals(Room.identifier)) {
+                if (Door.lower_room.equals(Room.identifier)) {
                     current_room = Room;
                 }
             }
