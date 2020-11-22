@@ -146,15 +146,6 @@ public class GameScreen extends ScreenAdapter {
         //fills rooms array with all created rooms
         Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
                         cargo_right, living_left, living_right);
-        //creates 8 enemies
-        encoolddown = new int[8];
-        for (int i = 0; i < 8; i++) {
-            Enemy newEn = new Enemy();
-            Room enemy_room = newEn.findRoom(Rooms);
-            newEn.current_room = enemy_room;
-            newEn.getDest();
-            Enemies.add(newEn);
-        }
         //gives rooms their door associations
         for (Room Room: Rooms) {
             for (Door Door: Doors) {
@@ -170,6 +161,16 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
         }
+        //creates 8 enemies
+        encoolddown = new int[8];
+        for (int i = 0; i < 8; i++) {
+            Enemy newEn = new Enemy();
+            Room enemy_room = newEn.findRoom(Rooms);
+            newEn.current_room = enemy_room;
+            newEn.getDest();
+            Enemies.add(newEn);
+        }
+
     }
 
     @Override
