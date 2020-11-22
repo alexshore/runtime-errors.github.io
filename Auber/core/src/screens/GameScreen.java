@@ -439,18 +439,7 @@ public class GameScreen extends ScreenAdapter {
         }
         //render enemy
 
-
-
-
-        for (Enemy enemyObj : Enemies) {
-            for (AuberSystems system : System_Auber) {
-                //enemyInSystem will set system to broken if true
-                if (sysLoop > 400 && system.enemyInSystem(enemyObj)) {
-                    enemyObj.breakSys();
-                }
-            }
-        }
-
+        
 
 //        enemy render and abilities
         for (Enemy en: Enemies) {
