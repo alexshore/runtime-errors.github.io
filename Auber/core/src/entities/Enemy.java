@@ -15,15 +15,18 @@ public class Enemy {
     public float destX, destY;
     public Room current_room;
     public int cooldown, abilitytime;
-    public int speed = 2;
+    public int speed = 1;
     boolean abilityUsed;
     public Bomb healthBomb;
+    public int sysDelay;
+
 
     public Enemy() {
         rd = new Random();
         this.x = 500;
         this.y = 500;
         this.hasDest = false;
+        this.sysDelay = 0;
         while (!(x > 251 && y > 76 && x < 740 && y < 225) ) {
             //while statement makes sure no enemies spawn in the brig
             this.setX(rd.nextInt(450) + 250);
@@ -39,6 +42,21 @@ public class Enemy {
         this.abilitytime = -1;
         this.abilityUsed = false;
     }
+    public boolean sysCooldownRunning() {
+        if(this.sysDelay >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void updateSysCooldown() {
+        this.sysDelay++;
+        if(this.sysDelay > 500) {
+            this.sysDelay = -1;
+        }
+    }
+
 
     public Bomb returnHealthBomb(){
         if(getAbility() ==3){
