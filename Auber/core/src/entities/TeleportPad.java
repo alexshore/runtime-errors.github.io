@@ -16,6 +16,8 @@ public class TeleportPad extends Rectangle {
     public TeleportPad(int xCoord,int yCoord, String id) {
         // Instantiates teleporter - however, teleporter is initially not linked
         // to any other teleporter
+
+        //xCoord : int :
         super(xCoord,yCoord,50,50);
         this.id = id;
         this.xCoord = xCoord;
