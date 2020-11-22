@@ -14,10 +14,6 @@ import java.lang.Math;
 
 public class GameScreen extends ScreenAdapter {
     private static final int playerSpeed = 2;
-<<<<<<< Updated upstream
-=======
-    private static int enemySpeed = 1;
->>>>>>> Stashed changes
     public AuberGame game;
     private final boolean demoMode;
 
@@ -50,7 +46,6 @@ public class GameScreen extends ScreenAdapter {
     public boolean returnToBrig = false;
     public int health = 3;
     private int cooldown = 0;
-    private boolean sysCooldownIsRunning = true;
 
     //for bomb effect on player
 
@@ -423,8 +418,6 @@ public class GameScreen extends ScreenAdapter {
             cooldown--;
         }
 
-        //
-
 
 
         this.game.batch.begin();
@@ -465,23 +458,12 @@ public class GameScreen extends ScreenAdapter {
                             }
                         }
                         if (!found) {
-<<<<<<< Updated upstream
 
                             for (AuberSystems Sys: en.current_room.Systems) {
                                 if (Sys.enemyInSystem(en)) {
                                     en.breakSys();
                                     found = true;
                                     break;
-=======
-                            if(!sysCooldownIsRunning) {
-                                for (AuberSystems Sys : en.current_room.Systems) {
-                                    if (Sys.enemyInSystem(en)) {
-                                        System.out.println("should break");
-                                        en.breakSys();
-                                        found = true;
-                                        break;
-                                    }
->>>>>>> Stashed changes
                                 }
                             }
                         }
@@ -509,7 +491,7 @@ public class GameScreen extends ScreenAdapter {
             if (ability != 1) {
                 this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
                 if (ability == 2) {//increasing enemy speed
-                    en.speed = 2;
+                    en.speed = 3;
                 } else if (ability == 3) {
                     if (en.healthBomb.active) {
                         this.game.batch.draw(bombTexture, en.healthBomb.getX(), en.healthBomb.gety(), 50, 50);
@@ -518,7 +500,7 @@ public class GameScreen extends ScreenAdapter {
                     }
                 }
             } else {
-                en.speed = 1;
+                en.speed = 2;
             }
 
         }
@@ -546,17 +528,6 @@ public class GameScreen extends ScreenAdapter {
 //                }
 //            }
 //        }
-
-        //update enemy system-breaking cooldown
-        if(sysCooldownIsRunning) {
-            for(Enemy enemy : Enemies) {
-                enemy.updateSysCooldown();
-                if(!enemy.sysCooldownRunning()) {
-                    this.sysCooldownIsRunning = false;
-                }
-            }
-        }
-
 
         //renders the health bar
         this.game.batch.draw(healthBars[3-health],x-19,y+30);
