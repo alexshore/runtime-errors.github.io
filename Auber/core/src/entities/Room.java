@@ -16,8 +16,15 @@ public class Room extends Rectangle {
     public int width, height;
 
     public Room(int x, int y, int width, int height, String id, boolean corridor, int outer_width) {
-        //setup for collisions in corridors
-        //to detect collision between defined walls
+        /*
+        Initialises room object in particular for corridors to allow collision detection
+        :param : x: lowest x coordinate of the corridor
+        :param : y: lowest y coordinate of the corridor
+        :param : height: takes how long the corridor is
+        :param : id: String takes the name of this continuous corridor
+        :param : corridor:takes boolean value for if this
+        :param : outer width: takes how many pixels wide in int the corridor is
+         */
         this.width = width;
         this.height = height;
         this.lower_x_collision = x;
@@ -37,7 +44,13 @@ public class Room extends Rectangle {
     }
 
     public Room(int x, int y, int width, int height, String id) {
-        // for rooms
+        /*
+        Initialises room object in particular for rooms to allow collision detection
+        :param : x: lowest x coordinate of the room
+        :param : y: lowest y coordinate of the room
+        :param : height: takes height of room pixels as int
+        :param : id: String takes the name of this room
+         */
         this.width = width;
         this.height = height;
         this.lower_x_collision = x;
@@ -50,11 +63,17 @@ public class Room extends Rectangle {
 
     @Override
     public float getX() {
+        /*
+        :return lower_x_collision: returns the lowest x position of the corridor
+         */
         return lower_x_collision;
     }
 
     @Override
     public float getY() {
+        /*
+        :return lower_y_collision: returns the lowest x position of the corridor
+         */
         return lower_y_collision;
     }
 }

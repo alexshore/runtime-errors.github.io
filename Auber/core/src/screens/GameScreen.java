@@ -62,8 +62,6 @@ public class GameScreen extends ScreenAdapter {
                                           "living_right", "living_right", "cargo_right",
                                           "cargo_right", "infirmary", "infirmary",
                                           "infirmary"};
-    public int[] encoolddown;
-
 
     public GameScreen(AuberGame game, boolean demoMode){
         this.demoMode  = demoMode; //is demo mode active
@@ -162,7 +160,6 @@ public class GameScreen extends ScreenAdapter {
             }
         }
         //creates 8 enemies
-        encoolddown = new int[8];
         for (int i = 0; i < 8; i++) {
             Enemy newEn = new Enemy();
             Room enemy_room = newEn.findRoom(Rooms);
@@ -437,11 +434,10 @@ public class GameScreen extends ScreenAdapter {
         if (!Gdx.input.isKeyPressed(Input.Keys.E)) {
             justTeleported = false;
         }
-        //render enemy
 
         
 
-//        enemy render and abilities
+//        enemy movement
         for (Enemy en: Enemies) {
             if (!en.isCaptured()) {
                 if (!en.hasDest) {
@@ -488,7 +484,7 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
-
+//        enemy render and enemy abilities
         for (Enemy en : Enemies) {
             int ability = en.tryAbility(current_room);
             if (ability != 1) {
@@ -518,19 +514,19 @@ public class GameScreen extends ScreenAdapter {
             }
         }
         //        Illumination for normal mode
-//        if (!demoMode) {
-//            for (Room Room : Rooms) {
-//                if (current_room != Room) {
-//                    if (!Room.identifier.equals("inner") && !Room.identifier.equals("outer")) {
-//                        this.game.batch.draw(this.standard_blankTexture, Room.getX(), Room.getY(), Room.width, Room.height);
-//                    } else if (Room.identifier.equals("inner")) {
-//                        this.game.batch.draw(this.innerTexture, 0, 0, 1000, 1000);
-//                    } else { //if room is outer
-//                        this.game.batch.draw(this.outerTexture, Room.getX(), Room.getY(), Room.width, Room.height);
-//                    }
-//                }
-//            }
-//        }
+        if (!demoMode) {
+            for (Room Room : Rooms) {
+                if (current_room != Room) {
+                    if (!Room.identifier.equals("inner") && !Room.identifier.equals("outer")) {
+                        this.game.batch.draw(this.standard_blankTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+                    } else if (Room.identifier.equals("inner")) {
+                        this.game.batch.draw(this.innerTexture, 0, 0, 1000, 1000);
+                    } else { //if room is outer
+                        this.game.batch.draw(this.outerTexture, Room.getX(), Room.getY(), Room.width, Room.height);
+                    }
+                }
+            }
+        }
         //updates systems cooldown
         if(sysCooldownIsRunning) {
             for(Enemy enemy : Enemies) {

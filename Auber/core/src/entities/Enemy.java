@@ -22,6 +22,10 @@ public class Enemy {
 
 
     public Enemy() {
+        /*
+        Instantiates Enemy object
+         */
+
         rd = new Random();
         this.x = 500;
         this.y = 500;
@@ -43,6 +47,9 @@ public class Enemy {
         this.abilityUsed = false;
     }
     public boolean sysCooldownRunning() {
+        /*
+        Returns boolean for is the cooldown system is running or not
+         */
         if(this.sysDelay >= 0) {
             return true;
         } else {
@@ -51,6 +58,9 @@ public class Enemy {
     }
 
     public void updateSysCooldown() {
+        /*
+        Updates the system sabotage delay
+         */
         this.sysDelay++;
         if(this.sysDelay > 500) {
             this.sysDelay = -1;
@@ -59,6 +69,11 @@ public class Enemy {
 
 
     public Bomb returnHealthBomb(){
+        /*
+        Allows other classes to access the Bomb variable for the enemy
+        :return healthBomb: returns an instance of Bomb object
+        :return None: if the ability doesn't exist with an enemy returns None
+         */
         if(getAbility() ==3){
             return healthBomb;
         }
@@ -67,26 +82,44 @@ public class Enemy {
         }
     }
     public int getX(){
+        /*
+        Returns x coordinate of enemy
+         */
         return this.x;
     }
 
     public int getY(){
+        /*
+        returns y coordinate of enemy
+         */
         return this.y;
     }
 
     public void setX(int x){
+        /*
+        sets X variable of enemy
+        :param x: integer x variable
+         */
         this.x = x;
     }
 
     public void setY(int y){
+        /*
+        sets y variable of enemy
+        :param y: integer y variable
+         */
         this.y = y;
     }
 
     public Texture getTexture(){
+        /*
+        returns Enemy texure
+         */
         return this.txtEnemy;
     }
 
     public Room findRoom(Array<Room> Rooms) {
+
         Room room_out = null;
 
         for (Room Room: Rooms) {
@@ -125,6 +158,9 @@ public class Enemy {
     }
 
     private void setAbility() {
+        /*
+        Sets ability of enemy object
+         */
         this.rd = new Random();
         ability = this.rd.nextInt(3) +1;
         // 1 = invisibility
@@ -133,6 +169,12 @@ public class Enemy {
     }
 
     public int tryAbility(Room player){
+        /*
+        gives ability for the enemy and checks if player is in same room if this is the case and the cooldown is over
+        it returns the corresponding int for the GameScreen class to interpret
+        :param player: Room object containing where the current player is
+        :return: returns the ability of the player, returns -1 if this isn't possible
+         */
         if (this.capture){
             return -1;
         }
@@ -190,10 +232,18 @@ public class Enemy {
     }
 
     private boolean sameRoom(Room player){
+        /*
+        returns true if player in same room as enemy
+        :param player: Room object containing where the current player is
+        :return: returns true or false based on .equals
+         */
         return current_room.identifier.equals(player.identifier);
     }
 
     public int getAbility(){
+        /*
+        returns player ability
+         */
         return this.ability;
     }
 
@@ -228,6 +278,9 @@ public class Enemy {
     }
 
     public void getDest() {
+        /*
+        Gets destination for the enemy to go to next
+         */
         for (AuberSystems System: current_room.Systems) {
             if (!System.currently_assigned && System.working) {
                 System.currently_assigned = true;
@@ -245,19 +298,21 @@ public class Enemy {
                 break;
             }
         }
-        if (door_dest != null) {
-            this.hasDest = true;
-            if (door_dest.lower_room.equals(current_room.identifier)) {
-                this.destX = door_dest.lower_x + 1;
-                this.destY = door_dest.lower_y + 1;
-            }
-            if (door_dest.upper_room.equals(current_room.identifier)) {
-                this.destX = door_dest.upper_x + 1;
-                this.destY = door_dest.upper_y + 1;
-            }
+        this.hasDest = true;
+        if (door_dest.lower_room.equals(current_room.identifier)) {
+            this.destX = door_dest.lower_x + 1;
+            this.destY = door_dest.lower_y + 1;
         }
+        if (door_dest.upper_room.equals(current_room.identifier)) {
+            this.destX = door_dest.upper_x + 1;
+            this.destY = door_dest.upper_y + 1;
+        }
+
     }
     public void breakSys(){
+        /*
+        after system break has occurred called to allow enemy to find new destination
+         */
         this.hasDest = false;
     }
 }

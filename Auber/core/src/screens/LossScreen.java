@@ -15,6 +15,7 @@ public class LossScreen implements Screen {
     private final int exit_x,exit_y, screenHeight;
 
     public LossScreen(AuberGame game) {
+        //screen shown if
         this.game = game;
         this.loss = new Texture("loss_assets/game_over.png");
         this.exit_start = new Texture("menu_assets/exit_button_highlight.png");

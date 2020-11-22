@@ -12,6 +12,9 @@ public class ControlScreen implements Screen {
     private final AuberGame game;
 
     public ControlScreen (AuberGame game){
+        /*
+        Displays the buttons the player can use to interact with the game
+         */
         //loads textures
         instructions = new Texture("menu_assets/Control_Screen.png" );
         back_to_menu = new Texture("menu_assets/exit_button.png");

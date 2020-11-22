@@ -16,6 +16,9 @@ public class WinScreen implements Screen {
     private final int exit_x,exit_y, screenHeight;
 
     public WinScreen(AuberGame game){
+        /*
+        Win Screen for when player has arrested all enemies
+         */
         this.game = game;
         this.win = new Texture("win_assets/winner.png");
         this.exit_start = new Texture("menu_assets/exit_button_highlight.png");
