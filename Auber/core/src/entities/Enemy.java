@@ -16,7 +16,7 @@ public class Enemy {
     public float destX, destY;
     public Room current_room;
     public int cooldown, abilitytime;
-    public int speed;
+    public int speed = 2;
     boolean abilityUsed;
     public Bomb healthBomb;
 

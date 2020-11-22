@@ -459,8 +459,8 @@ public class GameScreen extends ScreenAdapter {
                 continue;
             } else {
                 boolean found = false;
-                if (en.getX() >= en.destX - 30 && en.getX() <= en.destX + 30 &&
-                        en.getY() >= en.destY - 30 && en.getY() <= en.destY + 30) {
+                if (en.getX() >= en.destX - 8 && en.getX() <= en.destX + 8 &&
+                        en.getY() >= en.destY - 8 && en.getY() <= en.destY + 8) {
                     for (Door Door: en.current_room.Doors) {
                         if (Door.playerDetected(en.getX(), en.getY())) {
                             en.enterDoor(Door, Rooms);
@@ -470,7 +470,7 @@ public class GameScreen extends ScreenAdapter {
                     }
                     if (!found) {
                         for (AuberSystems System: current_room.Systems) {
-                            if (sysLoop > 400 && System.enemyInSystem(en)) {
+                            if (System.enemyInSystem(en)) {
                                 en.breakSys();
                                 found = true;
                                 break;
@@ -479,14 +479,19 @@ public class GameScreen extends ScreenAdapter {
                     }
                 }
                 if (!found) {
+                    System.out.println("we are here");
                     if (en.getX() <= en.destX) {
+                        System.out.println("if1");
                         en.setX(en.getX() + en.speed);
-                    } else if (en.getX() >= en.destY) {
+                    } else if (en.getX() >= en.destX) {
+                        System.out.println("if2");
                         en.setX(en.getX() - en.speed);
                     }
                     if (en.getY() <= en.destY) {
+                        System.out.println("if3");
                         en.setY(en.getY() + en.speed);
                     } else if (en.getY() >= en.destY) {
+                        System.out.println("if4");
                         en.setY(en.getY() - en.speed);
                     }
                 } else {
