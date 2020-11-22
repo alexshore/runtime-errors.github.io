@@ -29,7 +29,7 @@ public class GameScreen extends ScreenAdapter {
     private final Texture innerTexture;
     private final Texture outerTexture;
     private final Texture bombTexture, blastTexture; //bomb textures
-    private float x = 495, y = 495;
+    private float x = 500, y = 170;
     private final int player_h;
     private final int player_w;
     private boolean justTeleported = false;
@@ -142,7 +142,7 @@ public class GameScreen extends ScreenAdapter {
         Doors.add(new Door("v", 750, 480, "living_right", "cargo_right"));
         Doors.add(new Door("h", 905, 215, "living_right", "outer"));
         //sets starting room
-        this.current_room = brig;
+        this.current_room = engine_room;
         //fills rooms array with all created rooms
         Rooms.addAll(outer_corridor, inner_corridor, brig, infirmary, engine_room, cargo_left,
                         cargo_right, living_left, living_right);
@@ -491,8 +491,12 @@ public class GameScreen extends ScreenAdapter {
                         } else if (en.getY() >= en.destY) {
                             en.setY(en.getY() - en.speed);
                         }
+                    } else {
+                        en.hasDest = false;
                     }
                 }
+                this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);
+
             } else {
                 if (ability != 1) {
                     this.game.batch.draw(en.getTexture(), en.getX(), en.getY(), 25, 25);

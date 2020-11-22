@@ -239,10 +239,8 @@ public class Enemy {
                 this.destY = door_dest.upper_y + 1;
             }
         }
-
     }
     public void breakSys(){
         this.hasDest = false;
     }
-
 }
