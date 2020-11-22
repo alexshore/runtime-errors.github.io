@@ -14,7 +14,6 @@ import java.lang.Math;
 
 public class GameScreen extends ScreenAdapter {
     private static final int playerSpeed = 2;
-    private static int enemySpeed = 2;
     public AuberGame game;
     private final boolean demoMode;
 
@@ -462,7 +461,6 @@ public class GameScreen extends ScreenAdapter {
 
                             for (AuberSystems Sys: en.current_room.Systems) {
                                 if (Sys.enemyInSystem(en)) {
-                                    System.out.println("should break");
                                     en.breakSys();
                                     found = true;
                                     break;

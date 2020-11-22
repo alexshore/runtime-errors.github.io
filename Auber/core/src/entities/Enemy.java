@@ -1,7 +1,6 @@
 package entities;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleSorter;
 import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 import java.util.Random;
@@ -110,7 +109,6 @@ public class Enemy {
     private void setAbility() {
         this.rd = new Random();
         ability = this.rd.nextInt(3) +1;
-        ability = 2;
         // 1 = invisibility
         // 2 = super speed
         // 3 = damage
