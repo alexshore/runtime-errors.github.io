@@ -113,13 +113,16 @@ public class Enemy {
 
     public Texture getTexture(){
         /*
-        returns Enemy texure
+        : return this.txtEnemy: Enemy texture
          */
         return this.txtEnemy;
     }
 
     public Room findRoom(Array<Room> Rooms) {
-
+        /*
+        Find the current room the enemy is in
+        :param Rooms: Array of rooms containing all possible rooms
+         */
         Room room_out = null;
 
         for (Room Room: Rooms) {
@@ -142,12 +145,16 @@ public class Enemy {
     }
 
     public boolean isCaptured() {
-        //returns if enemy is captured
+        /*
+        :return this.capture: boolean value true if enemy is captured
+         */
         return this.capture;
     }
 
     public boolean allCaptured(ArrayList<Enemy> enemies) {
-        //returns true if all enemies have been captured
+        /*
+        :return : true if all enemies have been captured
+         */
         int count = 0;
         for (Enemy e: enemies) {
             if (e.isCaptured()) {
@@ -248,6 +255,11 @@ public class Enemy {
     }
 
     public void enterDoor(Door Door, Array<Room> Rooms) {
+        /*
+        allows enemy to move to another room
+        : param Door: door object which is the current door the enemy is interacting with
+        : param Rooms: Array of object Room which contains all possible room
+         */
         if (Door.lower_room.equals(current_room.identifier)) {
             if (Door.direction.equals("h")) {
                 this.x = Door.upper_x + 10;
